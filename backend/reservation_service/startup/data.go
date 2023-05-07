@@ -1,15 +1,15 @@
 package startup
 
 import (
-	"github.com/tamararankovic/microservices_demo/shipping_service/domain"
+	"reservation_service/domain"
+
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-var orders = []*domain.Order{
+var reservations = []*domain.Reservation{
 	{
-		Id:              getObjectId("623b0cc336a1d6fd8c1cf0f6"),
-		Status:          domain.Scheduled,
-		ShippingAddress: "Pere Mikica 23, Novi Sad",
+		Id:   getObjectId("623b0cc3a34d25d8567f9f32"),
+		Name: "name",
 	},
 }
 

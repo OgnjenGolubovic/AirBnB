@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option go_package = "github.com/OgnjenGolubovic/AirBnB/backend/common/accommodation_service";
+
+package accommodation;
+
+import "google/api/annotations.proto";
+
+service AccommodationService{
+        rpc Get(GetRequest) returns(GetResponse) {
+        	option (google.api.http) = {
+			get: "/accommodation"
+		};
+        }
+}
+
+message GetRequest {
+        string id = 1;
+}
+
+message GetResponse {
+        string accommodation = 1;
+}

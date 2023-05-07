@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/OgnjenGolubovic/AirBnB/backend/user_service/startup"
-	cfg "github.com/OgnjenGolubovic/AirBnB/backend/user_service/startup/config"
+	"user_service/startup"
+	cfg "user_service/startup/config"
 )
 
 func main() {

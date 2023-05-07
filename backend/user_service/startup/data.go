@@ -1,7 +1,8 @@
 package startup
 
 import (
-	"github.com/OgnjenGolubovic/AirBnB/backend/user_service/domain"
+	"user_service/domain"
+
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -10,6 +11,7 @@ var users = []*domain.User{
 		Id:       getObjectId("623b0cc3a34d25d8567f9f82"),
 		Username: "username",
 		Password: "password",
+		Role:     1,
 	},
 }
 

@@ -1,15 +1,15 @@
 syntax = "proto3";
 
-option go_package = "proto/reservation";
+option go_package = "github.com/OgnjenGolubovic/AirBnB/backend/common/reservation_service";
 
 package reservation;
 
 import "google/api/annotations.proto";
 
 service ReservationService{
-        rpc Reserve(Request) returns(Response) {
+        rpc Get(Request) returns(Response) {
         	option (google.api.http) = {
-			get: ""
+			get: "/reservation"
 		};
         }
 }

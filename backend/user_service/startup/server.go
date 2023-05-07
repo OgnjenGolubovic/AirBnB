@@ -1,16 +1,18 @@
 package startup
 
 import (
-	user "OgnjenGolubovic/AirBnB/backend/common/proto/user_service"
 	"fmt"
 	"log"
 	"net"
 
-	"github.com/OgnjenGolubovic/AirBnB/backend/user_service/application"
-	"github.com/OgnjenGolubovic/AirBnB/backend/user_service_service/domain"
-	"github.com/OgnjenGolubovic/AirBnB/backend/user_service_service/infrastructure/api"
-	"github.com/OgnjenGolubovic/AirBnB/backend/user_service_service/infrastructure/persistence"
-	"github.com/OgnjenGolubovic/AirBnB/backend/user_service_service/startup/config"
+	user "github.com/OgnjenGolubovic/AirBnB/backend/common/proto/user_service"
+
+	"user_service/application"
+	"user_service/domain"
+	"user_service/infrastructure/api"
+	"user_service/infrastructure/persistence"
+	"user_service/startup/config"
+
 	"go.mongodb.org/mongo-driver/mongo"
 	"google.golang.org/grpc"
 )

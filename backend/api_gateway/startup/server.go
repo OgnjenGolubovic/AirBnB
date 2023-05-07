@@ -7,8 +7,12 @@ import (
 	"net/http"
 
 	cfg "github.com/OgnjenGolubovic/AirBnB/backend/api_gateway/startup/config"
+	accommodation_Gw "github.com/OgnjenGolubovic/AirBnB/backend/common/proto/accommodation_service"
+	authentication_Gw "github.com/OgnjenGolubovic/AirBnB/backend/common/proto/authentication_service"
+	reservation_Gw "github.com/OgnjenGolubovic/AirBnB/backend/common/proto/reservation_service"
 	user_Gw "github.com/OgnjenGolubovic/AirBnB/backend/common/proto/user_service"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"github.com/rs/cors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -30,8 +34,8 @@ func NewServer(config *cfg.Config) *Server {
 
 func (server *Server) initHandlers() {
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
-	/*reserveEndpoint := fmt.Sprintf("%s:%s", server.config.AccommodationReserveHost, server.config.AccommodationReservePort)
-	err := reserve_Gw.RegisterReservationServiceHandlerFromEndpoint(context.TODO(), server.mux, reserveEndpoint, opts)
+	reserveEndpoint := fmt.Sprintf("%s:%s", server.config.ReservationHost, server.config.ReservationPort)
+	err := reservation_Gw.RegisterReservationServiceHandlerFromEndpoint(context.TODO(), server.mux, reserveEndpoint, opts)
 	if err != nil {
 		panic(err)
 	}
@@ -40,10 +44,16 @@ func (server *Server) initHandlers() {
 	err2 := accommodation_Gw.RegisterAccommodationServiceHandlerFromEndpoint(context.TODO(), server.mux, accommodationEndpoint, opts)
 	if err2 != nil {
 		panic(err2)
-	}*/
+	}
 
 	userEndpoint := fmt.Sprintf("%s:%s", server.config.UserHost, server.config.UserPort)
-	err := user_Gw.RegisterUserInfoServiceHandlerFromEndpoint(context.TODO(), server.mux, userEndpoint, opts)
+	err = user_Gw.RegisterUserServiceHandlerFromEndpoint(context.TODO(), server.mux, userEndpoint, opts)
+	if err != nil {
+		panic(err)
+	}
+
+	authentificationEndpoint := fmt.Sprintf("%s:%s", server.config.AuthentificationHost, server.config.AuthentificationPort)
+	err = authentication_Gw.RegisterAuthenticationServiceHandlerFromEndpoint(context.TODO(), server.mux, authentificationEndpoint, opts)
 	if err != nil {
 		panic(err)
 	}

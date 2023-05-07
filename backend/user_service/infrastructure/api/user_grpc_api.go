@@ -3,8 +3,9 @@ package api
 import (
 	"context"
 
+	"user_service/application"
+
 	pb "github.com/OgnjenGolubovic/AirBnB/backend/common/proto/user_service"
-	"github.com/OgnjenGolubovic/AirBnB/backend/user_service/application"
 )
 
 type UserHandler struct {
@@ -18,13 +19,13 @@ func NewUserHandler(service *application.UserService) *UserHandler {
 	}
 }
 
-func (handler *UserHandler) Login(ctx context.Context, request *pb.GetRequest) (*pb.GetResponse, error) {
-	token, err := handler.service.Get(request.username, request.password)
+func (handler *UserHandler) Get(ctx context.Context, request *pb.Request) (*pb.Response, error) {
+	username, err := handler.service.Get(request.Id)
 	if err != nil {
 		return nil, err
 	}
-	response := &pb.GetResponse{
-		AccessToken: token,
+	response := &pb.Response{
+		Username: username,
 	}
 	return response, nil
 }

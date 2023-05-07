@@ -3,14 +3,15 @@ package persistence
 import (
 	"context"
 
-	"github.com/OgnjenGolubovic/AirBnB/backend/user_service/domain"
+	"user_service/domain"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
 const (
-	DATABASE   = "catalogue"
+	DATABASE   = "users"
 	COLLECTION = "user"
 )
 
@@ -25,14 +26,22 @@ func NewUserMongoDBStore(client *mongo.Client) domain.UserStore {
 	}
 }
 
-func (store *UserMongoDBStore) Get(id primitive.ObjectID) (*domain.User, error) {
-	filter := bson.M{"_id": id}
+func (store *UserMongoDBStore) Get(id string) (*domain.User, error) {
+	filter := bson.M{"_id": ObjectIDFromHex(id)}
 	return store.filterOne(filter)
 }
 
-func (store *UserMongoDBStore) Login(username string, password string) (*domain.User, error) {
-	filter := bson.M{"username": username, "password": password}
-	return store.filterOne(filter)
+func (store *UserMongoDBStore) Insert(user *domain.User) error {
+	result, err := store.users.InsertOne(context.TODO(), user)
+	if err != nil {
+		return err
+	}
+	user.Id = result.InsertedID.(primitive.ObjectID)
+	return nil
+}
+
+func (store *UserMongoDBStore) DeleteAll() {
+	store.users.DeleteMany(context.TODO(), bson.D{{}})
 }
 
 func (store *UserMongoDBStore) filter(filter interface{}) ([]*domain.User, error) {
@@ -62,4 +71,11 @@ func decode(cursor *mongo.Cursor) (users []*domain.User, err error) {
 	}
 	err = cursor.Err()
 	return
+}
+func ObjectIDFromHex(s string) primitive.ObjectID {
+	objID, err := primitive.ObjectIDFromHex(s)
+	if err != nil {
+		panic(err)
+	}
+	return objID
 }

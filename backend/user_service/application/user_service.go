@@ -1,7 +1,7 @@
 package application
 
 import (
-	"github.com/OgnjenGolubovic/AirBnB/backend/user_service/domain"
+	"user_service/domain"
 )
 
 type UserService struct {
@@ -14,6 +14,10 @@ func NewUserService(store domain.UserStore) *UserService {
 	}
 }
 
-func (service *UserService) Login(username string, password string) (string, error) {
-	return service.store.Get(username, password)
+func (service *UserService) Get(id string) (string, error) {
+	user, err := service.store.Get(id)
+	if err != nil {
+		return "", err
+	}
+	return user.Username, nil
 }
