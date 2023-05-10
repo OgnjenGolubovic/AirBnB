@@ -26,6 +26,10 @@ func NewUserMongoDBStore(client *mongo.Client) domain.UserStore {
 	}
 }
 
+func (store *UserMongoDBStore) GetAll() ([]*domain.User, error) {
+	filter := bson.D{{}}
+	return store.filter(filter)
+}
 func (store *UserMongoDBStore) Get(id string) (*domain.User, error) {
 	filter := bson.M{"_id": ObjectIDFromHex(id)}
 	return store.filterOne(filter)
