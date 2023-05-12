@@ -1,0 +1,28 @@
+<p>accommodation works!</p><br/>
+<div class="panel panel-primary" style="padding-top: 30px; padding-left: 20px;">
+    <div class="panel-heading">
+        <h1> Accommodations: </h1>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Accommodation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let accommodation of accommodations">
+                        <td>
+                            {{accommodation.id}}
+                        </td>
+                        <td>
+                            {{accommodation.name}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
