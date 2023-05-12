@@ -12,6 +12,11 @@ service AccommodationService{
 			get: "/accommodation"
 		};
         }
+  rpc GetAll(GetAllRequest) returns(GetAllResponse) {
+    option (google.api.http) = {
+      get: "/accommodationAll"
+    };
+  }
 }
 
 message GetRequest {

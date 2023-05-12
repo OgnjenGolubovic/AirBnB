@@ -9,7 +9,15 @@ import (
 var accommodations = []*domain.Accommodation{
 	{
 		Id:   getObjectId("623b0cc3a34d25d8567f9f81"),
-		Name: "name",
+		Name: "prvoIme",
+	},
+	{
+		Id:   getObjectId("623b0cc3a34d25d8567f9f82"),
+		Name: "drugoIme",
+	},
+	{
+		Id:   getObjectId("623b0cc3a34d25d8567f9f83"),
+		Name: "treceIme",
 	},
 }
 
