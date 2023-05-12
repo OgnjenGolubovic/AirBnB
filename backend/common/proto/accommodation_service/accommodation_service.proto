@@ -21,3 +21,15 @@ message GetRequest {
 message GetResponse {
         string accommodation = 1;
 }
+
+message GetAllRequest {
+}
+
+message GetAllResponse {
+  repeated Accommodation accommodations = 1;
+}
+
+message Accommodation {
+  string id = 1;
+  string name = 2;
+}

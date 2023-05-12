@@ -21,3 +21,7 @@ func (service *AccommodationService) Get(id string) (string, error) {
 	}
 	return accommodation.Name, nil
 }
+
+func (service *AccommodationService) GetAll() ([]*domain.Accommodation, error) {
+	return service.store.GetAll()
+}
