@@ -20,7 +20,8 @@ export class AccommodationComponent implements OnInit{
 
   public getAccommodations() {
     this._accommodationService.getAccommodations().subscribe(res => {
-      this.accommodations = res;
+      this.accommodations = res.accommodations;
+      console.log(this.accommodations);
     });
    }
 

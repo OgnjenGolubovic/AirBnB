@@ -11,7 +11,7 @@ export class AccommodationService {
 
     constructor(private http: HttpClient) {}
 
-    getAccommodations() : Observable<Accommodation[]> {
-        return this.http.get<Accommodation[]>(this.apiHost + 'accommodationAll', {headers: this.headers});
+    getAccommodations() : Observable<any> {
+        return this.http.get<any>(this.apiHost + 'accommodationAll', {headers: this.headers});
     }
 }

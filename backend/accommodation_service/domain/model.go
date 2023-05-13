@@ -6,3 +6,8 @@ type Accommodation struct {
 	Id   primitive.ObjectID `bson:"_id"`
 	Name string             `bson:"name"`
 }
+
+/*type AccommodationReservationRequest struct {
+	Id   primitive.ObjectID `bson:"_id"`
+	Name string             `bson:"name"`
+}*/
