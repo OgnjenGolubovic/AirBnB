@@ -12,7 +12,15 @@ service ReservationService{
 			get: "/reservation"
 		};
         }
+
+    rpc Reservation(AccommodationRequest) returns(AccommodationResponse) {
+    option (google.api.http) = {
+      post: "/accommodationReservation"
+      body: "*"
+    };
+  }
 }
+
 
 message Request {
         string id = 1;
@@ -20,4 +28,15 @@ message Request {
 
 message Response {
         string reservation = 1;
+}
+
+message AccommodationRequest {
+  string id = 1;
+  string accommodationId = 2;
+  string startDate = 3;
+  string endDate = 4;
+}
+
+message AccommodationResponse {
+
 }

@@ -29,3 +29,8 @@ func (handler *ReservationHandler) Get(ctx context.Context, request *pb.Request)
 	}
 	return response, nil
 }
+
+/*func (handler *ReservationHandler) AccommodationReservationRequest(ctx context.Context, request *pb.Request) (*pb.Response, error) {
+
+}
+*/

@@ -19,5 +19,14 @@ func (service *ReservationService) Get(id string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return reservation.Name, nil
+	return reservation.AccommodationId, nil
+}
+
+func (service *ReservationService) AccommodationReservationRequest(reservation *domain.AccommodationReservation) error {
+	reservation.Status = domain.Pending
+	err := service.store.AccommodationReservationRequest(reservation)
+	if err != nil {
+		return err
+	}
+	return nil
 }
