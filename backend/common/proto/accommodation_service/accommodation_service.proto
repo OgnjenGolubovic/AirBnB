@@ -8,9 +8,15 @@ import "google/api/annotations.proto";
 
 service AccommodationService{
         rpc Get(GetRequest) returns(GetResponse) {
-        	option (google.api.http) = {
-			get: "/accommodation"
-		};
+            option (google.api.http) = {
+            get: "/accommodation"
+        };
+        }
+        rpc Create(CreateRequest) returns(CreateResponse) {
+            option (google.api.http) = {
+            post: "/accommodation"
+            body: "*"
+        };
         }
 }
 
@@ -20,4 +26,17 @@ message GetRequest {
 
 message GetResponse {
         string accommodation = 1;
+}
+
+message CreateRequest {
+        string name = 1;
+        string location = 2;
+        string benefits = 3;
+        string photos = 4;
+        int64 minGuest = 5;
+        int64 maxGuest = 6;
+}
+
+message CreateResponse {
+
 }
