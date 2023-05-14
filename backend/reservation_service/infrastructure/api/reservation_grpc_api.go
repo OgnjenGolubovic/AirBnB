@@ -31,7 +31,7 @@ func (handler *ReservationHandler) Get(ctx context.Context, request *pb.Request)
 }
 
 func (handler *ReservationHandler) AccommodationReservation(ctx context.Context, request *pb.CreateAccommodationReservationRequest) (*pb.Response, error) {
-	a := reverseMap(request.AccommodationReservation)
+	a := reverseMap(request.NewAccommodationReservation)
 
 	err := handler.service.AccommodationReservationRequest(a)
 	if err != nil {
