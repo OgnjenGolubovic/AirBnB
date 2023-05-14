@@ -91,3 +91,22 @@ func (handler *AccommodationHandler) Create(ctx context.Context, request *pb.Cre
 
 	return response, nil
 }
+
+/*func (handler *AccommodationHandler) GetAll(ctx context.Context, request *pb.GetAllRequest) (*pb.GetAllResponse, error) {
+	fmt.Print("request: ")
+	fmt.Println(request)
+	accommodations, err := handler.service.GetAll()
+	if err != nil {
+		return nil, err
+	}
+	response := &pb.GetAllResponse{
+		Accommodations: []*pb.Accommodation{},
+	}
+	for _, accommodation := range accommodations {
+		current := mapAccommodation(accommodation)
+		response.Accommodations = append(response.Accommodations, current)
+	}
+	fmt.Print("response: ")
+	fmt.Println(response)
+	return response, nil
+}*/
