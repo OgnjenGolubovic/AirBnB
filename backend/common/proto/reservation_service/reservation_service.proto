@@ -15,7 +15,7 @@ service ReservationService{
 		};
         }
 
-    rpc Reservation(CreateAccommodationReservationRequest) returns(CreateAccommodationReservationResponse) {
+    rpc AccommodationReservation(CreateAccommodationReservationRequest) returns(CreateAccommodationReservationResponse) {
     option (google.api.http) = {
       post: "/accommodationReservation"
       body: "*"

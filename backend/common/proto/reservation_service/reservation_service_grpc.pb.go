@@ -23,7 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ReservationServiceClient interface {
 	Get(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
-	Reservation(ctx context.Context, in *CreateAccommodationReservationRequest, opts ...grpc.CallOption) (*CreateAccommodationReservationResponse, error)
+	AccommodationReservation(ctx context.Context, in *CreateAccommodationReservationRequest, opts ...grpc.CallOption) (*CreateAccommodationReservationResponse, error)
 }
 
 type reservationServiceClient struct {
@@ -43,9 +43,9 @@ func (c *reservationServiceClient) Get(ctx context.Context, in *Request, opts ..
 	return out, nil
 }
 
-func (c *reservationServiceClient) Reservation(ctx context.Context, in *CreateAccommodationReservationRequest, opts ...grpc.CallOption) (*CreateAccommodationReservationResponse, error) {
+func (c *reservationServiceClient) AccommodationReservation(ctx context.Context, in *CreateAccommodationReservationRequest, opts ...grpc.CallOption) (*CreateAccommodationReservationResponse, error) {
 	out := new(CreateAccommodationReservationResponse)
-	err := c.cc.Invoke(ctx, "/reservation.ReservationService/Reservation", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/reservation.ReservationService/AccommodationReservation", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -57,7 +57,7 @@ func (c *reservationServiceClient) Reservation(ctx context.Context, in *CreateAc
 // for forward compatibility
 type ReservationServiceServer interface {
 	Get(context.Context, *Request) (*Response, error)
-	Reservation(context.Context, *CreateAccommodationReservationRequest) (*CreateAccommodationReservationResponse, error)
+	AccommodationReservation(context.Context, *CreateAccommodationReservationRequest) (*CreateAccommodationReservationResponse, error)
 	mustEmbedUnimplementedReservationServiceServer()
 }
 
@@ -68,8 +68,8 @@ type UnimplementedReservationServiceServer struct {
 func (UnimplementedReservationServiceServer) Get(context.Context, *Request) (*Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (UnimplementedReservationServiceServer) Reservation(context.Context, *CreateAccommodationReservationRequest) (*CreateAccommodationReservationResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Reservation not implemented")
+func (UnimplementedReservationServiceServer) AccommodationReservation(context.Context, *CreateAccommodationReservationRequest) (*CreateAccommodationReservationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AccommodationReservation not implemented")
 }
 func (UnimplementedReservationServiceServer) mustEmbedUnimplementedReservationServiceServer() {}
 
@@ -102,20 +102,20 @@ func _ReservationService_Get_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ReservationService_Reservation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ReservationService_AccommodationReservation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateAccommodationReservationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ReservationServiceServer).Reservation(ctx, in)
+		return srv.(ReservationServiceServer).AccommodationReservation(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/reservation.ReservationService/Reservation",
+		FullMethod: "/reservation.ReservationService/AccommodationReservation",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ReservationServiceServer).Reservation(ctx, req.(*CreateAccommodationReservationRequest))
+		return srv.(ReservationServiceServer).AccommodationReservation(ctx, req.(*CreateAccommodationReservationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -132,8 +132,8 @@ var ReservationService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ReservationService_Get_Handler,
 		},
 		{
-			MethodName: "Reservation",
-			Handler:    _ReservationService_Reservation_Handler,
+			MethodName: "AccommodationReservation",
+			Handler:    _ReservationService_AccommodationReservation_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
