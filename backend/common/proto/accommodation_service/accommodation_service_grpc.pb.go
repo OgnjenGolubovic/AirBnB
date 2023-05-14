@@ -19,8 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	AccommodationService_Get_FullMethodName    = "/accommodation.AccommodationService/Get"
-	AccommodationService_Create_FullMethodName = "/accommodation.AccommodationService/Create"
+	AccommodationService_Get_FullMethodName             = "/accommodation.AccommodationService/Get"
+	AccommodationService_GetAllFreeDates_FullMethodName = "/accommodation.AccommodationService/GetAllFreeDates"
 )
 
 // AccommodationServiceClient is the client API for AccommodationService service.
@@ -28,7 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AccommodationServiceClient interface {
 	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
-	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
+	GetAllFreeDates(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*DateResponse, error)
 }
 
 type accommodationServiceClient struct {
@@ -48,9 +48,9 @@ func (c *accommodationServiceClient) Get(ctx context.Context, in *GetRequest, op
 	return out, nil
 }
 
-func (c *accommodationServiceClient) Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error) {
-	out := new(CreateResponse)
-	err := c.cc.Invoke(ctx, AccommodationService_Create_FullMethodName, in, out, opts...)
+func (c *accommodationServiceClient) GetAllFreeDates(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*DateResponse, error) {
+	out := new(DateResponse)
+	err := c.cc.Invoke(ctx, AccommodationService_GetAllFreeDates_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -62,7 +62,7 @@ func (c *accommodationServiceClient) Create(ctx context.Context, in *CreateReque
 // for forward compatibility
 type AccommodationServiceServer interface {
 	Get(context.Context, *GetRequest) (*GetResponse, error)
-	Create(context.Context, *CreateRequest) (*CreateResponse, error)
+	GetAllFreeDates(context.Context, *GetRequest) (*DateResponse, error)
 	mustEmbedUnimplementedAccommodationServiceServer()
 }
 
@@ -73,8 +73,8 @@ type UnimplementedAccommodationServiceServer struct {
 func (UnimplementedAccommodationServiceServer) Get(context.Context, *GetRequest) (*GetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (UnimplementedAccommodationServiceServer) Create(context.Context, *CreateRequest) (*CreateResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+func (UnimplementedAccommodationServiceServer) GetAllFreeDates(context.Context, *GetRequest) (*DateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllFreeDates not implemented")
 }
 func (UnimplementedAccommodationServiceServer) mustEmbedUnimplementedAccommodationServiceServer() {}
 
@@ -107,20 +107,20 @@ func _AccommodationService_Get_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AccommodationService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateRequest)
+func _AccommodationService_GetAllFreeDates_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AccommodationServiceServer).Create(ctx, in)
+		return srv.(AccommodationServiceServer).GetAllFreeDates(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AccommodationService_Create_FullMethodName,
+		FullMethod: AccommodationService_GetAllFreeDates_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccommodationServiceServer).Create(ctx, req.(*CreateRequest))
+		return srv.(AccommodationServiceServer).GetAllFreeDates(ctx, req.(*GetRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -137,8 +137,8 @@ var AccommodationService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AccommodationService_Get_Handler,
 		},
 		{
-			MethodName: "Create",
-			Handler:    _AccommodationService_Create_Handler,
+			MethodName: "GetAllFreeDates",
+			Handler:    _AccommodationService_GetAllFreeDates_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -12,6 +12,11 @@ service ReservationService{
 			get: "/reservation"
 		};
         }
+        rpc GetAllReservedDates(Request) returns(DateResponse) {
+                option (google.api.http) = {
+                        get: "/reservation/get"
+                };
+        }
 }
 
 message Request {
@@ -20,4 +25,13 @@ message Request {
 
 message Response {
         string reservation = 1;
+}
+
+message DateRange {
+        string StartDate = 1;
+        string EndDate = 2;
+}
+
+message DateResponse {
+        repeated DateRange dates = 1;
 }

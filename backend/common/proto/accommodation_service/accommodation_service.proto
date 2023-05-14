@@ -12,10 +12,9 @@ service AccommodationService{
             get: "/accommodation"
         };
         }
-        rpc Create(CreateRequest) returns(CreateResponse) {
+        rpc GetAllFreeDates(GetRequest) returns(DateResponse) {
             option (google.api.http) = {
-            post: "/accommodation"
-            body: "*"
+            get: "/accommodation/get"
         };
         }
 }
@@ -28,15 +27,11 @@ message GetResponse {
         string accommodation = 1;
 }
 
-message CreateRequest {
-        string name = 1;
-        string location = 2;
-        string benefits = 3;
-        string photos = 4;
-        int64 minGuest = 5;
-        int64 maxGuest = 6;
+message DateRange {
+        string startDate = 1;
+        string endDate = 2;
 }
 
-message CreateResponse {
-
+message DateResponse {
+        repeated DateRange dates = 1;
 }
