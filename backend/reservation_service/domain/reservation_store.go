@@ -1,7 +1,9 @@
 package domain
 
 type ReservationStore interface {
-	Get(id string) (*Reservation, error)
-	Insert(reservation *Reservation) error
+	Get(id string) (*AccommodationReservation, error)
+	GetByAccommodation(id string) ([]*AccommodationReservation, error)
+	Insert(reservation *AccommodationReservation) error
+	Cancel(id string) error
 	DeleteAll()
 }

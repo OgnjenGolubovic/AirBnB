@@ -26,12 +26,17 @@ func NewReservationMongoDBStore(client *mongo.Client) domain.ReservationStore {
 	}
 }
 
-func (store *ReservationMongoDBStore) Get(id string) (*domain.Reservation, error) {
+func (store *ReservationMongoDBStore) Get(id string) (*domain.AccommodationReservation, error) {
 	filter := bson.M{"_id": ObjectIDFromHex(id)}
 	return store.filterOne(filter)
 }
 
-func (store *ReservationMongoDBStore) Insert(reservation *domain.Reservation) error {
+func (store *ReservationMongoDBStore) GetByAccommodation(id string) ([]*domain.AccommodationReservation, error) {
+	filter := bson.M{"accommodationId": ObjectIDFromHex(id), "status": domain.Approved}
+	return store.filter(filter)
+}
+
+func (store *ReservationMongoDBStore) Insert(reservation *domain.AccommodationReservation) error {
 	result, err := store.reservations.InsertOne(context.TODO(), reservation)
 	if err != nil {
 		return err
@@ -40,11 +45,23 @@ func (store *ReservationMongoDBStore) Insert(reservation *domain.Reservation) er
 	return nil
 }
 
+func (store *ReservationMongoDBStore) Cancel(id string) error {
+	filter := bson.M{"_id": ObjectIDFromHex(id)}
+	update := bson.M{"$set": bson.M{
+		"status": domain.Cancelled,
+	}}
+	_, err := store.reservations.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (store *ReservationMongoDBStore) DeleteAll() {
 	store.reservations.DeleteMany(context.TODO(), bson.D{{}})
 }
 
-func (store *ReservationMongoDBStore) filter(filter interface{}) ([]*domain.Reservation, error) {
+func (store *ReservationMongoDBStore) filter(filter interface{}) ([]*domain.AccommodationReservation, error) {
 	cursor, err := store.reservations.Find(context.TODO(), filter)
 	defer cursor.Close(context.TODO())
 
@@ -54,15 +71,15 @@ func (store *ReservationMongoDBStore) filter(filter interface{}) ([]*domain.Rese
 	return decode(cursor)
 }
 
-func (store *ReservationMongoDBStore) filterOne(filter interface{}) (reservation *domain.Reservation, err error) {
+func (store *ReservationMongoDBStore) filterOne(filter interface{}) (reservation *domain.AccommodationReservation, err error) {
 	result := store.reservations.FindOne(context.TODO(), filter)
 	err = result.Decode(&reservation)
 	return
 }
 
-func decode(cursor *mongo.Cursor) (reservations []*domain.Reservation, err error) {
+func decode(cursor *mongo.Cursor) (reservations []*domain.AccommodationReservation, err error) {
 	for cursor.Next(context.TODO()) {
-		var reservation domain.Reservation
+		var reservation domain.AccommodationReservation
 		err = cursor.Decode(&reservation)
 		if err != nil {
 			return

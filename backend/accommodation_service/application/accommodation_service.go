@@ -21,3 +21,19 @@ func (service *AccommodationService) Get(id string) (string, error) {
 	}
 	return accommodation.Name, nil
 }
+
+func (service *AccommodationService) GetAllDates(id string) ([]*domain.DateRange, error) {
+	accommodation, err := service.store.Get(id)
+	if err != nil {
+		return []*domain.DateRange{}, err
+	}
+	dates := []*domain.DateRange{}
+	for _, pom := range accommodation.Dates {
+		current := &domain.DateRange{
+			StartDate: pom.StartDate,
+			EndDate:   pom.EndDate,
+		}
+		dates = append(dates, current)
+	}
+	return dates, nil
+}

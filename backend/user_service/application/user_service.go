@@ -21,3 +21,8 @@ func (service *UserService) Get(id string) (string, error) {
 	}
 	return user.Username, nil
 }
+
+func (service *UserService) Cancel(id string) error {
+	err := service.store.Cancel(id)
+	return err
+}

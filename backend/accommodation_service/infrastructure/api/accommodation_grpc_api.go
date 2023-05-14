@@ -29,3 +29,21 @@ func (handler *AccommodationHandler) Get(ctx context.Context, request *pb.GetReq
 	}
 	return response, nil
 }
+
+func (handler *AccommodationHandler) GetAllFreeDates(ctx context.Context, request *pb.GetRequest) (*pb.DateResponse, error) {
+	dates, err := handler.service.GetAllDates(request.Id)
+	if err != nil {
+		return nil, err
+	}
+	response := &pb.DateResponse{
+		Dates: []*pb.DateRange{},
+	}
+	for _, pom := range dates {
+		current := &pb.DateRange{
+			StartDate: pom.StartDate,
+			EndDate:   pom.EndDate,
+		}
+		response.Dates = append(response.Dates, current)
+	}
+	return response, nil
+}

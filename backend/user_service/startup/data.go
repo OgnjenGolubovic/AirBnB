@@ -12,6 +12,7 @@ var users = []*domain.User{
 		Username: "username",
 		Password: "password",
 		Role:     1,
+		Cancels:  0,
 	},
 }
 

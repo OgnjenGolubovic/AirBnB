@@ -19,5 +19,26 @@ func (service *ReservationService) Get(id string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return reservation.Name, nil
+	return reservation.AccommodationId.String(), nil
+}
+
+func (service *ReservationService) GetReservedDates(id string) ([]*domain.DateRange, error) {
+	reservation, err := service.store.GetByAccommodation(id)
+	if err != nil {
+		return []*domain.DateRange{}, err
+	}
+	dates := []*domain.DateRange{}
+	for _, pom := range reservation {
+		current := &domain.DateRange{
+			StartDate: pom.ReservedDate.StartDate,
+			EndDate:   pom.ReservedDate.EndDate,
+		}
+		dates = append(dates, current)
+	}
+	return dates, nil
+}
+
+func (service *ReservationService) Cancel(id string) error {
+	err := service.store.Cancel(id)
+	return err
 }
