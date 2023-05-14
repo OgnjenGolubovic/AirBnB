@@ -41,11 +41,10 @@ message CreateAccommodationReservationResponse {
 }
 
 message NewAccommodationReservation {
-  string id = 1;
-  string accommodationId = 2;
-  string startDate = 3;
-  string endDate = 4;
-  string guestNumber = 5;
+  string accommodationId = 1;
+  string startDate = 2;
+  string endDate = 3;
+  string guestNumber = 4;
 }
 
 message AccommodationReservation {
