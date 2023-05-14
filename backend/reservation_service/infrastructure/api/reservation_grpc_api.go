@@ -30,7 +30,12 @@ func (handler *ReservationHandler) Get(ctx context.Context, request *pb.Request)
 	return response, nil
 }
 
-/*func (handler *ReservationHandler) AccommodationReservationRequest(ctx context.Context, request *pb.Request) (*pb.Response, error) {
+func (handler *ReservationHandler) AccommodationReservation(ctx context.Context, request *pb.CreateAccommodationReservationRequest) (*pb.Response, error) {
+	a := reverseMap(request.AccommodationReservation)
 
+	err := handler.service.AccommodationReservationRequest(a)
+	if err != nil {
+		return nil, err
+	}
+	return nil, nil
 }
-*/

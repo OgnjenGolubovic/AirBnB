@@ -40,7 +40,7 @@ func (store *ReservationMongoDBStore) Insert(reservation *domain.AccommodationRe
 	return nil
 }
 
-func (store *ReservationMongoDBStore) AccommodationReservationRequest(reservation *domain.AccommodationReservation) error {
+func (store *ReservationMongoDBStore) AccommodationReservation(reservation *domain.AccommodationReservation) error {
 	result, err := store.reservations.InsertOne(context.TODO(), reservation)
 	if err != nil {
 		return err

@@ -18,13 +18,13 @@ func mapReservation(reservation *domain.AccommodationReservation) *pb.Accommodat
 	return reservationPb
 }
 
-func reverseMap(reservationPb *pb.AccommodationReservation) *domain.AccommodationReservation {
-	// id, _ := primitive.ObjectIDFromHex(accommodationPb.Id)
+func reverseMap(reservationPb *pb.NewAccommodationReservation) *domain.AccommodationReservation {
 	reservation := domain.AccommodationReservation{
 		Id:              primitive.NewObjectID(),
 		AccommodationId: reservationPb.AccommodationId,
 		StartDate:       reservationPb.StartDate,
 		EndDate:         reservationPb.EndDate,
+		Status:          domain.Pending,
 	}
 
 	return &reservation

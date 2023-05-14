@@ -33,7 +33,7 @@ message Response {
 }
 
 message CreateAccommodationReservationRequest {
-  NewAccommodationReservation accommodationReservation = 1;
+  NewAccommodationReservation newAccommodationReservation = 1;
 }
 
 message CreateAccommodationReservationResponse {
