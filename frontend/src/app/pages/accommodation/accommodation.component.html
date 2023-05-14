@@ -1,5 +1,4 @@
-<p>accommodation works!</p><br/>
-<div class="panel panel-primary" style="padding-top: 30px; padding-left: 20px;">
+<!-- <div class="panel panel-primary" style="padding-top: 30px; padding-left: 20px;">
     <div class="panel-heading">
         <h1> Accommodations: </h1>
     </div>
@@ -25,4 +24,35 @@
             </table>
         </div>
     </div>
+</div> -->
+<div style="margin-left: 3%;">
+
+    <h1> Accommodations: </h1>
+
+</div>
+<mat-form-field style="margin-left: 3%;">
+    <mat-label>Pretrazi po imenu</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="ime smestaja" #input>
+</mat-form-field>
+
+<div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 90%; margin-left: 3%;">
+
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> Id smestaja </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Ime smestaja </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr>
+    
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
+    </table>
 </div>
