@@ -16,11 +16,13 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AccommodationsComponent } from './accommodations/accommodations.component';
 import { AccommodationCreateComponent } from './accommodations/create/accommodation-create.component';
+import { AccommodationComponent } from './accommodation/accommodation.component';
 
 @NgModule({
   declarations: [
     LoginComponent,
     AccommodationsComponent,
+    AccommodationComponent,
     AccommodationCreateComponent
   ],
   imports: [
