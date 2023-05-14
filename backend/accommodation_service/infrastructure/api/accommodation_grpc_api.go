@@ -2,7 +2,6 @@ package api
 
 import (
 	"context"
-	"fmt"
 
 	"accommodation_service/application"
 
@@ -93,7 +92,7 @@ func (handler *AccommodationHandler) Create(ctx context.Context, request *pb.Cre
 	return response, nil
 }
 
-func (handler *AccommodationHandler) GetAll(ctx context.Context, request *pb.GetAllRequest) (*pb.GetAllResponse, error) {
+/*func (handler *AccommodationHandler) GetAll(ctx context.Context, request *pb.GetAllRequest) (*pb.GetAllResponse, error) {
 	fmt.Print("request: ")
 	fmt.Println(request)
 	accommodations, err := handler.service.GetAll()
@@ -110,4 +109,4 @@ func (handler *AccommodationHandler) GetAll(ctx context.Context, request *pb.Get
 	fmt.Print("response: ")
 	fmt.Println(response)
 	return response, nil
-}
+}*/
