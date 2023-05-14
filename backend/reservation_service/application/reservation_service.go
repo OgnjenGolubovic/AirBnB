@@ -23,7 +23,6 @@ func (service *ReservationService) Get(id string) (string, error) {
 }
 
 func (service *ReservationService) AccommodationReservationRequest(reservation *domain.AccommodationReservation) error {
-	reservation.Status = domain.Pending
 	err := service.store.AccommodationReservation(reservation)
 	if err != nil {
 		return err
