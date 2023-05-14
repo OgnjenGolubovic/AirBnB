@@ -14,12 +14,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
-import { AccommodationComponent } from './accommodation/accommodation.component';
+import { AccommodationsComponent } from './accommodations/accommodations.component';
+import { AccommodationCreateComponent } from './accommodations/create/accommodation-create.component';
 
 @NgModule({
   declarations: [
     LoginComponent,
-    AccommodationComponent
+    AccommodationsComponent,
+    AccommodationCreateComponent
   ],
   imports: [
     FormsModule,

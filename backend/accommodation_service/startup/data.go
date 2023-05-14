@@ -8,16 +8,13 @@ import (
 
 var accommodations = []*domain.Accommodation{
 	{
-		Id:   getObjectId("623b0cc3a34d25d8567f9f81"),
-		Name: "prvoIme",
-	},
-	{
-		Id:   getObjectId("623b0cc3a34d25d8567f9f82"),
-		Name: "drugoIme",
-	},
-	{
-		Id:   getObjectId("623b0cc3a34d25d8567f9f83"),
-		Name: "treceIme",
+		Id:       getObjectId("623b0cc3a34d25d8567f9f81"),
+		Name:     "name",
+		Location: "Street 10-London-UK",
+		Benefits: "WIFI,Kitchen,Free Parking",
+		Photos:   "4AB_UDF#FG,10AB_GHO#HF",
+		MinGuest: 10,
+		MaxGuest: 20,
 	},
 }
 

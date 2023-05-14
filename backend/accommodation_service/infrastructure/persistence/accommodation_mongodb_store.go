@@ -26,8 +26,8 @@ func NewAccommodationMongoDBStore(client *mongo.Client) domain.AccommodationStor
 	}
 }
 
-func (store *AccommodationMongoDBStore) Get(id string) (*domain.Accommodation, error) {
-	filter := bson.M{"_id": ObjectIDFromHex(id)}
+func (store *AccommodationMongoDBStore) Get(id primitive.ObjectID) (*domain.Accommodation, error) {
+	filter := bson.M{"_id": id}
 	return store.filterOne(filter)
 }
 
@@ -77,10 +77,11 @@ func decode(cursor *mongo.Cursor) (accommodations []*domain.Accommodation, err e
 	err = cursor.Err()
 	return
 }
-func ObjectIDFromHex(s string) primitive.ObjectID {
-	objID, err := primitive.ObjectIDFromHex(s)
-	if err != nil {
-		panic(err)
-	}
-	return objID
-}
+
+// func ObjectIDFromHex(s string) primitive.ObjectID {
+// 	objID, err := primitive.ObjectIDFromHex(s)
+// 	if err != nil {
+// 		panic(err)
+// 	}
+// 	return objID
+// }
