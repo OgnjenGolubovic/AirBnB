@@ -5,8 +5,6 @@ import (
 
 	"accommodation_service/application"
 
-	"accommodation_service/domain"
-
 	pb "github.com/OgnjenGolubovic/AirBnB/backend/common/proto/accommodation_service"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -80,20 +78,9 @@ func (handler *AccommodationHandler) GetAll(ctx context.Context, request *pb.Get
 }
 
 func (handler *AccommodationHandler) Create(ctx context.Context, request *pb.CreateRequest) (*pb.CreateResponse, error) {
+	a := reverseMap(request.Accommodation)
 
-	id, err := primitive.ObjectIDFromHex(request.Accommodation.Id)
-
-	a := &domain.Accommodation{
-		Id:       id,
-		Name:     request.Accommodation.Name,
-		Location: request.Accommodation.Location,
-		Benefits: request.Accommodation.Benefits,
-		Photos:   request.Accommodation.Photos,
-		MinGuest: request.Accommodation.MinGuest,
-		MaxGuest: request.Accommodation.MaxGuest,
-	}
-
-	handler.service.Create(a)
+	err := handler.service.Create(a)
 	if err != nil {
 		return nil, err
 	}
