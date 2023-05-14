@@ -23,7 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ReservationServiceClient interface {
 	Get(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
-	AccommodationReservation(ctx context.Context, in *CreateAccommodationReservationRequest, opts ...grpc.CallOption) (*CreateAccommodationReservationResponse, error)
+	AccommodationReservation(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
 }
 
 type reservationServiceClient struct {
@@ -43,8 +43,8 @@ func (c *reservationServiceClient) Get(ctx context.Context, in *Request, opts ..
 	return out, nil
 }
 
-func (c *reservationServiceClient) AccommodationReservation(ctx context.Context, in *CreateAccommodationReservationRequest, opts ...grpc.CallOption) (*CreateAccommodationReservationResponse, error) {
-	out := new(CreateAccommodationReservationResponse)
+func (c *reservationServiceClient) AccommodationReservation(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error) {
+	out := new(CreateResponse)
 	err := c.cc.Invoke(ctx, "/reservation.ReservationService/AccommodationReservation", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -57,7 +57,7 @@ func (c *reservationServiceClient) AccommodationReservation(ctx context.Context,
 // for forward compatibility
 type ReservationServiceServer interface {
 	Get(context.Context, *Request) (*Response, error)
-	AccommodationReservation(context.Context, *CreateAccommodationReservationRequest) (*CreateAccommodationReservationResponse, error)
+	AccommodationReservation(context.Context, *CreateRequest) (*CreateResponse, error)
 	mustEmbedUnimplementedReservationServiceServer()
 }
 
@@ -68,7 +68,7 @@ type UnimplementedReservationServiceServer struct {
 func (UnimplementedReservationServiceServer) Get(context.Context, *Request) (*Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (UnimplementedReservationServiceServer) AccommodationReservation(context.Context, *CreateAccommodationReservationRequest) (*CreateAccommodationReservationResponse, error) {
+func (UnimplementedReservationServiceServer) AccommodationReservation(context.Context, *CreateRequest) (*CreateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AccommodationReservation not implemented")
 }
 func (UnimplementedReservationServiceServer) mustEmbedUnimplementedReservationServiceServer() {}
@@ -103,7 +103,7 @@ func _ReservationService_Get_Handler(srv interface{}, ctx context.Context, dec f
 }
 
 func _ReservationService_AccommodationReservation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateAccommodationReservationRequest)
+	in := new(CreateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -115,7 +115,7 @@ func _ReservationService_AccommodationReservation_Handler(srv interface{}, ctx c
 		FullMethod: "/reservation.ReservationService/AccommodationReservation",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ReservationServiceServer).AccommodationReservation(ctx, req.(*CreateAccommodationReservationRequest))
+		return srv.(ReservationServiceServer).AccommodationReservation(ctx, req.(*CreateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

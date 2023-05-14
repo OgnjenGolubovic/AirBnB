@@ -22,7 +22,7 @@ func (service *ReservationService) Get(id string) (string, error) {
 	return reservation.AccommodationId, nil
 }
 
-func (service *ReservationService) AccommodationReservationRequest(reservation *domain.AccommodationReservation) error {
+func (service *ReservationService) AccommodationReservationRequest(reservation *domain.Reservation) error {
 	err := service.store.AccommodationReservation(reservation)
 	if err != nil {
 		return err

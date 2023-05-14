@@ -26,12 +26,12 @@ func NewReservationMongoDBStore(client *mongo.Client) domain.ReservationStore {
 	}
 }
 
-func (store *ReservationMongoDBStore) Get(id string) (*domain.AccommodationReservation, error) {
+func (store *ReservationMongoDBStore) Get(id string) (*domain.Reservation, error) {
 	filter := bson.M{"_id": ObjectIDFromHex(id)}
 	return store.filterOne(filter)
 }
 
-func (store *ReservationMongoDBStore) Insert(reservation *domain.AccommodationReservation) error {
+func (store *ReservationMongoDBStore) Insert(reservation *domain.Reservation) error {
 	result, err := store.reservations.InsertOne(context.TODO(), reservation)
 	if err != nil {
 		return err
@@ -40,7 +40,7 @@ func (store *ReservationMongoDBStore) Insert(reservation *domain.AccommodationRe
 	return nil
 }
 
-func (store *ReservationMongoDBStore) AccommodationReservation(reservation *domain.AccommodationReservation) error {
+func (store *ReservationMongoDBStore) AccommodationReservation(reservation *domain.Reservation) error {
 	result, err := store.reservations.InsertOne(context.TODO(), reservation)
 	if err != nil {
 		return err
@@ -53,7 +53,7 @@ func (store *ReservationMongoDBStore) DeleteAll() {
 	store.reservations.DeleteMany(context.TODO(), bson.D{{}})
 }
 
-func (store *ReservationMongoDBStore) filter(filter interface{}) ([]*domain.AccommodationReservation, error) {
+func (store *ReservationMongoDBStore) filter(filter interface{}) ([]*domain.Reservation, error) {
 	cursor, err := store.reservations.Find(context.TODO(), filter)
 	defer cursor.Close(context.TODO())
 
@@ -63,15 +63,15 @@ func (store *ReservationMongoDBStore) filter(filter interface{}) ([]*domain.Acco
 	return decode(cursor)
 }
 
-func (store *ReservationMongoDBStore) filterOne(filter interface{}) (reservation *domain.AccommodationReservation, err error) {
+func (store *ReservationMongoDBStore) filterOne(filter interface{}) (reservation *domain.Reservation, err error) {
 	result := store.reservations.FindOne(context.TODO(), filter)
 	err = result.Decode(&reservation)
 	return
 }
 
-func decode(cursor *mongo.Cursor) (reservations []*domain.AccommodationReservation, err error) {
+func decode(cursor *mongo.Cursor) (reservations []*domain.Reservation, err error) {
 	for cursor.Next(context.TODO()) {
-		var reservation domain.AccommodationReservation
+		var reservation domain.Reservation
 		err = cursor.Decode(&reservation)
 		if err != nil {
 			return

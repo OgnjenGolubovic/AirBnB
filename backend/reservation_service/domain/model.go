@@ -10,7 +10,7 @@ const (
 	Cancelled Status = 2
 )
 
-type AccommodationReservation struct {
+type Reservation struct {
 	Id              primitive.ObjectID `bson:"_id"`
 	AccommodationId string             `bson:"accommodationId"`
 	StartDate       string             `bson:"startDate"`

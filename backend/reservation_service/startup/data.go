@@ -6,7 +6,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-var reservations = []*domain.AccommodationReservation{
+var reservations = []*domain.Reservation{
 	{
 		Id:              getObjectId("623b0cc3a34d25d8567f9f32"),
 		AccommodationId: "623b0cc3a34d25d8567f9f81",
