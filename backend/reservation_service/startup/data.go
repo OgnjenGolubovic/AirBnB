@@ -13,6 +13,7 @@ var reservations = []*domain.AccommodationReservation{
 		StartDate:       "prvi januar",
 		EndDate:         "deseti januar",
 		GuestNumber:     3,
+		Status:          domain.Pending,
 	},
 	{
 		Id:              getObjectId("623b0cc3a34d25d8567f9f33"),
@@ -20,6 +21,7 @@ var reservations = []*domain.AccommodationReservation{
 		StartDate:       "prvi januar",
 		EndDate:         "deseti januar",
 		GuestNumber:     2,
+		Status:          domain.Cancelled,
 	},
 }
 
