@@ -2,6 +2,7 @@ package api
 
 import (
 	"context"
+	"strconv"
 
 	"reservation_service/application"
 
@@ -55,6 +56,22 @@ func (handler *ReservationHandler) Cancel(ctx context.Context, request *pb.Reque
 		response.Message = err.Error()
 	} else {
 		response.Message = ""
+	}
+	return response, nil
+}
+
+func (handler *ReservationHandler) AccommodationReservation(ctx context.Context, request *pb.CreateRequest) (*pb.CreateResponse, error) {
+
+	a := reverseMap(request.Reservation)
+	a.GuestNumber, _ = strconv.ParseInt(request.Reservation.GuestNumber, 10, 64)
+
+	err := handler.service.AccommodationReservationRequest(a)
+	if err != nil {
+		return nil, err
+	}
+
+	response := &pb.CreateResponse{
+		Reservation: nil,
 	}
 	return response, nil
 }

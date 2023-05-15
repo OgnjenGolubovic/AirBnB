@@ -56,6 +56,14 @@ func (store *ReservationMongoDBStore) Cancel(id string) error {
 	}
 	return nil
 }
+func (store *ReservationMongoDBStore) AccommodationReservation(reservation *domain.AccommodationReservation) error {
+	result, err := store.reservations.InsertOne(context.TODO(), reservation)
+	if err != nil {
+		return err
+	}
+	reservation.Id = result.InsertedID.(primitive.ObjectID)
+	return nil
+}
 
 func (store *ReservationMongoDBStore) DeleteAll() {
 	store.reservations.DeleteMany(context.TODO(), bson.D{{}})

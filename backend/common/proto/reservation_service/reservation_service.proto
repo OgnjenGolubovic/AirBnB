@@ -4,6 +4,8 @@ option go_package = "github.com/OgnjenGolubovic/AirBnB/backend/common/reservatio
 
 package reservation;
 
+
+//import "google/protobuf/timestamp.proto";
 import "google/api/annotations.proto";
 
 service ReservationService{
@@ -22,6 +24,24 @@ service ReservationService{
                         get: "/reservation/cancel"
                 };
         }
+
+    rpc AccommodationReservation(CreateRequest) returns(CreateResponse) {
+    option (google.api.http) = {
+      post: "/accommodationReservation"
+      body: "*"
+    };
+  }
+}
+
+message Reservation {
+  string id = 1;
+  string accommodationId = 2;
+  string userId = 2;
+  string startDate = 3;
+  string endDate = 4;
+  string guestNumber = 5;
+  string status = 6;
+  //  google.protobuf.Timestamp createdAt= 7;
 }
 
 message Request {
@@ -44,3 +64,11 @@ message DateRange {
 message DateResponse {
         repeated DateRange dates = 1;
 }
+message CreateRequest {
+  Reservation reservation = 1;
+}
+
+message CreateResponse {
+  Reservation reservation = 1;
+}
+

@@ -6,4 +6,5 @@ type ReservationStore interface {
 	Insert(reservation *AccommodationReservation) error
 	Cancel(id string) error
 	DeleteAll()
+	AccommodationReservation(accommodationReservationRequest *AccommodationReservation) error
 }

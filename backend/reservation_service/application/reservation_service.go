@@ -42,3 +42,11 @@ func (service *ReservationService) Cancel(id string) error {
 	err := service.store.Cancel(id)
 	return err
 }
+
+func (service *ReservationService) AccommodationReservationRequest(reservation *domain.AccommodationReservation) error {
+	err := service.store.AccommodationReservation(reservation)
+	if err != nil {
+		return err
+	}
+	return nil
+}

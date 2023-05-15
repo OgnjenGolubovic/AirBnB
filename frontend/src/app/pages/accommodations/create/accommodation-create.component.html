@@ -1,0 +1,44 @@
+<div class="main-container">
+    <div class="form-header">
+        <button mat-button class="back-button" (click)="goBack()">
+            <mat-icon class="back-icon">keyboard_return</mat-icon>
+        </button>
+    </div>
+    <div class="form-body">
+        <!-- <mat-form-field class="date-picker">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="date">
+            <mat-hint>MM.DD.YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field> -->
+        <mat-form-field class="classic-form">
+            <mat-label>Name</mat-label>
+            <input matInput [(ngModel)]="accommodation.name">
+            <!-- <mat-hint>HH:mm</mat-hint> -->
+        </mat-form-field>
+        <mat-form-field class="classic-form">
+            <mat-label>Location</mat-label>
+            <input matInput [(ngModel)]="accommodation.location">
+        </mat-form-field>
+        <mat-form-field class="classic-form">
+            <mat-label>Benefits</mat-label>
+            <input matInput [(ngModel)]="accommodation.benefits">
+        </mat-form-field>
+        <mat-form-field class="classic-form">
+            <mat-label>Photos</mat-label>
+            <input matInput [(ngModel)]="accommodation.photos">
+        </mat-form-field>
+        <mat-form-field class="classic-form">
+            <mat-label>MinGuest</mat-label>
+            <input matInput [(ngModel)]="accommodation.minGuest">
+        </mat-form-field>
+        <mat-form-field class="classic-form">
+            <mat-label>MaxGuest</mat-label>
+            <input matInput [(ngModel)]="accommodation.maxGuest">
+        </mat-form-field>
+        <button mat-button class="create-button" (click)="create()">
+            <mat-icon class="create-icon">done</mat-icon>
+        </button>
+    </div>
+</div>

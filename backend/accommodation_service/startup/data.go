@@ -17,12 +17,12 @@ var accommodations = []*domain.Accommodation{
 	{
 		Id:       getObjectId("623b0cc3a34d25d8567f9f81"),
 		Name:     "name",
-		Location: "location",
-		Benefits: "benefits",
-		Photos:   "photos",
-		MinGuest: 2,
-		MaxGuest: 5,
 		Dates:    dates,
+		Location: "Street 10-London-UK",
+		Benefits: "WIFI,Kitchen,Free Parking",
+		Photos:   "4AB_UDF#FG,10AB_GHO#HF",
+		MinGuest: 10,
+		MaxGuest: 20,
 	},
 }
 

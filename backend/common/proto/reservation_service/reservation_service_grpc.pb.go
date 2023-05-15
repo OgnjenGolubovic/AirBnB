@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ReservationService_Get_FullMethodName                 = "/reservation.ReservationService/Get"
-	ReservationService_GetAllReservedDates_FullMethodName = "/reservation.ReservationService/GetAllReservedDates"
-	ReservationService_Cancel_FullMethodName              = "/reservation.ReservationService/Cancel"
+	ReservationService_Get_FullMethodName                      = "/reservation.ReservationService/Get"
+	ReservationService_GetAllReservedDates_FullMethodName      = "/reservation.ReservationService/GetAllReservedDates"
+	ReservationService_Cancel_FullMethodName                   = "/reservation.ReservationService/Cancel"
+	ReservationService_AccommodationReservation_FullMethodName = "/reservation.ReservationService/AccommodationReservation"
 )
 
 // ReservationServiceClient is the client API for ReservationService service.
@@ -31,6 +32,7 @@ type ReservationServiceClient interface {
 	Get(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
 	GetAllReservedDates(ctx context.Context, in *Request, opts ...grpc.CallOption) (*DateResponse, error)
 	Cancel(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Error, error)
+	AccommodationReservation(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
 }
 
 type reservationServiceClient struct {
@@ -68,6 +70,15 @@ func (c *reservationServiceClient) Cancel(ctx context.Context, in *Request, opts
 	return out, nil
 }
 
+func (c *reservationServiceClient) AccommodationReservation(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error) {
+	out := new(CreateResponse)
+	err := c.cc.Invoke(ctx, ReservationService_AccommodationReservation_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ReservationServiceServer is the server API for ReservationService service.
 // All implementations must embed UnimplementedReservationServiceServer
 // for forward compatibility
@@ -75,6 +86,7 @@ type ReservationServiceServer interface {
 	Get(context.Context, *Request) (*Response, error)
 	GetAllReservedDates(context.Context, *Request) (*DateResponse, error)
 	Cancel(context.Context, *Request) (*Error, error)
+	AccommodationReservation(context.Context, *CreateRequest) (*CreateResponse, error)
 	mustEmbedUnimplementedReservationServiceServer()
 }
 
@@ -90,6 +102,9 @@ func (UnimplementedReservationServiceServer) GetAllReservedDates(context.Context
 }
 func (UnimplementedReservationServiceServer) Cancel(context.Context, *Request) (*Error, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Cancel not implemented")
+}
+func (UnimplementedReservationServiceServer) AccommodationReservation(context.Context, *CreateRequest) (*CreateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AccommodationReservation not implemented")
 }
 func (UnimplementedReservationServiceServer) mustEmbedUnimplementedReservationServiceServer() {}
 
@@ -158,6 +173,24 @@ func _ReservationService_Cancel_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ReservationService_AccommodationReservation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReservationServiceServer).AccommodationReservation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ReservationService_AccommodationReservation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReservationServiceServer).AccommodationReservation(ctx, req.(*CreateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ReservationService_ServiceDesc is the grpc.ServiceDesc for ReservationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -176,6 +209,10 @@ var ReservationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Cancel",
 			Handler:    _ReservationService_Cancel_Handler,
+		},
+		{
+			MethodName: "AccommodationReservation",
+			Handler:    _ReservationService_AccommodationReservation_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -1,7 +1,13 @@
 package domain
 
-type User struct {
-	Id       string
-	Username string
-	Password string
+type DateRange struct {
+	StartDate string `json:"startDate"`
+	EndDate   string `json:"endDate"`
+}
+
+type Reservation struct {
+	AccommodationId string `json:"accommodationId"`
+	StartDate       string `json:"startDate"`
+	EndDate         string `json:"endDate"`
+	GuestNumber     string `json:"guestNumber"`
 }
