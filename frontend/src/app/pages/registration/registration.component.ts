@@ -17,16 +17,15 @@ export class RegistrationComponent implements OnInit {
   }
 
   onSubmit(obj: RegistrationDTO){
-    var sth = this.registerService.onSubmit(obj).subscribe(response =>{
+    this.registerService.onSubmit(obj).subscribe(response =>{
       this.snackBar.open('User Registered!','Ok', {
-        duration: 3000
+        duration: 4000
 
         })
       this.m_Router.navigate(['/login']);
     }, error=>{
       this.snackBar.open(error.error.message,'Ok', {
-        duration: 3000
-
+        duration: 4000
         })
     })
   }

@@ -66,6 +66,8 @@ func (handler *UserHandler) Delete(ctx context.Context, request *pb.Request) (*p
 	fmt.Println(request.Id)
 
 	err := handler.service.Delete(request.Id)
+	fmt.Println(request.Id)
+	fmt.Println("SDFASDDSDJNSDNJSDJNSDNJSDNJSD")
 	if err != nil {
 		return nil, err
 	}
