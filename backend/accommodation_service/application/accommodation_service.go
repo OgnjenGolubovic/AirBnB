@@ -2,6 +2,8 @@ package application
 
 import (
 	"accommodation_service/domain"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type AccommodationService struct {
@@ -14,10 +16,14 @@ func NewAccommodationService(store domain.AccommodationStore) *AccommodationServ
 	}
 }
 
-func (service *AccommodationService) Get(id string) (string, error) {
-	accommodation, err := service.store.Get(id)
-	if err != nil {
-		return "", err
-	}
-	return accommodation.Name, nil
+func (service *AccommodationService) Get(id primitive.ObjectID) (*domain.Accommodation, error) {
+	return service.store.Get(id)
+}
+
+func (service *AccommodationService) GetAll() ([]*domain.Accommodation, error) {
+	return service.store.GetAll()
+}
+
+func (service *AccommodationService) Create(acc *domain.Accommodation) error {
+	return service.store.Insert(acc)
 }

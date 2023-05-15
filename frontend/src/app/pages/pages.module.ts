@@ -17,13 +17,19 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { RegistrationComponent } from './registration/registration.component';
 import { UsersComponent } from './users/users.component';
 import { EditComponent } from './edit/edit.component';
+import { AccommodationsComponent } from './accommodations/accommodations.component';
+import { AccommodationCreateComponent } from './accommodations/create/accommodation-create.component';
+import { AccommodationComponent } from './accommodation/accommodation.component';
 
 @NgModule({
   declarations: [
     LoginComponent,
     RegistrationComponent,
     UsersComponent,
-    EditComponent
+    EditComponent,
+    AccommodationsComponent,
+    AccommodationComponent,
+    AccommodationCreateComponent
   ],
   imports: [
     FormsModule,

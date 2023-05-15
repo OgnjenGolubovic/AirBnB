@@ -19,7 +19,6 @@ import { AppComponent } from './app.component';
     PagesModule,
     FormsModule,
     BrowserAnimationsModule
-
   ],
   providers: [],
   bootstrap: [AppComponent]

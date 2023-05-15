@@ -40,6 +40,15 @@ func (store *ReservationMongoDBStore) Insert(reservation *domain.Reservation) er
 	return nil
 }
 
+func (store *ReservationMongoDBStore) AccommodationReservation(reservation *domain.Reservation) error {
+	result, err := store.reservations.InsertOne(context.TODO(), reservation)
+	if err != nil {
+		return err
+	}
+	reservation.Id = result.InsertedID.(primitive.ObjectID)
+	return nil
+}
+
 func (store *ReservationMongoDBStore) DeleteAll() {
 	store.reservations.DeleteMany(context.TODO(), bson.D{{}})
 }
