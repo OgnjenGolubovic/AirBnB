@@ -25,22 +25,28 @@ service ReservationService{
                 };
         }
 
-    rpc AccommodationReservation(CreateRequest) returns(CreateResponse) {
-    option (google.api.http) = {
-      post: "/accommodationReservation"
-      body: "*"
-    };
+        rpc GetAllReservationsByUser(Request) returns(ReservationResponse) {
+                option (google.api.http) = {
+                        get: "/reservation/getByUser"
+                };
+        }
+        rpc AccommodationReservation(CreateRequest) returns(CreateResponse) {
+                option (google.api.http) = {
+                        post: "/accommodationReservation"
+                body: "*"
+        };
   }
 }
 
 message Reservation {
   string id = 1;
   string accommodationId = 2;
-  string userId = 2;
-  string startDate = 3;
-  string endDate = 4;
-  string guestNumber = 5;
-  string status = 6;
+  string userId = 3;
+  string startDate = 4;
+  string endDate = 5;
+  string accommodationName = 6;
+        string guestNumber = 7;
+        string status = 8;
   //  google.protobuf.Timestamp createdAt= 7;
 }
 
@@ -72,3 +78,6 @@ message CreateResponse {
   Reservation reservation = 1;
 }
 
+message ReservationResponse {
+        repeated Reservation reservation = 1;
+}

@@ -24,11 +24,11 @@ export class AuthService {
   }
 
   login(loginDTO: LoginDTO): Observable<any> {
-    return this.m_Http.post(`${environment.hospitalApiUrl}/login`, loginDTO).pipe(
+    return this.m_Http.post(`${environment.hospitalApiUrl}/auth/login`, loginDTO).pipe(
       map((res: any) => {
-        this.m_UserDataService.setToken = res;
-      }),
-      switchMap(_ => this.getUserData())
+        this.m_UserDataService.setToken = res['accessToken'];
+      })/*,
+      switchMap(_ => this.getUserData())*/
     );
   }
 

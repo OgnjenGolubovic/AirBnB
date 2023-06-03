@@ -83,6 +83,9 @@ func (server *Server) Start() {
 func (server *Server) getHandlerCORSWrapped() http.Handler {
 	corsMiddleware := cors.New(cors.Options{
 		AllowedOrigins: []string{server.config.AllowedCorsOrigin},
+		AllowedMethods: []string{"GET", "POST", "HEAD", "PUT", "OPTIONS"},
+		AllowedHeaders: []string{"Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization",
+			"accept", "origin", "Cache-Control", "X-Requested-With"},
 	})
 	handler := corsMiddleware.Handler(server.mux)
 	return handler

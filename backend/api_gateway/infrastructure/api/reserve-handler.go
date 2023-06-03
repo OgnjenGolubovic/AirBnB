@@ -29,11 +29,66 @@ func NewReserveHandler(accommodationClientAddress, reservationClientAddress stri
 
 func (handler *ReserveHandler) Init(mux *runtime.ServeMux) {
 	err := mux.HandlePath("POST", "/reservation/reserve", handler.Reserve)
+	err1 := mux.HandlePath("GET", "/reservation/getAll", handler.GetAll)
 	if err != nil {
 		panic(err)
 	}
+	if err1 != nil {
+		panic(err1)
+	}
 }
 
+func (handler *ReserveHandler) GetAll(w http.ResponseWriter, r *http.Request, pathParams map[string]string) {
+	authHeader := r.Header.Get("Authorization")
+	if authHeader == "" {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+	authParts := strings.Split(authHeader, " ")
+	if len(authParts) != 2 || strings.ToLower(authParts[0]) != "bearer" {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+	token := authParts[1]
+
+	tokenInfo, _ := parseToken(token)
+	user_id := userClaimFromToken(tokenInfo)
+
+	reservationClient := services.NewReservationClient(handler.reservationClientAddress)
+	reservations, _ := reservationClient.GetAllReservationsByUser(r.Context(), &reservation.Request{Id: user_id})
+
+	accommodationClient := services.NewAccommodationClient(handler.accommodationClientAddress)
+	response := &reservation.ReservationResponse{
+		Reservation: []*reservation.Reservation{},
+	}
+	for _, pom := range reservations.Reservation {
+		accommodation, _ := accommodationClient.Get(r.Context(), &accommodation.GetRequest{Id: pom.AccommodationId})
+
+		reservation := &reservation.Reservation{
+			Id:                pom.Id,
+			AccommodationId:   pom.AccommodationId,
+			StartDate:         pom.StartDate,
+			EndDate:           pom.EndDate,
+			AccommodationName: accommodation.Accommodation.Name,
+		}
+		response.Reservation = append(response.Reservation, reservation)
+	}
+	jsonData, err := json.Marshal(response)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+
+	_, err = w.Write(jsonData)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+}
 func (handler *ReserveHandler) Reserve(w http.ResponseWriter, r *http.Request, pathParams map[string]string) {
 	authHeader := r.Header.Get("Authorization")
 	if authHeader == "" {

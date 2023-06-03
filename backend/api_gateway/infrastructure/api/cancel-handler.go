@@ -34,6 +34,7 @@ func (handler *CancelHandler) Init(mux *runtime.ServeMux) {
 
 func (handler *CancelHandler) Cancel(w http.ResponseWriter, r *http.Request, pathParams map[string]string) {
 	id := pathParams["id"]
+	fmt.Println(id)
 	authHeader := r.Header.Get("Authorization")
 	if authHeader == "" {
 		http.Error(w, "Unauthorized", http.StatusUnauthorized)
@@ -53,6 +54,7 @@ func (handler *CancelHandler) Cancel(w http.ResponseWriter, r *http.Request, pat
 	_, err := reservationClient.Cancel(context.TODO(), &reservation.Request{Id: id})
 
 	if err != nil {
+		fmt.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -60,6 +62,7 @@ func (handler *CancelHandler) Cancel(w http.ResponseWriter, r *http.Request, pat
 	_, err1 := userClient.Cancel(context.TODO(), &user.Request{Id: user_id})
 
 	if err1 != nil {
+		fmt.Println(err1)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}

@@ -22,6 +22,7 @@ const (
 	ReservationService_Get_FullMethodName                      = "/reservation.ReservationService/Get"
 	ReservationService_GetAllReservedDates_FullMethodName      = "/reservation.ReservationService/GetAllReservedDates"
 	ReservationService_Cancel_FullMethodName                   = "/reservation.ReservationService/Cancel"
+	ReservationService_GetAllReservationsByUser_FullMethodName = "/reservation.ReservationService/GetAllReservationsByUser"
 	ReservationService_AccommodationReservation_FullMethodName = "/reservation.ReservationService/AccommodationReservation"
 )
 
@@ -32,6 +33,7 @@ type ReservationServiceClient interface {
 	Get(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
 	GetAllReservedDates(ctx context.Context, in *Request, opts ...grpc.CallOption) (*DateResponse, error)
 	Cancel(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Error, error)
+	GetAllReservationsByUser(ctx context.Context, in *Request, opts ...grpc.CallOption) (*ReservationResponse, error)
 	AccommodationReservation(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
 }
 
@@ -70,6 +72,15 @@ func (c *reservationServiceClient) Cancel(ctx context.Context, in *Request, opts
 	return out, nil
 }
 
+func (c *reservationServiceClient) GetAllReservationsByUser(ctx context.Context, in *Request, opts ...grpc.CallOption) (*ReservationResponse, error) {
+	out := new(ReservationResponse)
+	err := c.cc.Invoke(ctx, ReservationService_GetAllReservationsByUser_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *reservationServiceClient) AccommodationReservation(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error) {
 	out := new(CreateResponse)
 	err := c.cc.Invoke(ctx, ReservationService_AccommodationReservation_FullMethodName, in, out, opts...)
@@ -86,6 +97,7 @@ type ReservationServiceServer interface {
 	Get(context.Context, *Request) (*Response, error)
 	GetAllReservedDates(context.Context, *Request) (*DateResponse, error)
 	Cancel(context.Context, *Request) (*Error, error)
+	GetAllReservationsByUser(context.Context, *Request) (*ReservationResponse, error)
 	AccommodationReservation(context.Context, *CreateRequest) (*CreateResponse, error)
 	mustEmbedUnimplementedReservationServiceServer()
 }
@@ -102,6 +114,9 @@ func (UnimplementedReservationServiceServer) GetAllReservedDates(context.Context
 }
 func (UnimplementedReservationServiceServer) Cancel(context.Context, *Request) (*Error, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Cancel not implemented")
+}
+func (UnimplementedReservationServiceServer) GetAllReservationsByUser(context.Context, *Request) (*ReservationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllReservationsByUser not implemented")
 }
 func (UnimplementedReservationServiceServer) AccommodationReservation(context.Context, *CreateRequest) (*CreateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AccommodationReservation not implemented")
@@ -173,6 +188,24 @@ func _ReservationService_Cancel_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ReservationService_GetAllReservationsByUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReservationServiceServer).GetAllReservationsByUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ReservationService_GetAllReservationsByUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReservationServiceServer).GetAllReservationsByUser(ctx, req.(*Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ReservationService_AccommodationReservation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateRequest)
 	if err := dec(in); err != nil {
@@ -209,6 +242,10 @@ var ReservationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Cancel",
 			Handler:    _ReservationService_Cancel_Handler,
+		},
+		{
+			MethodName: "GetAllReservationsByUser",
+			Handler:    _ReservationService_GetAllReservationsByUser_Handler,
 		},
 		{
 			MethodName: "AccommodationReservation",

@@ -38,6 +38,14 @@ func (service *ReservationService) GetReservedDates(id string) ([]*domain.DateRa
 	return dates, nil
 }
 
+func (service *ReservationService) GetByUser(id string) ([]*domain.AccommodationReservation, error) {
+	reservations, err := service.store.GetByUser(id)
+	if err != nil {
+		return []*domain.AccommodationReservation{}, err
+	}
+	return reservations, nil
+}
+
 func (service *ReservationService) Cancel(id string) error {
 	err := service.store.Cancel(id)
 	return err

@@ -36,6 +36,11 @@ func (store *ReservationMongoDBStore) GetByAccommodation(id string) ([]*domain.A
 	return store.filter(filter)
 }
 
+func (store *ReservationMongoDBStore) GetByUser(id string) ([]*domain.AccommodationReservation, error) {
+	filter := bson.M{"userId": ObjectIDFromHex(id)}
+	return store.filter(filter)
+}
+
 func (store *ReservationMongoDBStore) Insert(reservation *domain.AccommodationReservation) error {
 	result, err := store.reservations.InsertOne(context.TODO(), reservation)
 	if err != nil {

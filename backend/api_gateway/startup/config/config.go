@@ -24,6 +24,6 @@ func NewConfig() *Config {
 		AccommodationPort:    "8003",
 		ReservationHost:      "localhost",
 		ReservationPort:      "8004",
-		AllowedCorsOrigin:    "http://localhost:4200",
+		AllowedCorsOrigin:    "*",
 	}
 }
