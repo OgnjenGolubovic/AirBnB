@@ -19,9 +19,22 @@ service ReservationService{
                         get: "/reservation/get"
                 };
         }
+
         rpc Cancel(Request) returns(Error) {
                 option (google.api.http) = {
                         get: "/reservation/cancel"
+                };
+        }
+
+        rpc Reject(Request) returns(Error) {
+                option (google.api.http) = {
+                        get: "/reservation/reject"
+                };
+        }
+
+        rpc Approve(Request) returns(Error) {
+                option (google.api.http) = {
+                        get: "/reservation/approve"
                 };
         }
 
@@ -30,6 +43,13 @@ service ReservationService{
                         get: "/reservation/getByUser"
                 };
         }
+
+        rpc GetAllPending(Request) returns(ReservationResponse) {
+                option (google.api.http) = {
+                        get: "/reservation/getAllPending"
+                };
+        }
+
         rpc AccommodationReservation(CreateRequest) returns(CreateResponse) {
                 option (google.api.http) = {
                         post: "/accommodationReservation"

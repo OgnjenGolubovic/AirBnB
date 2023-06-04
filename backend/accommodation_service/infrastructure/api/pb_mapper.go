@@ -9,13 +9,15 @@ import (
 
 func mapAccommodation(accommodation *domain.Accommodation) *pb.Accommodation {
 	accommodationPb := &pb.Accommodation{
-		Id:       accommodation.Id.Hex(),
-		Name:     accommodation.Name,
-		Location: accommodation.Location,
-		Benefits: accommodation.Benefits,
-		Photos:   accommodation.Photos,
-		MinGuest: accommodation.MinGuest,
-		MaxGuest: accommodation.MaxGuest,
+		Id:                accommodation.Id.String()[10 : len(accommodation.Id.String())-2],
+		Name:              accommodation.Name,
+		Location:          accommodation.Location,
+		Benefits:          accommodation.Benefits,
+		Photos:            accommodation.Photos,
+		MinGuest:          accommodation.MinGuest,
+		MaxGuest:          accommodation.MaxGuest,
+		AutomaticApproval: accommodation.AutomaticApproval,
+		HostId:            accommodation.HostId.String()[10 : len(accommodation.HostId.String())-2],
 	}
 
 	return accommodationPb

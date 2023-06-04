@@ -68,8 +68,45 @@ func (handler *ReservationHandler) GetAllReservationsByUser(ctx context.Context,
 	return response, nil
 }
 
+func (handler *ReservationHandler) GetAllPending(ctx context.Context, request *pb.Request) (*pb.ReservationResponse, error) {
+	reservations, err := handler.service.GetAllPending()
+	if err != nil {
+		return nil, err
+	}
+	response := &pb.ReservationResponse{
+		Reservation: []*pb.Reservation{},
+	}
+	for _, pom := range reservations {
+		current := mapReservation(pom)
+		response.Reservation = append(response.Reservation, current)
+	}
+	return response, nil
+}
+
 func (handler *ReservationHandler) Cancel(ctx context.Context, request *pb.Request) (*pb.Error, error) {
 	err := handler.service.Cancel(request.Id)
+	response := &pb.Error{}
+	if err != nil {
+		response.Message = err.Error()
+	} else {
+		response.Message = ""
+	}
+	return response, nil
+}
+
+func (handler *ReservationHandler) Reject(ctx context.Context, request *pb.Request) (*pb.Error, error) {
+	err := handler.service.Reject(request.Id)
+	response := &pb.Error{}
+	if err != nil {
+		response.Message = err.Error()
+	} else {
+		response.Message = ""
+	}
+	return response, nil
+}
+
+func (handler *ReservationHandler) Approve(ctx context.Context, request *pb.Request) (*pb.Error, error) {
+	err := handler.service.Approve(request.Id)
 	response := &pb.Error{}
 	if err != nil {
 		response.Message = err.Error()

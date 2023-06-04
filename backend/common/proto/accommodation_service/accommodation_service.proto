@@ -38,6 +38,8 @@ message Accommodation {
 		string photos = 5;
 		int64 minGuest = 6;
 		int64 maxGuest = 7;
+                string hostId = 8;
+                bool automaticApproval = 9;
 }
 
 message GetRequest {

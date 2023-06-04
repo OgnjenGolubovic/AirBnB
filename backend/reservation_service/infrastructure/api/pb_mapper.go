@@ -27,9 +27,12 @@ func reverseMap(reservationPb *pb.Reservation) *domain.AccommodationReservation 
 			StartDate: reservationPb.StartDate,
 			EndDate:   reservationPb.EndDate,
 		},
-		Status: domain.Approved,
 	}
-
+	if reservationPb.Status == "approved" {
+		reservation.Status = domain.Approved
+	} else if reservationPb.Status == "pending" {
+		reservation.Status = domain.Pending
+	}
 	return &reservation
 }
 
