@@ -9,9 +9,57 @@ services:
       dockerfile: ./user_service/Dockerfile
     restart: on-failure
     environment:
-      CATALOGUE_DB_HOST: ${USER_DB_HOST}
-      CATALOGUE_DB_PORT: ${USER_DB_PORT}
-      CATALOGUE_SERVICE_PORT: ${USER_SERVICE_PORT}
+      USER_DB_HOST: ${USER_DB_HOST}
+      USER_DB_PORT: ${USER_DB_PORT}
+      USER_SERVICE_PORT: ${USER_SERVICE_PORT}
+    depends_on:
+      - user_db
+    networks:
+      - network
+
+  reservation_service:
+    image: reservation_service
+    container_name: reservation_service
+    build:
+      context: .
+      dockerfile: ./reservation_service/Dockerfile
+    restart: on-failure
+    environment:
+      RESERVATION_DB_HOST: ${RESERVATION_DB_HOST}
+      RESERVATION_DB_PORT: ${RESERVATION_DB_PORT}
+      RESERVATION_SERVICE_PORT: ${RESERVATION_SERVICE_PORT}
+    depends_on:
+      - reservation_db
+    networks:
+      - network
+
+  accommodation_service:
+    image: accommodation_service
+    container_name: accommodation_service
+    build:
+      context: .
+      dockerfile: ./accommodation_service/Dockerfile
+    restart: on-failure
+    environment:
+      ACCOMMODATION_DB_HOST: ${ACCOMMODATION_DB_HOST}
+      ACCOMMODATION_DB_PORT: ${ACCOMMODATION_DB_PORT}
+      ACCOMMODATION_SERVICE_PORT: ${ACCOMMODATION_SERVICE_PORT}
+    depends_on:
+      - accommodation_db
+    networks:
+      - network
+
+  authentication_service:
+    image: authentication_service
+    container_name: authentication_service
+    build:
+      context: .
+      dockerfile: ./authentication_service/Dockerfile
+    restart: on-failure
+    environment:
+      USER_DB_HOST: ${USER_DB_HOST}
+      USER_DB_PORT: ${USER_DB_PORT}
+      AUTHENTICATION_SERVICE_PORT: ${AUTHENTICATION_SERVICE_PORT}
     depends_on:
       - user_db
     networks:
@@ -30,15 +78,36 @@ services:
       GATEWAY_PORT: ${GATEWAY_PORT}
       USER_SERVICE_HOST: ${USER_SERVICE_HOST}
       USER_SERVICE_PORT: ${USER_SERVICE_PORT}
+      ACCOMMODATION_SERVICE_HOST: ${ACCOMMODATION_SERVICE_HOST}
+      ACCOMMODATION_SERVICE_PORT: ${ACCOMMODATION_SERVICE_PORT}
+      RESERVATION_SERVICE_HOST: ${RESERVATION_SERVICE_HOST}
+      RESERVATION_SERVICE_PORT: ${RESERVATION_SERVICE_PORT}
+      AUTHENTICATION_SERVICE_HOST: ${AUTHENTICATION_SERVICE_HOST}
+      AUTHENTICATION_SERVICE_PORT: ${AUTHENTICATION_SERVICE_PORT}
     networks:
       - network
 
   user_db:
-    image: mongo
+    image: mongo:4.4
     container_name: user_db
     restart: on-failure
     networks:
       - network
+
+  reservation_db:
+    image: mongo:4.4
+    container_name: reservation_db
+    restart: on-failure
+    networks:
+      - network
+
+  accommodation_db:
+    image: mongo:4.4
+    container_name: accommodation_db
+    restart: on-failure
+    networks:
+      - network
+
 
 networks:
   network:

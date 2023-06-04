@@ -1,5 +1,7 @@
 package config
 
+import "os"
+
 type Config struct {
 	Port                string
 	AccommodationDBHost string
@@ -8,8 +10,8 @@ type Config struct {
 
 func NewConfig() *Config {
 	return &Config{
-		Port:                "8003",
-		AccommodationDBHost: "localhost",
-		AccommodationDBPort: "27017",
+		Port:                os.Getenv("ACCOMMODATION_SERVICE_PORT"),
+		AccommodationDBHost: os.Getenv("ACCOMMODATION_DB_HOST"),
+		AccommodationDBPort: os.Getenv("ACCOMMODATION_DB_PORT"),
 	}
 }
