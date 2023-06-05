@@ -27,8 +27,8 @@ export class LoginComponent implements OnInit {
     this.m_AuthService.login(dto)
       .subscribe(data => {
         if(data){
-          if(data.role == 0)this.m_Router.navigate(['/flights']);
-          if(data.role == 1)this.m_Router.navigate(['/welcome']);
+          //if(data.role == 0)this.m_Router.navigate(['/flights']);
+          //if(data.role == 1)this.m_Router.navigate(['/welcome']);
         }
       });
   }

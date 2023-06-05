@@ -7,6 +7,7 @@ import (
 	"reservation_service/application"
 
 	pb "github.com/OgnjenGolubovic/AirBnB/backend/common/proto/reservation_service"
+	jwt "github.com/dgrijalva/jwt-go"
 )
 
 type ReservationHandler struct {
@@ -31,6 +32,90 @@ func (handler *ReservationHandler) Get(ctx context.Context, request *pb.Request)
 	return response, nil
 }
 
+func (handler *ReservationHandler) GetAllReservedDates(ctx context.Context, request *pb.Request) (*pb.DateResponse, error) {
+	dates, err := handler.service.GetReservedDates(request.Id)
+	if err != nil {
+		return nil, err
+	}
+	response := &pb.DateResponse{
+		Dates: []*pb.DateRange{},
+	}
+	for _, pom := range dates {
+		current := &pb.DateRange{
+			StartDate: pom.StartDate,
+			EndDate:   pom.EndDate,
+		}
+		response.Dates = append(response.Dates, current)
+	}
+	return response, nil
+}
+
+func (handler *ReservationHandler) GetAllReservationsByUser(ctx context.Context, request *pb.Request) (*pb.ReservationResponse, error) {
+
+	//tokenInfo, _ := ctx.Value("tokenInfo").(jwt.MapClaims)
+	//dates, err := handler.service.GetByUser(userClaimFromToken(tokenInfo))
+	dates, err := handler.service.GetByUser(request.Id)
+	if err != nil {
+		return nil, err
+	}
+	response := &pb.ReservationResponse{
+		Reservation: []*pb.Reservation{},
+	}
+	for _, pom := range dates {
+		current := mapReservation(pom)
+		response.Reservation = append(response.Reservation, current)
+	}
+	return response, nil
+}
+
+func (handler *ReservationHandler) GetAllPending(ctx context.Context, request *pb.Request) (*pb.ReservationResponse, error) {
+	reservations, err := handler.service.GetAllPending()
+	if err != nil {
+		return nil, err
+	}
+	response := &pb.ReservationResponse{
+		Reservation: []*pb.Reservation{},
+	}
+	for _, pom := range reservations {
+		current := mapReservation(pom)
+		response.Reservation = append(response.Reservation, current)
+	}
+	return response, nil
+}
+
+func (handler *ReservationHandler) Cancel(ctx context.Context, request *pb.Request) (*pb.Error, error) {
+	err := handler.service.Cancel(request.Id)
+	response := &pb.Error{}
+	if err != nil {
+		response.Message = err.Error()
+	} else {
+		response.Message = ""
+	}
+	return response, nil
+}
+
+func (handler *ReservationHandler) Reject(ctx context.Context, request *pb.Request) (*pb.Error, error) {
+	err := handler.service.Reject(request.Id)
+	response := &pb.Error{}
+	if err != nil {
+		response.Message = err.Error()
+	} else {
+		response.Message = ""
+	}
+	return response, nil
+}
+
+func (handler *ReservationHandler) Approve(ctx context.Context, request *pb.Request) (*pb.Error, error) {
+	err := handler.service.Approve(request.Id)
+	response := &pb.Error{}
+	if err != nil {
+		response.Message = err.Error()
+	} else {
+		response.Message = ""
+	}
+	return response, nil
+}
+
 func (handler *ReservationHandler) AccommodationReservation(ctx context.Context, request *pb.CreateRequest) (*pb.CreateResponse, error) {
 
 	a := reverseMap(request.Reservation)
@@ -45,4 +130,13 @@ func (handler *ReservationHandler) AccommodationReservation(ctx context.Context,
 		Reservation: nil,
 	}
 	return response, nil
+}
+
+func userClaimFromToken(claims jwt.MapClaims) string {
+	sub, ok := claims["user_id"].(string)
+	if !ok {
+		return ""
+	}
+
+	return sub
 }

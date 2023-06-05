@@ -7,25 +7,38 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func mapReservation(reservation *domain.Reservation) *pb.Reservation {
+func mapReservation(reservation *domain.AccommodationReservation) *pb.Reservation {
 	reservationPb := &pb.Reservation{
-		Id:              reservation.Id.Hex(),
-		AccommodationId: reservation.AccommodationId,
-		StartDate:       reservation.StartDate,
-		EndDate:         reservation.EndDate,
+		Id:              reservation.Id.String()[10 : len(reservation.Id.String())-2],
+		AccommodationId: reservation.AccommodationId.String()[10 : len(reservation.Id.String())-2],
+		StartDate:       reservation.ReservedDate.StartDate,
+		EndDate:         reservation.ReservedDate.EndDate,
 	}
 
 	return reservationPb
 }
 
-func reverseMap(reservationPb *pb.Reservation) *domain.Reservation {
-	reservation := domain.Reservation{
+func reverseMap(reservationPb *pb.Reservation) *domain.AccommodationReservation {
+	reservation := domain.AccommodationReservation{
 		Id:              primitive.NewObjectID(),
-		AccommodationId: reservationPb.AccommodationId,
-		StartDate:       reservationPb.StartDate,
-		EndDate:         reservationPb.EndDate,
-		Status:          domain.Pending,
+		AccommodationId: getObjectId(reservationPb.AccommodationId),
+		UserId:          getObjectId(reservationPb.UserId),
+		ReservedDate: &domain.DateRange{
+			StartDate: reservationPb.StartDate,
+			EndDate:   reservationPb.EndDate,
+		},
 	}
-
+	if reservationPb.Status == "approved" {
+		reservation.Status = domain.Approved
+	} else if reservationPb.Status == "pending" {
+		reservation.Status = domain.Pending
+	}
 	return &reservation
+}
+
+func getObjectId(id string) primitive.ObjectID {
+	if objectId, err := primitive.ObjectIDFromHex(id); err == nil {
+		return objectId
+	}
+	return primitive.NewObjectID()
 }

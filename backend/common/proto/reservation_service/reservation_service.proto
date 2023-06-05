@@ -14,22 +14,59 @@ service ReservationService{
 			get: "/reservation"
 		};
         }
+        rpc GetAllReservedDates(Request) returns(DateResponse) {
+                option (google.api.http) = {
+                        get: "/reservation/get"
+                };
+        }
 
-    rpc AccommodationReservation(CreateRequest) returns(CreateResponse) {
-    option (google.api.http) = {
-      post: "/accommodationReservation"
-      body: "*"
-    };
+        rpc Cancel(Request) returns(Error) {
+                option (google.api.http) = {
+                        get: "/reservation/cancel"
+                };
+        }
+
+        rpc Reject(Request) returns(Error) {
+                option (google.api.http) = {
+                        get: "/reservation/reject"
+                };
+        }
+
+        rpc Approve(Request) returns(Error) {
+                option (google.api.http) = {
+                        get: "/reservation/approve"
+                };
+        }
+
+        rpc GetAllReservationsByUser(Request) returns(ReservationResponse) {
+                option (google.api.http) = {
+                        get: "/reservation/getByUser"
+                };
+        }
+
+        rpc GetAllPending(Request) returns(ReservationResponse) {
+                option (google.api.http) = {
+                        get: "/reservation/getAllPending"
+                };
+        }
+
+        rpc AccommodationReservation(CreateRequest) returns(CreateResponse) {
+                option (google.api.http) = {
+                        post: "/accommodationReservation"
+                body: "*"
+        };
   }
 }
 
 message Reservation {
   string id = 1;
   string accommodationId = 2;
-  string startDate = 3;
-  string endDate = 4;
-  string guestNumber = 5;
-  string status = 6;
+  string userId = 3;
+  string startDate = 4;
+  string endDate = 5;
+  string accommodationName = 6;
+        string guestNumber = 7;
+        string status = 8;
   //  google.protobuf.Timestamp createdAt= 7;
 }
 
@@ -41,6 +78,18 @@ message Response {
         string reservation = 1;
 }
 
+message Error {
+        string message = 1;
+}
+
+message DateRange {
+        string StartDate = 1;
+        string EndDate = 2;
+}
+
+message DateResponse {
+        repeated DateRange dates = 1;
+}
 message CreateRequest {
   Reservation reservation = 1;
 }
@@ -49,3 +98,6 @@ message CreateResponse {
   Reservation reservation = 1;
 }
 
+message ReservationResponse {
+        repeated Reservation reservation = 1;
+}

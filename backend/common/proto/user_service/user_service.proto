@@ -12,6 +12,34 @@ service UserService {
       get: "/user"
     };
   }
+  rpc GetAll(GetAllRequest) returns (GetAllResponse){
+    option (google.api.http) = {
+      get: "/user/getAll"
+    };
+  }
+  rpc Register(User) returns (Error) {
+    option (google.api.http) = {
+      post: "/user/register"
+      body: "*"
+    };
+  }
+  rpc Delete(Request) returns(Error) {
+    option (google.api.http) = {
+      post: "/user"
+      body: "*"
+    };
+  }
+  rpc EditUser(User) returns (Error) {
+    option (google.api.http) = {
+      post: "/user/edit"
+      body: "*"
+    };
+  }
+  rpc Cancel(Request) returns (Error) {
+    option (google.api.http) = {
+      post: "/user/cancel"
+    };
+  }
 }
 
 message Request {
@@ -20,4 +48,30 @@ message Request {
 
 message Response {
   string username = 1;
+}
+
+message User {
+  string username = 1;
+  string name = 2;
+  string password = 3;
+  string id = 4;
+  string surname = 5;
+  string email = 6;
+  string address= 7;
+  enum UserType {
+    Guest = 0;
+    Host = 1;
+  }
+  UserType userType = 9;
+}
+
+message Error {
+  string msg= 1;
+}
+
+message GetAllRequest {
+}
+
+message GetAllResponse {
+  repeated User users = 1;
 }
