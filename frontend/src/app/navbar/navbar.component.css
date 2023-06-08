@@ -1,0 +1,24 @@
+.container {
+    display: flex;
+}
+
+.toolbar {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.left-nav {
+    margin-left: 0.5em;
+    font-size: 1.2em;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.right-nav {
+    width: 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 1%;
+}

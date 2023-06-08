@@ -1,0 +1,11 @@
+<div class="container">
+    <mat-toolbar class="toolbar" color="primary">
+        <div class="left-nav" routerLink="">XMLApp</div>
+
+        <div class="right-nav">
+            <button mat-raised-button routerLink="login" *ngIf="!isLoggedIn">Login</button>
+            <button mat-raised-button routerLink="" *ngIf="isLoggedIn" (click)="logout()">Logout</button>
+            <button mat-raised-button routerLink="">Register</button>
+        </div>
+    </mat-toolbar>
+</div> 
