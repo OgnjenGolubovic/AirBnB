@@ -15,7 +15,7 @@ export interface LoginDTO {
 })
 export class AuthService {
   isLoggedIn: boolean = false;
-
+  role: string = '';
 
   constructor(private m_UserDataService: UserDataService, private m_Http: HttpClient, private router: Router) {
     this.m_UserDataService.m_Token$.pipe(
@@ -31,6 +31,7 @@ export class AuthService {
     return this.m_Http.post(`${environment.hospitalApiUrl}/auth/login`, loginDTO).pipe(
       map((res: any) => {
         this.m_UserDataService.setToken = res['accessToken'];
+        this.setRole();
         this.router.navigate(['']);
         this.isLoggedIn = true;
       })/*,
@@ -51,6 +52,19 @@ export class AuthService {
         this.m_UserDataService.setUserData = res;
       })
     )
+  }
+
+  setRole() {
+    let decodedJWT;
+    let accessToken = localStorage.getItem('token');
+    if (accessToken != null) {
+        decodedJWT = JSON.parse(window.atob(accessToken.split('.')[1]));
+    }
+    this.role = decodedJWT.role;
+  }
+
+  getRole() {
+    return this.role;
   }
 
 }

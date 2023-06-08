@@ -10,6 +10,7 @@ import { AuthService } from '../pages/login/log-auth.service';
 export class NavbarComponent implements OnInit {
 
   isLoggedIn: boolean = false;
+  role: string = '';
   
   constructor(private authService: AuthService, private router: Router) {
 
@@ -19,6 +20,7 @@ export class NavbarComponent implements OnInit {
     this.router.events.subscribe(event => {
       if (event.constructor.name === "NavigationEnd") {
        this.isLoggedIn = this.authService.isLoggedIn;
+       this.role = this.authService.role;
       }
     })
   }
@@ -26,6 +28,7 @@ export class NavbarComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.isLoggedIn = false;
+    this.role = '';
     this.router.navigate(['']);
   }
 

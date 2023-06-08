@@ -1,11 +1,17 @@
 <div class="container">
     <mat-toolbar class="toolbar" color="primary">
-        <div class="left-nav" routerLink="">XMLApp</div>
+        <div class="left-nav">
+            <div class="home" routerLink="">XMLApp</div>
+            <div class="nav-buttons">
+                <button class="nav-button" mat-button routerLink="accommodations" *ngIf="role == 'Host'">Accommodations</button>
+                <button class="nav-button" mat-button routerLink="reservation" *ngIf="role == 'Host'">Reservations</button>
+            </div>
+        </div>
 
         <div class="right-nav">
+            <button mat-raised-button routerLink="" *ngIf="!isLoggedIn">Register</button>
             <button mat-raised-button routerLink="login" *ngIf="!isLoggedIn">Login</button>
             <button mat-raised-button routerLink="" *ngIf="isLoggedIn" (click)="logout()">Logout</button>
-            <button mat-raised-button routerLink="">Register</button>
         </div>
     </mat-toolbar>
-</div> 
+</div>
