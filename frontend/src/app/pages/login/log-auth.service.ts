@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http"
 import { Injectable } from "@angular/core"
-import { Observable, tap, switchMap, EMPTY, take, map } from "rxjs"
+import { Observable, tap, switchMap, EMPTY, take, map, BehaviorSubject } from "rxjs"
 import { environment } from "src/environments/environment"
 import { UserDataService } from "src/app/pages/login/log-user-data.service"
 import { Router } from "@angular/router"
@@ -14,8 +14,8 @@ export interface LoginDTO {
   providedIn: "root"
 })
 export class AuthService {
-  isLoggedIn: boolean = false;
-  role: string = '';
+  loginStatus = new BehaviorSubject<boolean>(this.checkLoginStatus());
+  role = new BehaviorSubject<string>(this.extractRole());
 
   constructor(private m_UserDataService: UserDataService, private m_Http: HttpClient, private router: Router) {
     this.m_UserDataService.m_Token$.pipe(
@@ -33,7 +33,7 @@ export class AuthService {
         this.m_UserDataService.setToken = res['accessToken'];
         this.setRole();
         this.router.navigate(['']);
-        this.isLoggedIn = true;
+        this.loginStatus.next(true);
       })/*,
       switchMap(_ => this.getUserData())*/
     );
@@ -42,7 +42,7 @@ export class AuthService {
   logout(): void {
     this.m_UserDataService.setToken = null;
     this.m_UserDataService.setUserData = null;
-    this.isLoggedIn = false;
+    this.loginStatus.next(false);
     localStorage.clear();
   }
 
@@ -60,11 +60,38 @@ export class AuthService {
     if (accessToken != null) {
         decodedJWT = JSON.parse(window.atob(accessToken.split('.')[1]));
     }
-    this.role = decodedJWT.role;
+    this.role.next(decodedJWT.role);
+  }
+
+  private extractRole() {
+    if (this.checkLoginStatus() === false) {
+      return '';
+    }
+    let decodedJWT;
+    let accessToken = localStorage.getItem('token');
+    if (accessToken != null) {
+        decodedJWT = JSON.parse(window.atob(accessToken.split('.')[1]));
+    }
+    return decodedJWT.role;
   }
 
   getRole() {
-    return this.role;
+    return this.role.asObservable();
+  }
+
+  checkLoginStatus(): boolean {
+    var token = localStorage.getItem('token');
+
+    if(token) {
+      return true;
+    }
+
+    return false;
+
+  }
+
+  isLoggedIn() {
+    return this.loginStatus.asObservable();
   }
 
 }

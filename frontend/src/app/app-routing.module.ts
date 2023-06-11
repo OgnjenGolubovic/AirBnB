@@ -5,13 +5,14 @@ import { AccommodationsComponent } from './pages/accommodations/accommodations.c
 import { AccommodationCreateComponent } from './pages/accommodations/create/accommodation-create.component';
 import { AccommodationComponent } from './pages/accommodation/accommodation.component';
 import { ReservationComponent } from './pages/reservations/reservation.component';
+import { AuthGuard } from './pages/login/log-auth.guard';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent, pathMatch: 'full' },
-  { path: 'reservations', component: ReservationComponent, pathMatch: 'full' },
+  { path: 'login', component: LoginComponent, pathMatch: 'full'},
+  { path: 'reservations', component: ReservationComponent, pathMatch: 'full'},
   { path: 'accommodation', component: AccommodationComponent},
   { path: 'accommodations', component: AccommodationsComponent},
-  { path: 'accommodations/create', component: AccommodationCreateComponent }
+  { path: 'accommodations/create', component: AccommodationCreateComponent}
 ];
 
 @NgModule({

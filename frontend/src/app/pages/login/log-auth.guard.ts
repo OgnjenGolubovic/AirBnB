@@ -10,6 +10,11 @@ export class AuthGuard implements CanActivate {
   constructor(private m_UserDataService: UserDataService, private m_Router: Router, private _activatedRoute: ActivatedRoute) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
+    // if (!localStorage.getItem('token')) {
+    //   this.m_Router.navigate(['login']);
+    //   return false;
+    // }
+    
     return this.m_UserDataService.m_Token$.pipe(take(1), switchMap(token => {
       return this.m_UserDataService.m_UserData$.pipe(map(user_data => {
         return !!token ? this.checkRole(user_data?.role, route) : this.m_Router.createUrlTree(['/login']);
