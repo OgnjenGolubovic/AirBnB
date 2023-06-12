@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { AccommodationService } from './pages/accommodation/services/accommodation.service';
+import { AccommodationsService } from './pages/accommodations/accommodations.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [AccommodationService]
+  providers: [AccommodationsService]
 })
 export class AppComponent {
   title = 'AirBnB';
