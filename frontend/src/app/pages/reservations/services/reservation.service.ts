@@ -22,7 +22,7 @@ export class ReservationService {
     constructor(private http: HttpClient) {}
 
     getReservations() : Observable<any> {
-        return this.http.get(this.apiHost + 'reservation/getAll');
+        return this.http.get(this.apiHost + 'reservation/getAllPending');
     }
     cancel(id : String) : Observable<any> {
         return this.http.post(this.apiHost + 'user/reservation-cancel/' + id, null);
