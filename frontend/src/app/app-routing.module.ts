@@ -7,7 +7,7 @@ import { ReservationComponent } from './pages/reservations/reservation.component
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, pathMatch: 'full' },
-  { path: 'reservations', component: ReservationComponent, pathMatch: 'full' },
+  { path: 'reservation', component: ReservationComponent, pathMatch: 'full' },
   { path: 'accommodations', component: AccommodationsComponent},
   { path: 'accommodations/create', component: AccommodationCreateComponent }
 ];
