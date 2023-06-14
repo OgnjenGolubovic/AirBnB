@@ -4,10 +4,12 @@ import { LoginComponent } from './pages/login/login.component';
 import { AccommodationsComponent } from './pages/accommodations/accommodations.component';
 import { AccommodationCreateComponent } from './pages/accommodations/create/accommodation-create.component';
 import { ReservationComponent } from './pages/reservations/reservation.component';
+import { GuestReservationComponent } from './pages/guest-reservation/guest-reservation.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, pathMatch: 'full' },
   { path: 'reservation', component: ReservationComponent, pathMatch: 'full' },
+  { path: 'guest-reservation', component: GuestReservationComponent, pathMatch: 'full' },
   { path: 'accommodations', component: AccommodationsComponent},
   { path: 'accommodations/create', component: AccommodationCreateComponent }
 ];

@@ -17,13 +17,17 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AccommodationsComponent } from './accommodations/accommodations.component';
 import { AccommodationCreateComponent } from './accommodations/create/accommodation-create.component';
 import { ReservationComponent } from './reservations/reservation.component';
+import { GuestReservationComponent } from './guest-reservation/guest-reservation.component';
+import { MatSelectModule } from '@angular/material/select';
+
 
 @NgModule({
   declarations: [
     LoginComponent,
     AccommodationsComponent,
     AccommodationCreateComponent,
-    ReservationComponent
+    ReservationComponent,
+    GuestReservationComponent
   ],
   imports: [
     FormsModule,
@@ -40,7 +44,8 @@ import { ReservationComponent } from './reservations/reservation.component';
     MatButtonModule,
     MatIconModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSelectModule
   ]
 })
 export class PagesModule { }
