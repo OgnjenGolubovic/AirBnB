@@ -7,7 +7,7 @@ package user;
 import "google/api/annotations.proto";
 
 service UserService {
-  rpc Get(Request) returns (Response) {
+  rpc Get(Request) returns (User) {
     option (google.api.http) = {
       get: "/user"
     };

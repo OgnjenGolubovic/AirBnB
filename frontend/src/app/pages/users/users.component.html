@@ -7,11 +7,90 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let item of usersList">
-      <td>{{ item.username }}</td>
-      <td><button (click)="delete(item.id)">Delete</button></td>
-      <td><button (click)="edit()">Edit</button></td>
+    <tr >
+      <td>{{ userDTO.email }}</td>
+      <td><button (click)="delete(userDTO.id)">Delete</button></td>
+      <td><button (click)="edit(userDTO)">Edit</button></td>
       <td></td>
     </tr>
   </tbody>
 </table>
+<div *ngIf="flag">
+  <form #editForm="ngForm" (ngSubmit)="onSubmit(editForm.value)">
+    <div class="container">
+      <h1>EDIT</h1>
+      <label for="username"><b>Username</b></label>
+      <input
+        type="text"
+        placeholder="Enter username"
+        name="username"
+        id="username"
+        ngModel
+        required
+      />
+
+      <label for="password"><b>Password</b></label>
+      <input
+        type="password"
+        placeholder="Enter Password"
+        name="password"
+        id="password"
+        ngModel
+        required
+      />
+
+      <label for="email"><b>Email</b></label>
+      <input
+        type="email"
+        placeholder="Enter Email"
+        name="email"
+        id="email"
+        ngModel
+        required
+      />
+
+      <label for="name"><b>Name</b></label>
+      <input
+        type="text"
+        placeholder="Enter Name"
+        name="name"
+        id="name"
+        ngModel
+        required
+      />
+      <label for="surname"><b>Surname</b></label>
+      <input
+        type="text"
+        placeholder="Enter Surname"
+        name="surname"
+        id="sruname"
+        ngModel
+        required
+      />
+
+      <label for="address"><b>Address</b></label>
+      <input
+        type="address"
+        placeholder="Enter Address"
+        name="address"
+        id="address"
+        ngModel
+        required
+      />
+
+      <!-- <label for="pwd-repeat"><b>Repeat Password</b></label>
+      <input
+        type="password"
+        placeholder="Repeat Password"
+        name="pwd-repeat"
+        id="pwd-repeat"
+        required
+      /> -->
+
+      <button type="submit" onclick="">Edit</button>
+    </div>
+
+  </form>
+
+</div>
+

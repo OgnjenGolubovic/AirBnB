@@ -1,8 +1,8 @@
 export interface UserDTO{
-  id: String,
-  name: String,
-  surname: String,
-  address: String,
-  username: String,
-  email: String
+  id: string,
+  name: string,
+  surname: string,
+  address: string,
+  username: string,
+  email: string
 }

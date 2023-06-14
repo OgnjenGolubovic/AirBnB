@@ -30,7 +30,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
-	Get(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
+	Get(ctx context.Context, in *Request, opts ...grpc.CallOption) (*User, error)
 	GetAll(ctx context.Context, in *GetAllRequest, opts ...grpc.CallOption) (*GetAllResponse, error)
 	Register(ctx context.Context, in *User, opts ...grpc.CallOption) (*Error, error)
 	Delete(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Error, error)
@@ -45,8 +45,8 @@ func NewUserServiceClient(cc grpc.ClientConnInterface) UserServiceClient {
 	return &userServiceClient{cc}
 }
 
-func (c *userServiceClient) Get(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
-	out := new(Response)
+func (c *userServiceClient) Get(ctx context.Context, in *Request, opts ...grpc.CallOption) (*User, error) {
+	out := new(User)
 	err := c.cc.Invoke(ctx, UserService_Get_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -94,7 +94,7 @@ func (c *userServiceClient) EditUser(ctx context.Context, in *User, opts ...grpc
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
 type UserServiceServer interface {
-	Get(context.Context, *Request) (*Response, error)
+	Get(context.Context, *Request) (*User, error)
 	GetAll(context.Context, *GetAllRequest) (*GetAllResponse, error)
 	Register(context.Context, *User) (*Error, error)
 	Delete(context.Context, *Request) (*Error, error)
@@ -106,7 +106,7 @@ type UserServiceServer interface {
 type UnimplementedUserServiceServer struct {
 }
 
-func (UnimplementedUserServiceServer) Get(context.Context, *Request) (*Response, error) {
+func (UnimplementedUserServiceServer) Get(context.Context, *Request) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
 func (UnimplementedUserServiceServer) GetAll(context.Context, *GetAllRequest) (*GetAllResponse, error) {

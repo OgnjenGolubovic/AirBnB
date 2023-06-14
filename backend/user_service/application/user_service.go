@@ -18,12 +18,12 @@ func NewUserService(store domain.UserStore) *UserService {
 	}
 }
 
-func (service *UserService) Get(id string) (string, error) {
+func (service *UserService) Get(id string) (*domain.User, error) {
 	user, err := service.store.Get(id)
 	if err != nil {
-		return "", err
+		return &domain.User{}, err
 	}
-	return user.Username, nil
+	return user, nil
 }
 
 func (service *UserService) Register(user *pb.User) error {

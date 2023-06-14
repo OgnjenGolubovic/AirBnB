@@ -7,6 +7,7 @@ import (
 	"user_service/application"
 
 	pb "github.com/OgnjenGolubovic/AirBnB/backend/common/proto/user_service"
+	"github.com/dgrijalva/jwt-go"
 )
 
 type UserHandler struct {
@@ -20,15 +21,25 @@ func NewUserHandler(service *application.UserService) *UserHandler {
 	}
 }
 
-func (handler *UserHandler) Get(ctx context.Context, request *pb.Request) (*pb.Response, error) {
-	username, err := handler.service.Get(request.Id)
-	if err != nil {
-		return nil, err
-	}
-	response := &pb.Response{
-		Username: username,
-	}
+func (handler *UserHandler) Get(ctx context.Context, request *pb.Request) (*pb.User, error) {
+	//username, err := handler.service.Get(request.Id)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	tokenInfo, _ := ctx.Value("tokenInfo").(jwt.MapClaims)
+	fmt.Println(tokenInfo)
+	user, _ := handler.service.Get(userClaimFromToken(tokenInfo))
+	response := mapUser(user)
 	return response, nil
+}
+
+func userClaimFromToken(claims jwt.MapClaims) string {
+	sub, ok := claims["user_id"].(string)
+	if !ok {
+		return ""
+	}
+
+	return sub
 }
 
 func (handler *UserHandler) Register(ctx context.Context, request *pb.User) (*pb.Error, error) {

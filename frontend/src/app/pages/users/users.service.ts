@@ -20,8 +20,8 @@ export interface RegistrationDTO{
 export class UserService {
   constructor( private http: HttpClient){}
 
-  getAll(): Observable<UserDTO[]> {
-    return this.http.get<UserDTO[]>('http://localhost:8000/user/getAll');
+  getAll(): Observable<UserDTO> {
+    return this.http.get<UserDTO>('http://localhost:8000/user');
   }
 
   delete( id: DeleteDTO): Observable<any>{
