@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./accommodations.component.css']
 })
 export class AccommodationsComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'name', 'location', 'benefits', 'photos', 'minGuest', 'maxGuest'];
+  displayedColumns: string[] = ['id', 'name', 'location', 'benefits', 'photos', 'minGuest', 'maxGuest', 'defineDates'];
   accommodations: AccommodationDTO[] = [];
 
   constructor(private accommodationService: AccommodationsService, private router: Router) {
@@ -26,6 +26,10 @@ export class AccommodationsComponent implements OnInit {
 
   createAccommodation() {
     this.router.navigate(['/accommodations/create'])
+  }
+
+  defineDates(id: string) {
+    this.router.navigate(['/accommodations/define-dates', id])
   }
 
 }

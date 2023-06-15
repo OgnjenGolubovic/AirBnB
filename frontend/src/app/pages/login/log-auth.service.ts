@@ -16,6 +16,7 @@ export interface LoginDTO {
 export class AuthService {
   loginStatus = new BehaviorSubject<boolean>(this.checkLoginStatus());
   role = new BehaviorSubject<string>(this.extractRole());
+  userId: string = '';
 
   constructor(private m_UserDataService: UserDataService, private m_Http: HttpClient, private router: Router) {
     this.m_UserDataService.m_Token$.pipe(
@@ -32,6 +33,7 @@ export class AuthService {
       map((res: any) => {
         this.m_UserDataService.setToken = res['accessToken'];
         this.setRole();
+        this.setUserId()
         this.router.navigate(['']);
         this.loginStatus.next(true);
       })/*,
@@ -75,8 +77,24 @@ export class AuthService {
     return decodedJWT.role;
   }
 
+  private setUserId() {
+    if (this.checkLoginStatus() === false) {
+      return;
+    }
+    let decodedJWT;
+    let accessToken = localStorage.getItem('token');
+    if (accessToken != null) {
+        decodedJWT = JSON.parse(window.atob(accessToken.split('.')[1]));
+    }
+    this.userId = decodedJWT.userId;
+  }
+
   getRole() {
     return this.role.asObservable();
+  }
+
+  getUserId() {
+    return this.userId;
   }
 
   checkLoginStatus(): boolean {

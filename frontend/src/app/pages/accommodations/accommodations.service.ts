@@ -20,6 +20,14 @@ export class AccommodationsService {
     );
   }
 
+  getAccommodation(id: string) : Observable<AccommodationDTO> {
+    return this.http.get<AccommodationDTO>(this.apiHost + `accommodation/${id}`);
+  }
+
+  getFreeDates(id: string) : Observable<string[]> {
+    return this.http.get<string[]>(this.apiHost + `accommodation/get?id=` + id);
+  }
+
   create(accommodation: AccommodationBody) {
     // const body=JSON.stringify(accommodation);
     // console.log(body);

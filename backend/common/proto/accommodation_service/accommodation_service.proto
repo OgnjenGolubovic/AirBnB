@@ -30,6 +30,10 @@ service AccommodationService{
         }
 }
 
+message Modifiers {
+
+}
+
 message Accommodation {
 		string id = 1;
 		string name = 2;
@@ -38,8 +42,13 @@ message Accommodation {
 		string photos = 5;
 		int64 minGuest = 6;
 		int64 maxGuest = 7;
-                string hostId = 8;
-                bool automaticApproval = 9;
+		string hostId = 8;
+		bool automaticApproval = 9;
+		int64 price = 10;
+		bool isPerGuest = 11;
+		bool hasWeekend = 12;
+		bool hasSummer = 13;
+		repeated DateRange dates = 14;
 }
 
 message GetRequest {

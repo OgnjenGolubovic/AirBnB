@@ -14,4 +14,5 @@ type User struct {
 	Username string             `bson:"username"`
 	Password string             `bson:"password"`
 	Role     Role               `bson:"role"`
+	Cancels  int64              `bson:"cancels"`
 }

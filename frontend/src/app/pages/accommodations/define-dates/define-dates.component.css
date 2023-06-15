@@ -1,0 +1,19 @@
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2%;
+}
+
+.add-range {
+    margin-top: 5%;
+    background-color: rgb(163, 124, 233);
+}
+
+::ng-deep.highlight {
+    background: red !important;
+}

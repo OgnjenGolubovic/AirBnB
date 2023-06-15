@@ -41,9 +41,16 @@
               <th mat-header-cell *matHeaderCellDef> Max Guest </th>
               <td mat-cell *matCellDef="let a"> {{a.maxGuest}} </td>
             </ng-container>
+
+            <ng-container matColumnDef="defineDates">
+              <th mat-header-cell *matHeaderCellDef> Define Dates </th>
+              <td mat-cell *matCellDef="let a"> 
+                <button mat-raised-button (click)="defineDates(a.id)">Dates</button> 
+              </td>
+            </ng-container>
           
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
     </div>
-</div>>
+</div>
