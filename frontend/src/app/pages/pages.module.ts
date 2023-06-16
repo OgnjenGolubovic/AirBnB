@@ -16,7 +16,6 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AccommodationsComponent } from './accommodations/accommodations.component';
 import { AccommodationCreateComponent } from './accommodations/create/accommodation-create.component';
-import { AccommodationComponent } from './accommodation/accommodation.component';
 import { ReservationComponent } from './reservations/reservation.component';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -29,7 +28,6 @@ import { ChangePriceComponent } from './accommodations/change-price/change-price
   declarations: [
     LoginComponent,
     AccommodationsComponent,
-    AccommodationComponent,
     AccommodationCreateComponent,
     ReservationComponent,
     DefineDatesComponent,

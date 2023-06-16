@@ -1,11 +1,31 @@
-<div class="main-container">
+<div style="margin-left: 3%;">
+
+  <h1> Accommodations: </h1>
+
+</div>
+<mat-form-field style="margin-left: 3%;">
+  <mat-label>Pretrazi po imenu</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="ime smestaja" #input>
+</mat-form-field>
+
+<mat-form-field style="margin-left: 3%;">
+  <mat-label>Pretrazi prema lokaciji</mat-label>
+  <input matInput (keyup)="applyFilter2($event)" placeholder="lokacija" #input>
+</mat-form-field>
+
+<mat-form-field style="margin-left: 3%;">
+  <mat-label>Pretrazi po broju gostiju</mat-label>
+  <input matInput (keyup)="applyFilter3($event)" placeholder="broj gostiju" #input>
+</mat-form-field>
+
+<div class="main-container" style="margin-top: -20px;">
     <div class="table-header">
         <button mat-button class="create-button" (click)="createAccommodation()">
           <mat-icon class="create-icon">add</mat-icon>
         </button>
     </div>
     <div class="table-body">
-        <table mat-table [dataSource]="accommodations" class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
             <ng-container matColumnDef="id">
               <th mat-header-cell *matHeaderCellDef> Id </th>
