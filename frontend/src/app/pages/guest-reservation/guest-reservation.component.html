@@ -9,7 +9,7 @@
             <mat-form-field>
                 <mat-label>Choose accommodation</mat-label>
                 <mat-select formControlName="accommodationId">
-                  <mat-option *ngFor="let accommodation of accommodations" [value]="accommodation.accommodationId">
+                  <mat-option *ngFor="let accommodation of accommodations" [value]="accommodation.id">
                     {{accommodation.name}}
                   </mat-option>
                 </mat-select>
@@ -17,18 +17,18 @@
 
               <mat-form-field appearance="fill">
                 <mat-label>Choose a start date</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="startDate">
+                <input matInput [matDatepicker]="startDatePicker" formControlName="startDate">
                 <mat-hint>DD/MM/YYYY</mat-hint>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
+                <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #startDatePicker></mat-datepicker>
               </mat-form-field>
               
               <mat-form-field appearance="fill">
                 <mat-label>Choose an end date</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="endDate">
+                <input matInput [matDatepicker]="endDatePicker" formControlName="endDate">
                 <mat-hint>DD/MM/YYYY</mat-hint>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
+                <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #endDatePicker></mat-datepicker>
               </mat-form-field>
               
               <mat-form-field>
@@ -37,10 +37,6 @@
                   *ngIf="this.reservationForm.get('guestNumber')?.touched && this.reservationForm.get('guestNumber')?.hasError('required')">
                   Guest number is required</mat-error>
               </mat-form-field>
-
-
-          
-
 
           <div class="button">
             <!-- Button is disabled(not clickable), if our RegisterForm contains Validation Errors -->

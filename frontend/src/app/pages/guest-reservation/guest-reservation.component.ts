@@ -12,8 +12,8 @@ export class GuestReservationComponent implements OnInit {
 
   reservationForm = new FormGroup({
     accommodationId: new FormControl(null, [Validators.required]),
-    startDate: new FormControl(null, [Validators.required]),
-    endDate: new FormControl(null, [Validators.required]),
+    startDate: new FormControl(),
+    endDate: new FormControl(),
     guestNumber: new FormControl(null, [Validators.required])
   })
 
@@ -25,7 +25,7 @@ export class GuestReservationComponent implements OnInit {
 
   ngOnInit(): void {
     this.guestReservationService.getAccommodations()
-      .subscribe(res => this.accommodations = res);
+      .subscribe(res => this.accommodations = res.accommodations);
   }
 
   guestReservation(){
