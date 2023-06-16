@@ -17,7 +17,7 @@ service AccommodationService{
             get: "/accommodation/get"
         };
         }
-	rpc GetAll(GetAllRequest) returns(GetAllResponse) {
+		rpc GetAll(GetAllRequest) returns(GetAllResponse) {
             option (google.api.http) = {
 				get: "/accommodation"
 			};
@@ -28,10 +28,12 @@ service AccommodationService{
 				body: "*"
 			};
         }
-}
-
-message Modifiers {
-
+		rpc AddFreeDates(DateRequest) returns(DateResponse) {
+			option (google.api.http) = {
+				put: "/accommodation/dates"
+				body: "*"
+			};
+		}
 }
 
 message Accommodation {
@@ -48,7 +50,6 @@ message Accommodation {
 		bool isPerGuest = 11;
 		bool hasWeekend = 12;
 		bool hasSummer = 13;
-		repeated DateRange dates = 14;
 }
 
 message GetRequest {
@@ -62,6 +63,12 @@ message GetResponse {
 message DateRange {
         string startDate = 1;
         string endDate = 2;
+}
+
+message DateRequest {
+		string id = 1;
+		string startDate = 2;
+        string endDate = 3;
 }
 
 message DateResponse {

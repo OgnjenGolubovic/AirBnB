@@ -6,5 +6,6 @@ type AccommodationStore interface {
 	Get(id primitive.ObjectID) (*Accommodation, error)
 	GetAll() ([]*Accommodation, error)
 	Insert(accommodation *Accommodation) error
+	AddFreeDates(accommodation *Accommodation) error
 	DeleteAll()
 }

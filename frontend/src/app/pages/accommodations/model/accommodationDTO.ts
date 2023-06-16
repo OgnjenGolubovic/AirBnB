@@ -14,3 +14,14 @@ export interface AccommodationDTO {
     hasWeekend: boolean;
     hasSummer: boolean;
 }
+
+export interface DatesRange {
+    startDate: string;
+    endDate: string;
+}
+
+export interface DateRequest {
+    id: string;
+    startDate: string;
+    endDate: string;
+}

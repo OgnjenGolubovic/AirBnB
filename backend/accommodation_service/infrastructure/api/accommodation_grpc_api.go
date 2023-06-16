@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"accommodation_service/application"
+	"accommodation_service/domain"
 
 	pb "github.com/OgnjenGolubovic/AirBnB/backend/common/proto/accommodation_service"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -105,6 +106,43 @@ func (handler *AccommodationHandler) Create(ctx context.Context, request *pb.Cre
 
 	response := &pb.CreateResponse{
 		Accommodation: request.Accommodation,
+	}
+
+	return response, nil
+}
+
+func (handler *AccommodationHandler) AddFreeDates(ctx context.Context, request *pb.DateRequest) (*pb.DateResponse, error) {
+
+	id := request.Id
+	objectId, err := primitive.ObjectIDFromHex(id)
+
+	accommodation, err := handler.service.Get(objectId)
+	if err != nil {
+		return nil, err
+	}
+
+	dateRange := &domain.DateRange{
+		StartDate: request.StartDate,
+		EndDate:   request.EndDate,
+	}
+
+	accommodation.Dates = append(accommodation.Dates, dateRange)
+
+	handler.service.AddFreeDates(accommodation)
+
+	dates, err := handler.service.GetAllDates(request.Id)
+	if err != nil {
+		return nil, err
+	}
+	response := &pb.DateResponse{
+		Dates: []*pb.DateRange{},
+	}
+	for _, pom := range dates {
+		current := &pb.DateRange{
+			StartDate: pom.StartDate,
+			EndDate:   pom.EndDate,
+		}
+		response.Dates = append(response.Dates, current)
 	}
 
 	return response, nil

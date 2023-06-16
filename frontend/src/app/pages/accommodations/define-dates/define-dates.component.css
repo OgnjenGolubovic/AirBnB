@@ -15,5 +15,6 @@
 }
 
 ::ng-deep.highlight {
-    background: red !important;
+    background: rgb(181, 142, 255) !important;
+    border-radius: 20px;
 }

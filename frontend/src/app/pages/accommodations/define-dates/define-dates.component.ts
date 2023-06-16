@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
 import { ActivatedRoute } from '@angular/router';
 import { AccommodationsService } from '../accommodations.service';
-import { AccommodationDTO } from '../model/accommodationDTO';
+import { AccommodationDTO, DateRequest, DatesRange } from '../model/accommodationDTO';
 
 @Component({
   selector: 'app-define-dates',
@@ -18,7 +18,10 @@ export class DefineDatesComponent implements OnInit {
 
   id: string = '';
   accommodation: AccommodationDTO = {} as AccommodationDTO;
-  freeDates: string[] = [];
+  freeDates: Date[] = [];
+  stringDates: string[] = [];
+  dates: DatesRange[] = [];
+  newRange: DatesRange = {} as DatesRange;
 
   constructor(private accommodationService: AccommodationsService, private route: ActivatedRoute) {}
 
@@ -30,24 +33,37 @@ export class DefineDatesComponent implements OnInit {
 
     this.accommodationService.getAccommodation(this.id).subscribe((res: AccommodationDTO) => {
       this.accommodation = res;
-      // console.log(this.accommodation);
-      this.accommodationService.getFreeDates(this.id).subscribe((res: string[]) => {
-        this.accommodation.dates = Object.values(res).map(o => Object.values(o)[0]);
-        this.freeDates = this.accommodation.dates
+      this.accommodationService.getFreeDates(this.id).subscribe((res: DatesRange[]) => {
 
-        this.freeDates.map(strDate => {
-          this.freeDates.push(Object.values(strDate)[0]);
-          this.freeDates.push(Object.values(strDate)[1]);
-        });
+        for (let i = 0; i < Object.values(Object.values(res)[0]).length; ++i) {
+          let range: DatesRange = Object.values(Object.values(res)[0])[i];
+          this.dates.push(range);
+        }
 
-        this.freeDates.shift();
+        for (let i = 0; i < this.dates.length; ++i) {
+          let start = this.changeToCorrectFormat(this.dates[i].startDate);
+          let end = this.changeToCorrectFormat(this.dates[i].endDate);
+
+          let stringDates = this.getDatesBetween(new Date(start), new Date(end));
+
+          for (let j = 0; j < stringDates.length; ++j) {
+            this.freeDates.push(stringDates[j]);
+          }
+        }
+
         console.log(this.freeDates);
-;
-        // let test: Date[] = this.freeDates.map(strDate => new Date(strDate));
-
-        // console.log(test);
       });
     });
+  }
+
+  private getDatesBetween(startDate: Date, endDate: Date) {
+    const currentDate = new Date(startDate.getTime());
+    const dates = [];
+    while (currentDate <= endDate) {
+      dates.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    return dates;
   }
 
   dateClass() {
@@ -57,6 +73,30 @@ export class DefineDatesComponent implements OnInit {
     
       return highlightDate ? 'highlight' : '';
     };
+  }
+
+  private changeToCorrectFormat(dateString: string): string {
+    let parts: string[] = dateString.split('/');
+    return parts[1] + '/' + parts[0] + '/' + parts[2];
+  }
+
+  private changeToBackendFormat(dateString: string): string {
+    let date = new Date(dateString);
+    let temp = ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear();
+
+    return this.changeToCorrectFormat(temp);
+  }
+
+  addNewRange() {
+    console.log(this.changeToBackendFormat(this.newRange.startDate));
+    console.log(this.changeToBackendFormat(this.newRange.endDate));
+    let dateRequest: DateRequest = {} as DateRequest;
+
+    dateRequest.startDate = this.changeToBackendFormat(this.newRange.startDate);
+    dateRequest.endDate = this.changeToBackendFormat(this.newRange.endDate);
+    dateRequest.id = this.accommodation.id;
+
+    this.accommodationService.addFreeDates(dateRequest).subscribe();
   }
 
 }

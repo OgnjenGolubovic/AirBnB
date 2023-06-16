@@ -8,8 +8,12 @@ import (
 
 var dates = []*domain.DateRange{
 	{
-		StartDate: "2023-05-14",
-		EndDate:   "2023-05-17",
+		StartDate: "14/05/2023",
+		EndDate:   "17/05/2023",
+	},
+	{
+		StartDate: "18/06/2023",
+		EndDate:   "25/06/2023",
 	},
 }
 
