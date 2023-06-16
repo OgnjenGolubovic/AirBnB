@@ -20,4 +20,8 @@ type Accommodation struct {
 	MaxGuest          int64              `bson:"maxGuest"`
 	Dates             Dates              `bson:"dates"`
 	AutomaticApproval bool               `bson:"automatic_approval"`
+	Price             int64              `bson:"price"`
+	IsPerGuest        bool               `bson:"isPerGuest"`
+	HasWeekend        bool               `bson:"hasWeekend"`
+	HasSummer         bool               `bson:"hasSummer"`
 }

@@ -17,13 +17,21 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AccommodationsComponent } from './accommodations/accommodations.component';
 import { AccommodationCreateComponent } from './accommodations/create/accommodation-create.component';
 import { ReservationComponent } from './reservations/reservation.component';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
+import { DefineDatesComponent } from './accommodations/define-dates/define-dates.component';
+import {MatListModule} from '@angular/material/list';
+import { ChangePriceComponent } from './accommodations/change-price/change-price.component';
 
 @NgModule({
   declarations: [
     LoginComponent,
     AccommodationsComponent,
     AccommodationCreateComponent,
-    ReservationComponent
+    ReservationComponent,
+    DefineDatesComponent,
+    ChangePriceComponent
   ],
   imports: [
     FormsModule,
@@ -40,7 +48,11 @@ import { ReservationComponent } from './reservations/reservation.component';
     MatButtonModule,
     MatIconModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatMenuModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatListModule
   ]
 })
 export class PagesModule { }

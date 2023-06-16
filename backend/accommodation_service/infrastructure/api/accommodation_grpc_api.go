@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"accommodation_service/application"
+	"accommodation_service/domain"
 
 	pb "github.com/OgnjenGolubovic/AirBnB/backend/common/proto/accommodation_service"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -105,6 +106,116 @@ func (handler *AccommodationHandler) Create(ctx context.Context, request *pb.Cre
 
 	response := &pb.CreateResponse{
 		Accommodation: request.Accommodation,
+	}
+
+	return response, nil
+}
+
+func (handler *AccommodationHandler) AddFreeDates(ctx context.Context, request *pb.DateRequest) (*pb.DateResponse, error) {
+
+	id := request.Id
+	objectId, err := primitive.ObjectIDFromHex(id)
+
+	accommodation, err := handler.service.Get(objectId)
+	if err != nil {
+		return nil, err
+	}
+
+	dateRange := &domain.DateRange{
+		StartDate: request.StartDate,
+		EndDate:   request.EndDate,
+	}
+
+	accommodation.Dates = append(accommodation.Dates, dateRange)
+
+	handler.service.AddFreeDates(accommodation)
+
+	dates, err := handler.service.GetAllDates(request.Id)
+	if err != nil {
+		return nil, err
+	}
+	response := &pb.DateResponse{
+		Dates: []*pb.DateRange{},
+	}
+	for _, pom := range dates {
+		current := &pb.DateRange{
+			StartDate: pom.StartDate,
+			EndDate:   pom.EndDate,
+		}
+		response.Dates = append(response.Dates, current)
+	}
+
+	return response, nil
+}
+
+func (handler *AccommodationHandler) RemoveFreeDates(ctx context.Context, request *pb.DateRequest) (*pb.DateResponse, error) {
+
+	id := request.Id
+	objectId, err := primitive.ObjectIDFromHex(id)
+
+	accommodation, err := handler.service.Get(objectId)
+	if err != nil {
+		return nil, err
+	}
+
+	dateRange := &domain.DateRange{
+		StartDate: request.StartDate,
+		EndDate:   request.EndDate,
+	}
+
+	// accommodation.Dates = append(accommodation.Dates, dateRange)
+
+	k := 0
+	for _, element := range accommodation.Dates {
+		if dateRange.StartDate != element.StartDate {
+			if dateRange.EndDate != element.EndDate {
+				accommodation.Dates[k] = element
+				k++
+			}
+		}
+	}
+	accommodation.Dates = accommodation.Dates[:k]
+
+	handler.service.AddFreeDates(accommodation)
+
+	dates, err := handler.service.GetAllDates(request.Id)
+	if err != nil {
+		return nil, err
+	}
+	response := &pb.DateResponse{
+		Dates: []*pb.DateRange{},
+	}
+	for _, pom := range dates {
+		current := &pb.DateRange{
+			StartDate: pom.StartDate,
+			EndDate:   pom.EndDate,
+		}
+		response.Dates = append(response.Dates, current)
+	}
+
+	return response, nil
+}
+
+func (handler *AccommodationHandler) UpdatePrice(ctx context.Context, request *pb.UpdatePriceRequest) (*pb.CreateResponse, error) {
+	id := request.Id
+	objectId, err := primitive.ObjectIDFromHex(id)
+
+	accommodation, err := handler.service.Get(objectId)
+	if err != nil {
+		return nil, err
+	}
+
+	accommodation.Price = request.Price
+	accommodation.IsPerGuest = request.IsPerGuest
+	accommodation.HasWeekend = request.HasWeekend
+	accommodation.HasSummer = request.HasSummer
+
+	handler.service.UpdatePrice(accommodation)
+
+	AccommodationPb := mapAccommodation(accommodation)
+
+	response := &pb.CreateResponse{
+		Accommodation: AccommodationPb,
 	}
 
 	return response, nil

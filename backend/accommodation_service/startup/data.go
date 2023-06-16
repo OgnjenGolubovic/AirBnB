@@ -11,6 +11,10 @@ var dates = []*domain.DateRange{
 		StartDate: "14/05/2023",
 		EndDate:   "17/05/2023",
 	},
+	{
+		StartDate: "18/06/2023",
+		EndDate:   "25/06/2023",
+	},
 }
 
 var accommodations = []*domain.Accommodation{
@@ -24,6 +28,10 @@ var accommodations = []*domain.Accommodation{
 		MinGuest:          10,
 		MaxGuest:          20,
 		AutomaticApproval: false,
+		Price:             10,
+		IsPerGuest:        false,
+		HasWeekend:        false,
+		HasSummer:         false,
 		HostId:            getObjectId("623b0cc3a34d25d8567f9f80"),
 	},
 }
