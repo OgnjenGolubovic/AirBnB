@@ -51,3 +51,7 @@ func (service *AccommodationService) GetAllDates(id string) ([]*domain.DateRange
 func (service *AccommodationService) AddFreeDates(acc *domain.Accommodation) error {
 	return service.store.AddFreeDates(acc)
 }
+
+func (service *AccommodationService) UpdatePrice(acc *domain.Accommodation) error {
+	return service.store.UpdatePrice(acc)
+}

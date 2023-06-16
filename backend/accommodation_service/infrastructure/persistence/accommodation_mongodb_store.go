@@ -36,8 +36,24 @@ func (store *AccommodationMongoDBStore) GetAll() ([]*domain.Accommodation, error
 	return store.filter(filter)
 }
 
+func (store *AccommodationMongoDBStore) UpdatePrice(accommodation *domain.Accommodation) error {
+	filter := bson.M{"_id": accommodation.Id}
+	update := bson.M{"$set": bson.M{
+		"price":      accommodation.Price,
+		"isPerGuest": accommodation.IsPerGuest,
+		"hasWeekend": accommodation.HasWeekend,
+		"hasSummer":  accommodation.HasSummer,
+	}}
+
+	_, err := store.accommodations.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (store *AccommodationMongoDBStore) AddFreeDates(accommodation *domain.Accommodation) error {
-	filter := bson.D{{}}
+	filter := bson.M{"_id": accommodation.Id}
 	update := bson.M{"$set": bson.M{
 		"dates": accommodation.Dates,
 	}}

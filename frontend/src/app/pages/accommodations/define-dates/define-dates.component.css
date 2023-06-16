@@ -24,7 +24,7 @@ mat-calendar {
 
 ::ng-deep.highlight {
     background: rgb(181, 142, 255) !important;
-    border-radius: 20px;
+    border-radius: 80px;
 }
 
 .action-section {

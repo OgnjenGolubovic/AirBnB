@@ -196,6 +196,31 @@ func (handler *AccommodationHandler) RemoveFreeDates(ctx context.Context, reques
 	return response, nil
 }
 
+func (handler *AccommodationHandler) UpdatePrice(ctx context.Context, request *pb.UpdatePriceRequest) (*pb.CreateResponse, error) {
+	id := request.Id
+	objectId, err := primitive.ObjectIDFromHex(id)
+
+	accommodation, err := handler.service.Get(objectId)
+	if err != nil {
+		return nil, err
+	}
+
+	accommodation.Price = request.Price
+	accommodation.IsPerGuest = request.IsPerGuest
+	accommodation.HasWeekend = request.HasWeekend
+	accommodation.HasSummer = request.HasSummer
+
+	handler.service.UpdatePrice(accommodation)
+
+	AccommodationPb := mapAccommodation(accommodation)
+
+	response := &pb.CreateResponse{
+		Accommodation: AccommodationPb,
+	}
+
+	return response, nil
+}
+
 /*func (handler *AccommodationHandler) GetAll(ctx context.Context, request *pb.GetAllRequest) (*pb.GetAllResponse, error) {
 	fmt.Print("request: ")
 	fmt.Println(request)

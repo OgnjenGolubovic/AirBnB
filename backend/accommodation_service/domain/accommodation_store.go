@@ -7,5 +7,6 @@ type AccommodationStore interface {
 	GetAll() ([]*Accommodation, error)
 	Insert(accommodation *Accommodation) error
 	AddFreeDates(accommodation *Accommodation) error
+	UpdatePrice(accommodation *Accommodation) error
 	DeleteAll()
 }

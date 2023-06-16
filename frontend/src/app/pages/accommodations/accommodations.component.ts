@@ -10,7 +10,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./accommodations.component.css']
 })
 export class AccommodationsComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'name', 'location', 'benefits', 'photos', 'minGuest', 'maxGuest', 'defineDates'];
+  displayedColumns: string[] = ['id', 'name', 'location', 'benefits', 'photos', 'minGuest', 
+  'maxGuest', 'price', 'defineDates', 'changePrice'];
   accommodations: AccommodationDTO[] = [];
 
   constructor(private accommodationService: AccommodationsService, private router: Router) {
@@ -30,6 +31,10 @@ export class AccommodationsComponent implements OnInit {
 
   defineDates(id: string) {
     this.router.navigate(['/accommodations/define-dates', id])
+  }
+
+  changePrice(id: string) {
+    this.router.navigate(['/accommodations/change-price', id])
   }
 
 }

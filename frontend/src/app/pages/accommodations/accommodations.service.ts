@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
+import { UpdatePriceRequest } from './change-price/change-price.component';
 import { AccommodationBody } from './model/accommodation-body';
 import { AccommodationDTO, DateRequest, DatesRange } from './model/accommodationDTO';
 
@@ -40,6 +41,10 @@ export class AccommodationsService {
 
   removeFreeDates(dateRequest: DateRequest) {
     return this.http.put(this.apiHost + 'accommodation/dates/remove', dateRequest);
+  }
+
+  updatePrice(UpdatePriceRequest: UpdatePriceRequest) {
+    return this.http.put(this.apiHost + 'accommodation/price/update', UpdatePriceRequest);
   }
 
 }

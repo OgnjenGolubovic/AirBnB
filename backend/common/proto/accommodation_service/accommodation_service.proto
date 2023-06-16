@@ -40,6 +40,12 @@ service AccommodationService{
 				body: "*"
 			};
 		}
+		rpc UpdatePrice(UpdatePriceRequest) returns(CreateResponse) {
+			option (google.api.http) = {
+				put: "/accommodation/price/update"
+				body: "*"
+			};
+		}
 }
 
 message Accommodation {
@@ -96,6 +102,10 @@ message CreateResponse {
 		Accommodation accommodation = 1;
 }
 
-message RemoveDatesRequest {
-
+message UpdatePriceRequest {
+	string id = 1;
+	int64 price = 2;
+	bool isPerGuest = 3;
+	bool hasWeekend = 4;
+	bool hasSummer = 5;
 }

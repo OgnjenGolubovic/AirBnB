@@ -23,6 +23,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import { DefineDatesComponent } from './accommodations/define-dates/define-dates.component';
 import {MatListModule} from '@angular/material/list';
+import { ChangePriceComponent } from './accommodations/change-price/change-price.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import {MatListModule} from '@angular/material/list';
     AccommodationComponent,
     AccommodationCreateComponent,
     ReservationComponent,
-    DefineDatesComponent
+    DefineDatesComponent,
+    ChangePriceComponent
   ],
   imports: [
     FormsModule,

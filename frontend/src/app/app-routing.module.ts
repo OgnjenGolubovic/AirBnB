@@ -7,6 +7,7 @@ import { AccommodationComponent } from './pages/accommodation/accommodation.comp
 import { ReservationComponent } from './pages/reservations/reservation.component';
 import { AuthGuard } from './pages/login/log-auth.guard';
 import { DefineDatesComponent } from './pages/accommodations/define-dates/define-dates.component';
+import { ChangePriceComponent } from './pages/accommodations/change-price/change-price.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, pathMatch: 'full'},
@@ -14,7 +15,8 @@ const routes: Routes = [
   { path: 'accommodation', component: AccommodationComponent},
   { path: 'accommodations', component: AccommodationsComponent},
   { path: 'accommodations/create', component: AccommodationCreateComponent},
-  { path: 'accommodations/define-dates/:id', component: DefineDatesComponent}
+  { path: 'accommodations/define-dates/:id', component: DefineDatesComponent},
+  { path: 'accommodations/change-price/:id', component: ChangePriceComponent}
 ];
 
 @NgModule({

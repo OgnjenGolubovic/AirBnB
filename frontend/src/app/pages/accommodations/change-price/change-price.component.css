@@ -1,0 +1,11 @@
+.container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10%;
+}
+
+.done-button {
+    margin-top: 5%;
+    background-color: rgb(163, 124, 233);
+    color: white;
+}
