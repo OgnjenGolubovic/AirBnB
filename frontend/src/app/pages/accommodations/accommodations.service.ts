@@ -38,4 +38,8 @@ export class AccommodationsService {
     return this.http.put(this.apiHost + 'accommodation/dates', dateRequest);
   }
 
+  removeFreeDates(dateRequest: DateRequest) {
+    return this.http.put(this.apiHost + 'accommodation/dates/remove', dateRequest);
+  }
+
 }

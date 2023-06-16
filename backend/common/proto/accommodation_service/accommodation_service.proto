@@ -34,6 +34,12 @@ service AccommodationService{
 				body: "*"
 			};
 		}
+		rpc RemoveFreeDates(DateRequest) returns(DateResponse) {
+			option (google.api.http) = {
+				put: "/accommodation/dates/remove"
+				body: "*"
+			};
+		}
 }
 
 message Accommodation {
@@ -88,4 +94,8 @@ message CreateRequest {
 
 message CreateResponse {
 		Accommodation accommodation = 1;
+}
+
+message RemoveDatesRequest {
+
 }

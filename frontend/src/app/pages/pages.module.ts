@@ -22,6 +22,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import { DefineDatesComponent } from './accommodations/define-dates/define-dates.component';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { DefineDatesComponent } from './accommodations/define-dates/define-dates
     MatNativeDateModule,
     MatMenuModule,
     MatCheckboxModule,
-    MatRadioModule
+    MatRadioModule,
+    MatListModule
   ]
 })
 export class PagesModule { }
