@@ -103,3 +103,13 @@ table {
 .delete-icon {
     color: rgb(228, 78, 78);
 }
+
+.thumbnail {
+    width: 100%;
+    height: 100%;
+}
+
+.mat-column-photo {
+    width: 10%;
+    height: 10%;
+}

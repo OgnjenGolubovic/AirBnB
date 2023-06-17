@@ -3,6 +3,8 @@ import { AccommodationDTO } from './model/accommodationDTO';
 import { AccommodationsService } from './accommodations.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthService } from '../login/log-auth.service';
 
 @Component({
   selector: 'app-accommodations',
@@ -10,15 +12,27 @@ import { Router } from '@angular/router';
   styleUrls: ['./accommodations.component.css']
 })
 export class AccommodationsComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'name', 'location', 'benefits', 'photos', 'minGuest', 
+  displayedColumns: string[] = ['photo', 'id', 'name', 'location', 'benefits', 'minGuest', 
   'maxGuest', 'price', 'defineDates', 'changePrice'];
+  displayedColumnsNonHost: string[] = ['photo', 'name', 'location', 'benefits', 'minGuest', 
+  'maxGuest', 'price'];
   accommodations: AccommodationDTO[] = [];
   dataSource = new MatTableDataSource(this.accommodations);
+  roleObs?: Observable<string>;
+  role: string = '';
 
-  constructor(private accommodationService: AccommodationsService, private router: Router) {
+  constructor(private accommodationService: AccommodationsService, private router: Router,
+      private authService: AuthService) {
   }
 
   ngOnInit(): void {
+    if (this.authService.isLoggedIn()) {
+      this.roleObs = this.authService.getRole();
+      this.roleObs.subscribe((res: string) => {
+        this.role = res;
+      });
+    }
+
     this.accommodationService.getAccommodations().subscribe((response: AccommodationDTO[]) => {
       this.accommodations = response;
       console.log(response);
