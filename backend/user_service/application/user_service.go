@@ -94,3 +94,8 @@ func (service *UserService) Update(user *domain.User) error {
 	}
 	return nil
 }
+
+func (service *UserService) Cancel(id string) error {
+	err := service.store.Cancel(id)
+	return err
+}

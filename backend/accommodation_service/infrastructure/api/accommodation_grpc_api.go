@@ -41,6 +41,24 @@ func (handler *AccommodationHandler) Get(ctx context.Context, request *pb.GetReq
 	return response, nil
 }
 
+func (handler *AccommodationHandler) GetAllFreeDates(ctx context.Context, request *pb.GetRequest) (*pb.DateResponse, error) {
+	dates, err := handler.service.GetAllDates(request.Id)
+	if err != nil {
+		return nil, err
+	}
+	response := &pb.DateResponse{
+		Dates: []*pb.DateRange{},
+	}
+	for _, pom := range dates {
+		current := &pb.DateRange{
+			StartDate: pom.StartDate,
+			EndDate:   pom.EndDate,
+		}
+		response.Dates = append(response.Dates, current)
+	}
+	return response, nil
+}
+
 func (handler *AccommodationHandler) GetAll(ctx context.Context, request *pb.GetAllRequest) (*pb.GetAllResponse, error) {
 	Accommodations, err := handler.service.GetAll()
 	if err != nil {
@@ -77,6 +95,24 @@ func (handler *AccommodationHandler) GetAll(ctx context.Context, request *pb.Get
 	return response, nil
 }
 
+func (handler *AccommodationHandler) GetAllByHost(ctx context.Context, request *pb.GetRequest) (*pb.GetAllResponse, error) {
+	Accommodations, err := handler.service.GetAllByHost(request.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	response := &pb.GetAllResponse{
+		Accommodations: []*pb.Accommodation{},
+	}
+
+	for _, Accommodation := range Accommodations {
+		current := mapAccommodation(Accommodation)
+		response.Accommodations = append(response.Accommodations, current)
+	}
+
+	return response, nil
+}
+
 func (handler *AccommodationHandler) Create(ctx context.Context, request *pb.CreateRequest) (*pb.CreateResponse, error) {
 	a := reverseMap(request.Accommodation)
 
@@ -89,6 +125,12 @@ func (handler *AccommodationHandler) Create(ctx context.Context, request *pb.Cre
 		Accommodation: request.Accommodation,
 	}
 
+	return response, nil
+}
+
+func (handler *AccommodationHandler) DeleteAccommodations(ctx context.Context, request *pb.GetRequest) (*pb.GetAllRequest, error) {
+	handler.service.DeleteAccomodations(request.Id)
+	response := &pb.GetAllRequest{}
 	return response, nil
 }
 

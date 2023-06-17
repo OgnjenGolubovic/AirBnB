@@ -7,7 +7,7 @@ import (
 	"user_service/application"
 
 	pb "github.com/OgnjenGolubovic/AirBnB/backend/common/proto/user_service"
-	"github.com/dgrijalva/jwt-go"
+	jwt "github.com/dgrijalva/jwt-go"
 )
 
 type UserHandler struct {
@@ -31,15 +31,6 @@ func (handler *UserHandler) Get(ctx context.Context, request *pb.Request) (*pb.U
 	user, _ := handler.service.Get(userClaimFromToken(tokenInfo))
 	response := mapUser(user)
 	return response, nil
-}
-
-func userClaimFromToken(claims jwt.MapClaims) string {
-	sub, ok := claims["user_id"].(string)
-	if !ok {
-		return ""
-	}
-
-	return sub
 }
 
 func (handler *UserHandler) Register(ctx context.Context, request *pb.User) (*pb.Error, error) {
@@ -72,19 +63,35 @@ func (handler *UserHandler) GetAll(ctx context.Context, request *pb.GetAllReques
 	return &response, nil
 }
 func (handler *UserHandler) Delete(ctx context.Context, request *pb.Request) (*pb.Error, error) {
-	fmt.Println("In DeleteUser grpc api")
-	fmt.Print("Request.Id ccc: ")
-	fmt.Println(request.Id)
 
 	err := handler.service.Delete(request.Id)
-	fmt.Println(request.Id)
-	fmt.Println("SDFASDDSDJNSDNJSDJNSDNJSDNJSD")
 	if err != nil {
 		return nil, err
 	}
 
 	response := &pb.Error{
 		Msg: "ROODI",
+	}
+	return response, nil
+}
+
+func userClaimFromToken(claims jwt.MapClaims) string {
+	sub, ok := claims["user_id"].(string)
+	if !ok {
+		return ""
+	}
+
+	return sub
+}
+
+func (handler *UserHandler) Cancel(ctx context.Context, request *pb.Request) (*pb.Error, error) {
+	err := handler.service.Cancel(request.Id)
+	response := &pb.Error{
+		Msg: "",
+	}
+	if err != nil {
+		response.Msg = err.Error()
+		return response, err
 	}
 	return response, nil
 }

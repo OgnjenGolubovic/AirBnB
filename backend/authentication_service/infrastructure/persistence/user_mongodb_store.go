@@ -26,8 +26,12 @@ func NewUserMongoDBStore(client *mongo.Client) domain.UserStore {
 	}
 }
 
-func (store *UserMongoDBStore) Get(id primitive.ObjectID) (*domain.User, error) {
-	filter := bson.M{"_id": id}
+func (store *UserMongoDBStore) Get(id string) (*domain.User, error) {
+	user_id, err := ObjectIDFromHex(id)
+	if err != nil {
+		return &domain.User{}, err
+	}
+	filter := bson.M{"_id": user_id}
 	return store.filterOne(filter)
 }
 
@@ -76,4 +80,12 @@ func decode(cursor *mongo.Cursor) (users []*domain.User, err error) {
 	}
 	err = cursor.Err()
 	return
+}
+
+func ObjectIDFromHex(s string) (primitive.ObjectID, error) {
+	objID, err := primitive.ObjectIDFromHex(s)
+	if err != nil {
+		return primitive.ObjectID{}, err
+	}
+	return objID, nil
 }

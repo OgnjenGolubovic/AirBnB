@@ -9,10 +9,15 @@ import "google/api/annotations.proto";
 service AccommodationService{
         rpc Get(GetRequest) returns(GetResponse) {
             option (google.api.http) = {
-				get: "/accommodation/{id}"
-			};
+            get: "/accommodation/{id}"
+        };
         }
-		rpc GetAll(GetAllRequest) returns(GetAllResponse) {
+        rpc GetAllFreeDates(GetRequest) returns(DateResponse) {
+            option (google.api.http) = {
+            get: "/accommodation/get"
+        };
+        }
+	rpc GetAll(GetAllRequest) returns(GetAllResponse) {
             option (google.api.http) = {
 				get: "/accommodation"
 			};
@@ -21,6 +26,16 @@ service AccommodationService{
             option (google.api.http) = {
 				post: "/accommodation"
 				body: "*"
+			};
+        }
+        rpc DeleteAccommodations(GetRequest) returns(GetAllRequest) {
+            option (google.api.http) = {
+				get: "/accommodation/deleteByHost"
+			};
+        }
+        rpc GetAllByHost(GetRequest) returns(GetAllResponse) {
+            option (google.api.http) = {
+				get: "/accommodation/getByHost"
 			};
         }
 }
@@ -33,6 +48,8 @@ message Accommodation {
 		string photos = 5;
 		int64 minGuest = 6;
 		int64 maxGuest = 7;
+                string hostId = 8;
+                bool automaticApproval = 9;
 }
 
 message GetRequest {
@@ -43,6 +60,14 @@ message GetResponse {
         Accommodation accommodation = 1;
 }
 
+message DateRange {
+        string startDate = 1;
+        string endDate = 2;
+}
+
+message DateResponse {
+        repeated DateRange dates = 1;
+}
 message GetAllRequest {
         
 }

@@ -98,6 +98,23 @@ func (store *UserMongoDBStore) DeleteAll() {
 	store.users.DeleteMany(context.TODO(), bson.D{{}})
 }
 
+func (store *UserMongoDBStore) Cancel(id string) error {
+	filter := bson.M{"_id": ObjectIDFromHex(id)}
+	user, err := store.filterOne(filter)
+	if err != nil {
+		return err
+	}
+	count := user.Cancels + 1
+	update := bson.M{"$set": bson.M{
+		"cancels": count,
+	}}
+	_, err1 := store.users.UpdateOne(context.TODO(), filter, update)
+	if err1 != nil {
+		return err1
+	}
+	return nil
+}
+
 func (store *UserMongoDBStore) filter(filter interface{}) ([]*domain.User, error) {
 	cursor, err := store.users.Find(context.TODO(), filter)
 	defer cursor.Close(context.TODO())

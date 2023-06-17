@@ -18,4 +18,5 @@ type User struct {
 	Surname  string             `bson:"surname"`
 	Email    string             `bson:"email"`
 	Address  string             `bson:"address"`
+	Cancels  int64              `bson:"cancels"`
 }

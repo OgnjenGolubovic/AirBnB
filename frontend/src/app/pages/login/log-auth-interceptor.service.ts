@@ -14,7 +14,7 @@ export class AuthInterceptor implements HttpInterceptor {
       exhaustMap(token => {
         if(token != null && req.url.indexOf(environment.hospitalApiUrl) != -1 && req.url.indexOf('login') == -1){
           const modifiedReq = req.clone({
-            setHeaders: { Authorization: `Bearer ${token}` }
+            setHeaders: { Authorization: `bearer ${token}` }
           })
           return next.handle(modifiedReq);
         }

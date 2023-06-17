@@ -35,6 +35,11 @@ service UserService {
       body: "*"
     };
   }
+  rpc Cancel(Request) returns (Error) {
+    option (google.api.http) = {
+      post: "/user/cancel"
+    };
+  }
 }
 
 message Request {

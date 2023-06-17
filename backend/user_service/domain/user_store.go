@@ -8,4 +8,5 @@ type UserStore interface {
 	Delete(id string) error
 	GetByUsername(username string) (*User, error)
 	GetByEmail(email string) (*User, error)
+	Cancel(id string) error
 }

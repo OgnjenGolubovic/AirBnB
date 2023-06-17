@@ -19,7 +19,7 @@ import { UsersComponent } from './users/users.component';
 import { EditComponent } from './edit/edit.component';
 import { AccommodationsComponent } from './accommodations/accommodations.component';
 import { AccommodationCreateComponent } from './accommodations/create/accommodation-create.component';
-import { AccommodationComponent } from './accommodation/accommodation.component';
+import { ReservationComponent } from './reservations/reservation.component';
 
 @NgModule({
   declarations: [
@@ -28,8 +28,8 @@ import { AccommodationComponent } from './accommodation/accommodation.component'
     UsersComponent,
     EditComponent,
     AccommodationsComponent,
-    AccommodationComponent,
-    AccommodationCreateComponent
+    AccommodationCreateComponent,
+    ReservationComponent
   ],
   imports: [
     FormsModule,

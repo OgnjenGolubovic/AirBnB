@@ -24,6 +24,7 @@ const (
 	UserService_Register_FullMethodName = "/user.UserService/Register"
 	UserService_Delete_FullMethodName   = "/user.UserService/Delete"
 	UserService_EditUser_FullMethodName = "/user.UserService/EditUser"
+	UserService_Cancel_FullMethodName   = "/user.UserService/Cancel"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -35,6 +36,7 @@ type UserServiceClient interface {
 	Register(ctx context.Context, in *User, opts ...grpc.CallOption) (*Error, error)
 	Delete(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Error, error)
 	EditUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*Error, error)
+	Cancel(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Error, error)
 }
 
 type userServiceClient struct {
@@ -90,6 +92,15 @@ func (c *userServiceClient) EditUser(ctx context.Context, in *User, opts ...grpc
 	return out, nil
 }
 
+func (c *userServiceClient) Cancel(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Error, error) {
+	out := new(Error)
+	err := c.cc.Invoke(ctx, UserService_Cancel_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -99,6 +110,7 @@ type UserServiceServer interface {
 	Register(context.Context, *User) (*Error, error)
 	Delete(context.Context, *Request) (*Error, error)
 	EditUser(context.Context, *User) (*Error, error)
+	Cancel(context.Context, *Request) (*Error, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -120,6 +132,9 @@ func (UnimplementedUserServiceServer) Delete(context.Context, *Request) (*Error,
 }
 func (UnimplementedUserServiceServer) EditUser(context.Context, *User) (*Error, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method EditUser not implemented")
+}
+func (UnimplementedUserServiceServer) Cancel(context.Context, *Request) (*Error, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Cancel not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -224,6 +239,24 @@ func _UserService_EditUser_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_Cancel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).Cancel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_Cancel_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).Cancel(ctx, req.(*Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -250,6 +283,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "EditUser",
 			Handler:    _UserService_EditUser_Handler,
+		},
+		{
+			MethodName: "Cancel",
+			Handler:    _UserService_Cancel_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
