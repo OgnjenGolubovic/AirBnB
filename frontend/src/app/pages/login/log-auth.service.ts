@@ -44,6 +44,7 @@ export class AuthService {
   logout(): void {
     this.m_UserDataService.setToken = null;
     this.m_UserDataService.setUserData = null;
+    this.role.next('');
     this.loginStatus.next(false);
     localStorage.clear();
   }

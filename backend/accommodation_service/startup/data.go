@@ -24,7 +24,7 @@ var accommodations = []*domain.Accommodation{
 		Dates:             dates,
 		Location:          "Street 10-London-UK",
 		Benefits:          "WIFI,Kitchen,Free Parking",
-		Photos:            "4AB_UDF#FG,10AB_GHO#HF",
+		Photos:            "airbnb.png",
 		MinGuest:          10,
 		MaxGuest:          20,
 		AutomaticApproval: false,
