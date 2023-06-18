@@ -4,6 +4,7 @@
             <div class="home" routerLink="">XMLApp</div>
             <div class="nav-buttons">
                 <button class="nav-button" mat-button routerLink="accommodations">Accommodations</button>
+                <button class="nav-button" mat-button routerLink="guest-reservation" *ngIf="role == 'Guest'">Guest Reservation</button>
                 <button class="nav-button" mat-button routerLink="reservations" *ngIf="role == 'Host'">Reservations</button>
             </div>
         </div>

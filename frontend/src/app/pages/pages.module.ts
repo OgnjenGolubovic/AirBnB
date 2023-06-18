@@ -17,6 +17,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AccommodationsComponent } from './accommodations/accommodations.component';
 import { AccommodationCreateComponent } from './accommodations/create/accommodation-create.component';
 import { ReservationComponent } from './reservations/reservation.component';
+import { GuestReservationComponent } from './guest-reservation/guest-reservation.component';
+import { MatSelectModule } from '@angular/material/select';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
@@ -30,6 +32,7 @@ import { ChangePriceComponent } from './accommodations/change-price/change-price
     AccommodationsComponent,
     AccommodationCreateComponent,
     ReservationComponent,
+    GuestReservationComponent,
     DefineDatesComponent,
     ChangePriceComponent
   ],
@@ -49,6 +52,7 @@ import { ChangePriceComponent } from './accommodations/change-price/change-price
     MatIconModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSelectModule,
     MatMenuModule,
     MatCheckboxModule,
     MatRadioModule,
