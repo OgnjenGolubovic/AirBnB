@@ -60,8 +60,14 @@ func (service *ReservationService) GetByUser(id string) ([]*domain.Accommodation
 }
 
 func (service *ReservationService) Cancel(id string) error {
-	err := service.store.Cancel(id)
-	return err
+	reservation, _ := service.store.Get(id)
+	start := strings.Split(reservation.ReservedDate.StartDate, "/")
+	now := GetNow()
+	if CheckIfLower(now, start) {
+		err := service.store.Cancel(id)
+		return err
+	}
+	return nil
 }
 
 func (service *ReservationService) ActiveReservationByGuest(id string) bool {
