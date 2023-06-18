@@ -24,13 +24,14 @@ export class LoginComponent implements OnInit {
     const dto: LoginDTO = this.m_Form.getRawValue();
     if (!this.m_Form.valid) return;
 
-    this.m_AuthService.login(dto)
-      .subscribe(data => {
-        if(data){
-          //if(data.role == 0)this.m_Router.navigate(['/flights']);
-          //if(data.role == 1)this.m_Router.navigate(['/welcome']);
-        }
-      });
+    // this.m_AuthService.login(dto)
+    //   .subscribe(data => {
+    //     if(data){
+    //       //if(data.role == 0)this.m_Router.navigate(['/flights']);
+    //       //if(data.role == 1)this.m_Router.navigate(['/welcome']);
+    //     }
+    //   });
+    this.m_AuthService.login(dto).subscribe();
   }
 
   get formInstance(): UntypedFormGroup {

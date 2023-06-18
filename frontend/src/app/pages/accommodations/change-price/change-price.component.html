@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="head">
+
+    </div>
+    <div class="body">
+        <mat-form-field class="classic-form-bottom">
+            <mat-label>Price</mat-label>
+            <input matInput [(ngModel)]="accommodation.price">
+        </mat-form-field>
+        <section class="price-section">
+            <h4>Calculate price:</h4>
+            <p><mat-checkbox name="automatic" [(ngModel)]="accommodation.isPerGuest">Per Guest</mat-checkbox></p>
+            <h4>Select your price modifiers:</h4>
+            <p><mat-checkbox name="weekends" [(ngModel)]="accommodation.hasWeekend">Weekends</mat-checkbox></p>
+            <p><mat-checkbox name="summer" [(ngModel)]="accommodation.hasSummer">Summer</mat-checkbox></p>
+        </section>
+        <button mat-raised-button class="done-button" (click)="done()">Done</button>
+    </div>
+</div>

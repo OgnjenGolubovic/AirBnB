@@ -19,7 +19,12 @@ import { AccommodationCreateComponent } from './accommodations/create/accommodat
 import { ReservationComponent } from './reservations/reservation.component';
 import { GuestReservationComponent } from './guest-reservation/guest-reservation.component';
 import { MatSelectModule } from '@angular/material/select';
-
+import {MatMenuModule} from '@angular/material/menu';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
+import { DefineDatesComponent } from './accommodations/define-dates/define-dates.component';
+import {MatListModule} from '@angular/material/list';
+import { ChangePriceComponent } from './accommodations/change-price/change-price.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +32,9 @@ import { MatSelectModule } from '@angular/material/select';
     AccommodationsComponent,
     AccommodationCreateComponent,
     ReservationComponent,
-    GuestReservationComponent
+    GuestReservationComponent,
+    DefineDatesComponent,
+    ChangePriceComponent
   ],
   imports: [
     FormsModule,
@@ -45,7 +52,11 @@ import { MatSelectModule } from '@angular/material/select';
     MatIconModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSelectModule
+    MatSelectModule,
+    MatMenuModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatListModule
   ]
 })
 export class PagesModule { }

@@ -32,7 +32,7 @@ func (store *ReservationMongoDBStore) Get(id string) (*domain.AccommodationReser
 }
 
 func (store *ReservationMongoDBStore) GetAll() ([]*domain.AccommodationReservation, error) {
-	filter := bson.M{}
+	filter := bson.D{{}}
 	return store.filter(filter)
 }
 
