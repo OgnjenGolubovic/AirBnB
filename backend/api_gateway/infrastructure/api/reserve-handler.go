@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/OgnjenGolubovic/AirBnB/backend/api_gateway/domain"
 	"github.com/OgnjenGolubovic/AirBnB/backend/api_gateway/infrastructure/services"
@@ -170,6 +171,9 @@ func (handler *ReserveHandler) Reserve(w http.ResponseWriter, r *http.Request, p
 	}
 	defer r.Body.Close()
 
+	requestBody.StartDate = getFormattedDate(requestBody.StartDate)
+	requestBody.EndDate = getFormattedDate(requestBody.EndDate)
+
 	reservationClient := services.NewReservationClient(handler.reservationClientAddress)
 	reservedDates, err := reservationClient.GetAllReservedDates(context.TODO(), &reservation.Request{Id: requestBody.AccommodationId})
 
@@ -183,6 +187,13 @@ func (handler *ReserveHandler) Reserve(w http.ResponseWriter, r *http.Request, p
 
 	free := CheckIfDateFree(dateRange, freeDates)
 	reserved := CheckIfDateReserved(dateRange, reservedDates)
+	// if free {
+	// 	w.WriteHeader(http.StatusBadRequest)
+	// 	return
+	// } else {
+	// 	http.Error(w, dateRange.StartDate+" "+dateRange.EndDate, http.StatusUnauthorized)
+	// 	return
+	// }
 
 	getAccommodation, err := accommodationClient.Get(r.Context(), &accommodation.GetRequest{Id: requestBody.AccommodationId})
 
@@ -264,4 +275,23 @@ func CheckIfEarlierOrEqual(first, second []string) bool {
 	secondYear, _ := strconv.Atoi(second[2])
 	fmt.Println((firstDay + firstMonth*100 + firstYear*10000) <= (secondDay + secondMonth*100 + secondYear*10000))
 	return (firstDay + firstMonth*100 + firstYear*10000) <= (secondDay + secondMonth*100 + secondYear*10000)
+}
+
+func getFormattedDate(date string) string {
+	// tmp1 := strings.Split(date, "T")
+	// tmp2 := strings.Split(tmp1[0], "-")
+	// layout := tmp2[2] + "/" + tmp2[1] + "/" + tmp2[0]
+	layout := "2006-01-02T15:04:05.000Z"
+
+	t, err := time.Parse(layout, date)
+	if err != nil {
+		fmt.Println("Error parsing input:", err)
+		return err.Error()
+	}
+
+	time := t.Add(24 * time.Hour)
+
+	formattedDate := time.Format("02/01/2006")
+
+	return formattedDate
 }
