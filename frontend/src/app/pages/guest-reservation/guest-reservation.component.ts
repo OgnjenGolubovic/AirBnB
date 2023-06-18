@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Reservation } from './interfaces/guest-reservation.interface';
 import { GuestReservationService } from './services/guest-reservation.service';
 
 @Component({
@@ -16,7 +17,6 @@ export class GuestReservationComponent implements OnInit {
     endDate: new FormControl(),
     guestNumber: new FormControl(null, [Validators.required])
   })
-
   accommodations: any = [];
 
   constructor( 
