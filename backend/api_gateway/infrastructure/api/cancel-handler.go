@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 	"strings"
 
@@ -94,19 +95,22 @@ func (handler *CancelHandler) Delete(w http.ResponseWriter, r *http.Request, pat
 	tokenInfo, _ := parseToken(token)
 	user_id := userClaimFromToken(tokenInfo)
 	role := roleClaimFromToken(tokenInfo)
-
+	log.Println(user_id)
 	reservationClient := services.NewReservationClient(handler.reservationClientAddress)
 	userClient := services.NewUserClient(handler.userClientAddress)
-
+	log.Println(role)
 	if role == "Guest" {
 		message, _ := reservationClient.ActiveReservationByGuest(context.TODO(), &reservation.Request{Id: user_id})
+		log.Println(message.Message)
 		if message.Message == "ok" {
 			userClient.Delete(context.TODO(), &user.Request{Id: user_id})
+		} else {
+			w.WriteHeader(http.StatusBadRequest)
 		}
 	} else {
 		accommodationClient := services.NewAccommodationClient(handler.accommodationClientAddress)
 		accommodations, _ := accommodationClient.GetAllByHost(context.TODO(), &accommodation.GetRequest{Id: user_id})
-		message, _ := reservationClient.ActiveReservationByHost(context.TODO(), &reservation.GetAllResponse{Accommodations: mapAccommodations(accommodations.Accommodations)})
+		message, _ := reservationClient.ActiveReservationByHost(context.TODO(), mapAccommodations(accommodations.Accommodations))
 		if message.Message == "ok" {
 			userClient.Delete(context.TODO(), &user.Request{Id: user_id})
 			_, err := accommodationClient.DeleteAccommodations(context.TODO(), &accommodation.GetRequest{Id: user_id})
@@ -114,6 +118,8 @@ func (handler *CancelHandler) Delete(w http.ResponseWriter, r *http.Request, pat
 				w.WriteHeader(http.StatusInternalServerError)
 				return
 			}
+		} else {
+			w.WriteHeader(http.StatusBadRequest)
 		}
 	}
 
@@ -155,11 +161,11 @@ func roleClaimFromToken(claims jwt.MapClaims) string {
 	return sub
 }
 
-func mapAccommodations(accommodations accommodation.GetAllResponse) reservation.GetAllResponse {
+func mapAccommodations(accommodations []*accommodation.Accommodation) *reservation.GetAllResponse {
 	response := &reservation.GetAllResponse{
 		Accommodations: []*reservation.Accommodation{},
 	}
-	for _, accommodation := range accommodations.Accommodations {
+	for _, accommodation := range accommodations {
 		acc := &reservation.Accommodation{
 			Id: accommodation.Id,
 		}

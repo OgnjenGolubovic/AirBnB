@@ -135,7 +135,7 @@ func (service *ReservationService) AccommodationReservationRequest(reservation *
 
 func GetNow() []string {
 	currentTime := time.Now()
-	formattedTime := currentTime.Format("02-01-2006")
+	formattedTime := currentTime.Format("02/01/2006")
 	return strings.Split(formattedTime, "/")
 }
 
