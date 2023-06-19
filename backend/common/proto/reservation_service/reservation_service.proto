@@ -72,6 +72,11 @@ service ReservationService{
 					body: "*"
 			};
         }
+		rpc UpdatePrice(PriceRequest) returns(PriceResponse) {
+			option (google.api.http) = {
+					get: "/reservation/price"
+			};
+        }
 }
 
 message Reservation {
@@ -83,6 +88,7 @@ message Reservation {
   string accommodationName = 6;
   string guestNumber = 7;
   string status = 8;
+  string price = 9;
   //  google.protobuf.Timestamp createdAt= 7;
 }
 
@@ -107,7 +113,7 @@ message Accommodation {
 }
 
 message Response {
-        string reservation = 1;
+    string reservation = 1;
 }
 
 message Error {
@@ -136,4 +142,13 @@ message ReservationResponse {
 
 message HasActiveResponse {
 	bool hasActive = 1;
+}
+
+message PriceRequest {
+	string price = 1;
+	string id = 2;
+}
+
+message PriceResponse {
+	string price = 1;
 }

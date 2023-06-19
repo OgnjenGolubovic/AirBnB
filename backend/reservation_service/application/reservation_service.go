@@ -27,6 +27,14 @@ func (service *ReservationService) Get(id string) (string, error) {
 	return reservation.AccommodationId.String(), nil
 }
 
+func (service *ReservationService) GetRes(id string) (*domain.AccommodationReservation, error) {
+	reservation, err := service.store.Get(id)
+	if err != nil {
+		return nil, err
+	}
+	return reservation, nil
+}
+
 func (service *ReservationService) GetAll() ([]*domain.AccommodationReservation, error) {
 	return service.store.GetAll()
 }
@@ -175,4 +183,8 @@ func CheckIfLower(first, second []string) bool {
 	secondMonth, _ := strconv.Atoi(second[1])
 	secondYear, _ := strconv.Atoi(second[2])
 	return (firstDay + firstMonth*100 + firstYear*10000) < (secondDay + secondMonth*100 + secondYear*10000)
+}
+
+func (service *ReservationService) UpdatePrice(acc *domain.AccommodationReservation) error {
+	return service.store.UpdatePrice(acc)
 }

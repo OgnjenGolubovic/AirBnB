@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AccommodationsService } from '../accommodations/accommodations.service';
 import { AccommodationDTO } from '../accommodations/model/accommodationDTO';
+import { ReservationService } from '../reservations/services/reservation.service';
 import { Reservation } from './interfaces/guest-reservation.interface';
 import { GuestReservationService } from './services/guest-reservation.service';
 
@@ -24,7 +25,8 @@ export class GuestReservationComponent implements OnInit {
 
   constructor( 
     private guestReservationService: GuestReservationService,
-    private accommodationService: AccommodationsService
+    private accommodationService: AccommodationsService,
+    private resService: ReservationService
     ) { }
 
   ngOnInit(): void {
@@ -37,6 +39,7 @@ export class GuestReservationComponent implements OnInit {
       return;
     }
     this.guestReservationService.guestReservation(this.reservationForm.value).subscribe();
+
   }
 
   calculatePrice() {

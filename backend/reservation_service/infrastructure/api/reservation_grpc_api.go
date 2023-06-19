@@ -157,7 +157,7 @@ func (handler *ReservationHandler) Approve(ctx context.Context, request *pb.Requ
 func (handler *ReservationHandler) AccommodationReservation(ctx context.Context, request *pb.CreateRequest) (*pb.CreateResponse, error) {
 
 	a := reverseMap(request.Reservation)
-	a.GuestNumber, _ = strconv.ParseInt(request.Reservation.GuestNumber, 10, 64)
+	// a.GuestNumber, _ = strconv.ParseInt(request.Reservation.GuestNumber, 10, 64)
 
 	err := handler.service.AccommodationReservationRequest(a)
 	if err != nil {
@@ -165,7 +165,7 @@ func (handler *ReservationHandler) AccommodationReservation(ctx context.Context,
 	}
 
 	response := &pb.CreateResponse{
-		Reservation: nil,
+		Reservation: mapReservation(a),
 	}
 	return response, nil
 }
@@ -181,6 +181,30 @@ func (handler *ReservationHandler) ActiveReservationByGuest(ctx context.Context,
 	response := &pb.Error{
 		Message: message,
 	}
+	return response, nil
+}
+
+func (handler *ReservationHandler) UpdatePrice(ctx context.Context, request *pb.PriceRequest) (*pb.PriceResponse, error) {
+	id := request.Id
+
+	reservation, err := handler.service.GetRes(id)
+	if err != nil {
+		return nil, err
+	}
+
+	price, err := strconv.ParseInt(request.Price, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	reservation.Price = price
+
+	handler.service.UpdatePrice(reservation)
+
+	response := &pb.PriceResponse{
+		Price: strconv.Itoa(int(price)),
+	}
+
 	return response, nil
 }
 

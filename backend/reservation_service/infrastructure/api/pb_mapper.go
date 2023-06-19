@@ -1,9 +1,8 @@
 package api
 
 import (
-	"strconv"
-
 	"reservation_service/domain"
+	"strconv"
 
 	pb "github.com/OgnjenGolubovic/AirBnB/backend/common/proto/reservation_service"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -26,6 +25,7 @@ func mapReservation(reservation *domain.AccommodationReservation) *pb.Reservatio
 		AccommodationName: reservation.AccommodationName,
 		GuestNumber:       strconv.Itoa(int(reservation.GuestNumber)),
 		Status:            status,
+		Price:             strconv.Itoa(int(reservation.Price)),
 	}
 
 	return reservationPb
@@ -34,7 +34,12 @@ func mapReservation(reservation *domain.AccommodationReservation) *pb.Reservatio
 func reverseMap(reservationPb *pb.Reservation) *domain.AccommodationReservation {
 	guestNumber, err := strconv.ParseInt(reservationPb.GuestNumber, 10, 64)
 	if err != nil {
-		return nil
+		guestNumber = 0
+	}
+
+	price, err := strconv.ParseInt(reservationPb.Price, 10, 64)
+	if err != nil {
+		price = 0
 	}
 
 	status := domain.Approved
@@ -55,6 +60,7 @@ func reverseMap(reservationPb *pb.Reservation) *domain.AccommodationReservation 
 		AccommodationName: reservationPb.AccommodationName,
 		GuestNumber:       guestNumber,
 		Status:            status,
+		Price:             price,
 	}
 	if reservationPb.Status == "approved" {
 		reservation.Status = domain.Approved

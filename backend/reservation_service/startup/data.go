@@ -18,6 +18,7 @@ var reservations = []*domain.AccommodationReservation{
 		},
 		GuestNumber: 8,
 		Status:      domain.Pending,
+		Price:       543,
 	},
 	{
 		Id:                getObjectId("6486f816a2631cefa2769f6d"),
@@ -30,6 +31,7 @@ var reservations = []*domain.AccommodationReservation{
 		},
 		GuestNumber: 8,
 		Status:      domain.Pending,
+		Price:       543,
 	},
 	{
 		Id:                getObjectId("6486f812041486463f136e79"),
@@ -42,6 +44,7 @@ var reservations = []*domain.AccommodationReservation{
 		},
 		GuestNumber: 8,
 		Status:      domain.Pending,
+		Price:       123,
 	},
 	{
 		Id:                getObjectId("64908163537804083335ac29"),
@@ -54,6 +57,7 @@ var reservations = []*domain.AccommodationReservation{
 		},
 		GuestNumber: 8,
 		Status:      domain.Approved,
+		Price:       124,
 	},
 }
 

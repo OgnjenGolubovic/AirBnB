@@ -47,4 +47,8 @@ export class ReservationService {
 
         return this.http.get(this.apiHost + 'reservation/reject', {params});
     }
+
+    updatePrice(id: string, price: string): Observable<string> {
+        return this.http.get<string>(this.apiHost + `reservation/price?price=${price}&id=${id}`);
+    }
 }
