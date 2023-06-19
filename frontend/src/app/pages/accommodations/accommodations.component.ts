@@ -5,6 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from '../login/log-auth.service';
+import { ReservationService } from '../reservations/services/reservation.service';
+import { AccommodationsRequest } from 'src/app/navbar/navbar.component';
 
 @Component({
   selector: 'app-accommodations',
@@ -20,9 +22,10 @@ export class AccommodationsComponent implements OnInit {
   dataSource = new MatTableDataSource(this.accommodations);
   roleObs?: Observable<string>;
   role: string = '';
+  hasActive: boolean = false;
 
   constructor(private accommodationService: AccommodationsService, private router: Router,
-      private authService: AuthService) {
+      private authService: AuthService, private reservationService: ReservationService) {
   }
 
   ngOnInit(): void {
@@ -33,12 +36,21 @@ export class AccommodationsComponent implements OnInit {
       });
     }
 
-    this.accommodationService.getAccommodations().subscribe((response: AccommodationDTO[]) => {
-      this.accommodations = response;
-      console.log(response);
-      console.log(this.accommodations);
-      this.dataSource = new MatTableDataSource(response);
-    });
+    if (this.role === 'Host') {
+      this.accommodationService.getAccommodationsByHost(this.authService.getUserId()).subscribe((response: AccommodationDTO[]) => {
+        this.accommodations = response;
+        console.log(response);
+        console.log(this.accommodations);
+        this.dataSource = new MatTableDataSource(response);
+      });
+    } else {
+      this.accommodationService.getAccommodations().subscribe((response: AccommodationDTO[]) => {
+        this.accommodations = response;
+        console.log(response);
+        console.log(this.accommodations);
+        this.dataSource = new MatTableDataSource(response);
+      });
+    }
   }
 
 
@@ -101,11 +113,45 @@ export class AccommodationsComponent implements OnInit {
   }
 
   defineDates(id: string) {
-    this.router.navigate(['/accommodations/define-dates', id])
+
+    this.reservationService.hasActiveReservationsForAccommodations(this.prepareRequest(id)).subscribe((res: boolean) => {
+      this.hasActive = Object.values(res)[0];
+      if (this.hasActive) {
+        alert('Can\'t edit accommodation because it has active reservations')
+        return;
+      } else {
+        this.router.navigate(['/accommodations/define-dates', id])
+      }
+    });
   }
 
   changePrice(id: string) {
-    this.router.navigate(['/accommodations/change-price', id])
+    this.reservationService.hasActiveReservationsForAccommodations(this.prepareRequest(id)).subscribe((res: boolean) => {
+      this.hasActive = Object.values(res)[0];
+      if (this.hasActive) {
+        alert('Can\'t edit accommodation because it has active reservations')
+        return;
+      } else {
+        this.router.navigate(['/accommodations/change-price', id])
+      }
+    });
+  }
+
+  prepareRequest(id: string): AccommodationsRequest {
+    let accommodation: AccommodationDTO = {} as AccommodationDTO;
+    for (let i = 0; i < this.accommodations.length; ++i) {
+      if (id === this.accommodations[i].id) {
+        accommodation = this.accommodations[i];
+      }
+    }
+
+    let tempAccommodations: AccommodationDTO[] = [];
+    tempAccommodations.push(accommodation);
+
+    let accommodationsRequest: AccommodationsRequest = {} as AccommodationsRequest;
+    accommodationsRequest.accommodations = tempAccommodations;
+
+    return accommodationsRequest;
   }
 
 }

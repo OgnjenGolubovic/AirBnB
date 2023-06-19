@@ -83,6 +83,44 @@ func (handler *ReservationHandler) GetAllPending(ctx context.Context, request *p
 	return response, nil
 }
 
+func (handler *ReservationHandler) ActiveReservationByAccommodation(ctx context.Context, request *pb.GetAllResponse) (*pb.HasActiveResponse, error) {
+	accommodations := request.Accommodations
+
+	for _, element := range accommodations {
+		reservations, err := handler.service.GetAllByAccommodation(element.Id)
+		if err != nil {
+			return nil, err
+		}
+
+		if len(reservations) != 0 {
+			response := &pb.HasActiveResponse{
+				HasActive: true,
+			}
+			return response, nil
+		}
+
+	}
+
+	// reservations, err := handler.service.GetAllByAccommodation(request.AccommodationId)
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	// response := &pb.ReservationResponse{
+	// 	Reservation: []*pb.Reservation{},
+	// }
+	// for _, pom := range reservations {
+	// 	current := mapReservation(pom)
+	// 	response.Reservation = append(response.Reservation, current)
+	// }
+
+	response := &pb.HasActiveResponse{
+		HasActive: false,
+	}
+
+	return response, nil
+}
+
 func (handler *ReservationHandler) Cancel(ctx context.Context, request *pb.Request) (*pb.Error, error) {
 	err := handler.service.Cancel(request.Id)
 	response := &pb.Error{}

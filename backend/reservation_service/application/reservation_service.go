@@ -39,6 +39,14 @@ func (service *ReservationService) GetAllPending() ([]*domain.AccommodationReser
 	return reservation, nil
 }
 
+func (service *ReservationService) GetAllByAccommodation(id string) ([]*domain.AccommodationReservation, error) {
+	reservation, err := service.store.GetByAccommodation(id)
+	if err != nil {
+		return []*domain.AccommodationReservation{}, err
+	}
+	return reservation, nil
+}
+
 func (service *ReservationService) GetReservedDates(id string) ([]*domain.DateRange, error) {
 	reservation, err := service.store.GetByAccommodation(id)
 	if err != nil {

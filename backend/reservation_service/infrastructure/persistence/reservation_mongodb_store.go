@@ -41,6 +41,11 @@ func (store *ReservationMongoDBStore) GetAllPending() ([]*domain.AccommodationRe
 	return store.filter(filter)
 }
 
+// func (store *ReservationMongoDBStore) GetAllByAccommodation() (bool, error) {
+// 	filter := bson.M{"status": domain.Approved}
+// 	return store.filter(filter)
+// }
+
 func (store *ReservationMongoDBStore) GetByAccommodation(id string) ([]*domain.AccommodationReservation, error) {
 	filter := bson.M{"accommodationId": ObjectIDFromHex(id), "status": domain.Approved}
 	return store.filter(filter)

@@ -53,4 +53,8 @@ export class AccommodationsService {
     return this.http.put(this.apiHost + 'accommodation/price/update', UpdatePriceRequest);
   }
 
+  deleteAccommodationsForHost(id: string) {
+    return this.http.get(this.apiHost + `accommodation/deleteByHost?id=${id}`);
+  }
+
 }

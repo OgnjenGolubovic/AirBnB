@@ -43,6 +43,18 @@ var reservations = []*domain.AccommodationReservation{
 		GuestNumber: 8,
 		Status:      domain.Pending,
 	},
+	{
+		Id:                getObjectId("64908163537804083335ac29"),
+		AccommodationId:   getObjectId("623b0cc3a34d25d8567f9f81"),
+		UserId:            getObjectId("623b0cc3a34d25d8567f9f82"),
+		AccommodationName: "name",
+		ReservedDate: &domain.DateRange{
+			StartDate: "27/06/2023",
+			EndDate:   "30/06/2023",
+		},
+		GuestNumber: 8,
+		Status:      domain.Approved,
+	},
 }
 
 func getObjectId(id string) primitive.ObjectID {

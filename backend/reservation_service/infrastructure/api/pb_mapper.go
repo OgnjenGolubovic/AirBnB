@@ -1,6 +1,8 @@
 package api
 
 import (
+	"strconv"
+
 	"reservation_service/domain"
 
 	pb "github.com/OgnjenGolubovic/AirBnB/backend/common/proto/reservation_service"
@@ -8,17 +10,40 @@ import (
 )
 
 func mapReservation(reservation *domain.AccommodationReservation) *pb.Reservation {
+	status := "approved"
+	if reservation.Status == domain.Cancelled {
+		status = "cancelled"
+	} else if reservation.Status == domain.Pending {
+		status = "pending"
+	}
+
 	reservationPb := &pb.Reservation{
-		Id:              reservation.Id.String()[10 : len(reservation.Id.String())-2],
-		AccommodationId: reservation.AccommodationId.String()[10 : len(reservation.Id.String())-2],
-		StartDate:       reservation.ReservedDate.StartDate,
-		EndDate:         reservation.ReservedDate.EndDate,
+		Id:                reservation.Id.String()[10 : len(reservation.Id.String())-2],
+		AccommodationId:   reservation.AccommodationId.String()[10 : len(reservation.Id.String())-2],
+		StartDate:         reservation.ReservedDate.StartDate,
+		EndDate:           reservation.ReservedDate.EndDate,
+		UserId:            reservation.UserId.String()[10 : len(reservation.Id.String())-2],
+		AccommodationName: reservation.AccommodationName,
+		GuestNumber:       strconv.Itoa(int(reservation.GuestNumber)),
+		Status:            status,
 	}
 
 	return reservationPb
 }
 
 func reverseMap(reservationPb *pb.Reservation) *domain.AccommodationReservation {
+	guestNumber, err := strconv.ParseInt(reservationPb.GuestNumber, 10, 64)
+	if err != nil {
+		return nil
+	}
+
+	status := domain.Approved
+	if reservationPb.Status == "cancelled" {
+		status = domain.Cancelled
+	} else if reservationPb.Status == "pending" {
+		status = domain.Pending
+	}
+
 	reservation := domain.AccommodationReservation{
 		Id:              primitive.NewObjectID(),
 		AccommodationId: getObjectId(reservationPb.AccommodationId),
@@ -27,6 +52,9 @@ func reverseMap(reservationPb *pb.Reservation) *domain.AccommodationReservation 
 			StartDate: reservationPb.StartDate,
 			EndDate:   reservationPb.EndDate,
 		},
+		AccommodationName: reservationPb.AccommodationName,
+		GuestNumber:       guestNumber,
+		Status:            status,
 	}
 	if reservationPb.Status == "approved" {
 		reservation.Status = domain.Approved

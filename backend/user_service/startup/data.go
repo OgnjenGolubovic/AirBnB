@@ -21,6 +21,13 @@ var users = []*domain.User{
 		Role:     0,
 		Cancels:  0,
 	},
+	{
+		Id:       getObjectId("649094a74118490e167cad27"),
+		Username: "username2",
+		Password: "password2",
+		Role:     0,
+		Cancels:  0,
+	},
 }
 
 func getObjectId(id string) primitive.ObjectID {
