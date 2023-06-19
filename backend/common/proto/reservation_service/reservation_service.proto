@@ -66,6 +66,12 @@ service ReservationService{
                         post: "/accommodationReservation/host"
         };
         }
+		rpc ActiveReservationByAccommodation(GetAllResponse) returns(HasActiveResponse) {
+			option (google.api.http) = {
+					post: "/reservation/accommodation"
+					body: "*"
+			};
+        }
 }
 
 message Reservation {
@@ -126,4 +132,8 @@ message CreateResponse {
 
 message ReservationResponse {
         repeated Reservation reservation = 1;
+}
+
+message HasActiveResponse {
+	bool hasActive = 1;
 }

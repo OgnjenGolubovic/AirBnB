@@ -19,16 +19,17 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ReservationService_Get_FullMethodName                      = "/reservation.ReservationService/Get"
-	ReservationService_GetAllReservedDates_FullMethodName      = "/reservation.ReservationService/GetAllReservedDates"
-	ReservationService_Cancel_FullMethodName                   = "/reservation.ReservationService/Cancel"
-	ReservationService_Reject_FullMethodName                   = "/reservation.ReservationService/Reject"
-	ReservationService_Approve_FullMethodName                  = "/reservation.ReservationService/Approve"
-	ReservationService_GetAllReservationsByUser_FullMethodName = "/reservation.ReservationService/GetAllReservationsByUser"
-	ReservationService_GetAllPending_FullMethodName            = "/reservation.ReservationService/GetAllPending"
-	ReservationService_AccommodationReservation_FullMethodName = "/reservation.ReservationService/AccommodationReservation"
-	ReservationService_ActiveReservationByGuest_FullMethodName = "/reservation.ReservationService/ActiveReservationByGuest"
-	ReservationService_ActiveReservationByHost_FullMethodName  = "/reservation.ReservationService/ActiveReservationByHost"
+	ReservationService_Get_FullMethodName                              = "/reservation.ReservationService/Get"
+	ReservationService_GetAllReservedDates_FullMethodName              = "/reservation.ReservationService/GetAllReservedDates"
+	ReservationService_Cancel_FullMethodName                           = "/reservation.ReservationService/Cancel"
+	ReservationService_Reject_FullMethodName                           = "/reservation.ReservationService/Reject"
+	ReservationService_Approve_FullMethodName                          = "/reservation.ReservationService/Approve"
+	ReservationService_GetAllReservationsByUser_FullMethodName         = "/reservation.ReservationService/GetAllReservationsByUser"
+	ReservationService_GetAllPending_FullMethodName                    = "/reservation.ReservationService/GetAllPending"
+	ReservationService_AccommodationReservation_FullMethodName         = "/reservation.ReservationService/AccommodationReservation"
+	ReservationService_ActiveReservationByGuest_FullMethodName         = "/reservation.ReservationService/ActiveReservationByGuest"
+	ReservationService_ActiveReservationByHost_FullMethodName          = "/reservation.ReservationService/ActiveReservationByHost"
+	ReservationService_ActiveReservationByAccommodation_FullMethodName = "/reservation.ReservationService/ActiveReservationByAccommodation"
 )
 
 // ReservationServiceClient is the client API for ReservationService service.
@@ -45,6 +46,7 @@ type ReservationServiceClient interface {
 	AccommodationReservation(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
 	ActiveReservationByGuest(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Error, error)
 	ActiveReservationByHost(ctx context.Context, in *GetAllResponse, opts ...grpc.CallOption) (*Error, error)
+	ActiveReservationByAccommodation(ctx context.Context, in *GetAllResponse, opts ...grpc.CallOption) (*HasActiveResponse, error)
 }
 
 type reservationServiceClient struct {
@@ -145,6 +147,15 @@ func (c *reservationServiceClient) ActiveReservationByHost(ctx context.Context, 
 	return out, nil
 }
 
+func (c *reservationServiceClient) ActiveReservationByAccommodation(ctx context.Context, in *GetAllResponse, opts ...grpc.CallOption) (*HasActiveResponse, error) {
+	out := new(HasActiveResponse)
+	err := c.cc.Invoke(ctx, ReservationService_ActiveReservationByAccommodation_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ReservationServiceServer is the server API for ReservationService service.
 // All implementations must embed UnimplementedReservationServiceServer
 // for forward compatibility
@@ -159,6 +170,7 @@ type ReservationServiceServer interface {
 	AccommodationReservation(context.Context, *CreateRequest) (*CreateResponse, error)
 	ActiveReservationByGuest(context.Context, *Request) (*Error, error)
 	ActiveReservationByHost(context.Context, *GetAllResponse) (*Error, error)
+	ActiveReservationByAccommodation(context.Context, *GetAllResponse) (*HasActiveResponse, error)
 	mustEmbedUnimplementedReservationServiceServer()
 }
 
@@ -195,6 +207,9 @@ func (UnimplementedReservationServiceServer) ActiveReservationByGuest(context.Co
 }
 func (UnimplementedReservationServiceServer) ActiveReservationByHost(context.Context, *GetAllResponse) (*Error, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ActiveReservationByHost not implemented")
+}
+func (UnimplementedReservationServiceServer) ActiveReservationByAccommodation(context.Context, *GetAllResponse) (*HasActiveResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ActiveReservationByAccommodation not implemented")
 }
 func (UnimplementedReservationServiceServer) mustEmbedUnimplementedReservationServiceServer() {}
 
@@ -389,6 +404,24 @@ func _ReservationService_ActiveReservationByHost_Handler(srv interface{}, ctx co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ReservationService_ActiveReservationByAccommodation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllResponse)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReservationServiceServer).ActiveReservationByAccommodation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ReservationService_ActiveReservationByAccommodation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReservationServiceServer).ActiveReservationByAccommodation(ctx, req.(*GetAllResponse))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ReservationService_ServiceDesc is the grpc.ServiceDesc for ReservationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -435,6 +468,10 @@ var ReservationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ActiveReservationByHost",
 			Handler:    _ReservationService_ActiveReservationByHost_Handler,
+		},
+		{
+			MethodName: "ActiveReservationByAccommodation",
+			Handler:    _ReservationService_ActiveReservationByAccommodation_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
