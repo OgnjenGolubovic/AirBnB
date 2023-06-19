@@ -30,18 +30,19 @@ func mapAccommodation(accommodation *domain.Accommodation) *pb.Accommodation {
 func reverseMap(accommodationPb *pb.Accommodation) *domain.Accommodation {
 	hostId, _ := primitive.ObjectIDFromHex(accommodationPb.HostId)
 	accommodation := domain.Accommodation{
-		Id:         primitive.NewObjectID(),
-		Name:       accommodationPb.Name,
-		Location:   accommodationPb.Location,
-		Benefits:   accommodationPb.Benefits,
-		Photos:     accommodationPb.Photos,
-		MinGuest:   accommodationPb.MinGuest,
-		MaxGuest:   accommodationPb.MaxGuest,
-		Price:      accommodationPb.Price,
-		IsPerGuest: accommodationPb.IsPerGuest,
-		HasWeekend: accommodationPb.HasWeekend,
-		HasSummer:  accommodationPb.HasSummer,
-		HostId:     hostId,
+		Id:                primitive.NewObjectID(),
+		Name:              accommodationPb.Name,
+		Location:          accommodationPb.Location,
+		Benefits:          accommodationPb.Benefits,
+		Photos:            accommodationPb.Photos,
+		MinGuest:          accommodationPb.MinGuest,
+		MaxGuest:          accommodationPb.MaxGuest,
+		Price:             accommodationPb.Price,
+		IsPerGuest:        accommodationPb.IsPerGuest,
+		HasWeekend:        accommodationPb.HasWeekend,
+		HasSummer:         accommodationPb.HasSummer,
+		AutomaticApproval: accommodationPb.AutomaticApproval,
+		HostId:            hostId,
 	}
 
 	return &accommodation
