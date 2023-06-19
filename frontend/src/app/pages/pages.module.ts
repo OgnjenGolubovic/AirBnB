@@ -14,6 +14,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
+import { RegistrationComponent } from './registration/registration.component';
+import { UsersComponent } from './users/users.component';
+import { EditComponent } from './edit/edit.component';
 import { AccommodationsComponent } from './accommodations/accommodations.component';
 import { AccommodationCreateComponent } from './accommodations/create/accommodation-create.component';
 import { ReservationComponent } from './reservations/reservation.component';
@@ -29,6 +32,9 @@ import { ChangePriceComponent } from './accommodations/change-price/change-price
 @NgModule({
   declarations: [
     LoginComponent,
+    RegistrationComponent,
+    UsersComponent,
+    EditComponent,
     AccommodationsComponent,
     AccommodationCreateComponent,
     ReservationComponent,

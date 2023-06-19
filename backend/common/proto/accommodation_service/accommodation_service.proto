@@ -28,6 +28,16 @@ service AccommodationService{
 				body: "*"
 			};
         }
+        rpc DeleteAccommodations(GetRequest) returns(GetAllRequest) {
+            option (google.api.http) = {
+				get: "/accommodation/deleteByHost"
+			};
+        }
+        rpc GetAllByHost(GetRequest) returns(GetAllResponse) {
+            option (google.api.http) = {
+				get: "/accommodation/getByHost"
+			};
+        }
 		rpc AddFreeDates(DateRequest) returns(DateResponse) {
 			option (google.api.http) = {
 				put: "/accommodation/dates"

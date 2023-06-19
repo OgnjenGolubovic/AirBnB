@@ -12,4 +12,6 @@ type ReservationStore interface {
 	Reject(id string) error
 	DeleteAll()
 	AccommodationReservation(accommodationReservationRequest *AccommodationReservation) error
+	ActiveReservationByGuest(id string) ([]*AccommodationReservation, error)
+	ActiveReservationByHost(id string) ([]*AccommodationReservation, error)
 }

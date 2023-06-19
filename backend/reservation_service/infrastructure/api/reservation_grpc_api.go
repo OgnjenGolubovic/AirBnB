@@ -132,6 +132,34 @@ func (handler *ReservationHandler) AccommodationReservation(ctx context.Context,
 	return response, nil
 }
 
+func (handler *ReservationHandler) ActiveReservationByGuest(ctx context.Context, request *pb.Request) (*pb.Error, error) {
+	message := "ok"
+	bool := handler.service.ActiveReservationByGuest(request.Id)
+
+	if bool {
+		message = "There is active reservations"
+	}
+
+	response := &pb.Error{
+		Message: message,
+	}
+	return response, nil
+}
+
+func (handler *ReservationHandler) ActiveReservationByHost(ctx context.Context, request *pb.GetAllResponse) (*pb.Error, error) {
+	message := "ok"
+	bool := handler.service.ActiveReservationByHost(request)
+
+	if bool {
+		message = "There is active reservations"
+	}
+
+	response := &pb.Error{
+		Message: message,
+	}
+	return response, nil
+}
+
 func userClaimFromToken(claims jwt.MapClaims) string {
 	sub, ok := claims["user_id"].(string)
 	if !ok {

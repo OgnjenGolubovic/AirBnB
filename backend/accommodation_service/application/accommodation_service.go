@@ -24,6 +24,10 @@ func (service *AccommodationService) GetAll() ([]*domain.Accommodation, error) {
 	return service.store.GetAll()
 }
 
+func (service *AccommodationService) GetAllByHost(id string) ([]*domain.Accommodation, error) {
+	return service.store.GetAllByHost(id)
+}
+
 func (service *AccommodationService) Create(acc *domain.Accommodation) error {
 	return service.store.Insert(acc)
 }
@@ -48,6 +52,10 @@ func (service *AccommodationService) GetAllDates(id string) ([]*domain.DateRange
 	return dates, nil
 }
 
+func (service *AccommodationService) DeleteAccomodations(id string) error {
+	service.store.DeleteAccomodations(id)
+	return nil
+}
 func (service *AccommodationService) AddFreeDates(acc *domain.Accommodation) error {
 	return service.store.AddFreeDates(acc)
 }

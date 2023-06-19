@@ -109,6 +109,16 @@ func (store *ReservationMongoDBStore) DeleteAll() {
 	store.reservations.DeleteMany(context.TODO(), bson.D{{}})
 }
 
+func (store *ReservationMongoDBStore) ActiveReservationByGuest(id string) ([]*domain.AccommodationReservation, error) {
+	filter := bson.M{"userId": ObjectIDFromHex(id)}
+	return store.filter(filter)
+}
+
+func (store *ReservationMongoDBStore) ActiveReservationByHost(id string) ([]*domain.AccommodationReservation, error) {
+	filter := bson.M{"accommodationId": ObjectIDFromHex(id)}
+	return store.filter(filter)
+}
+
 func (store *ReservationMongoDBStore) filter(filter interface{}) ([]*domain.AccommodationReservation, error) {
 	cursor, err := store.reservations.Find(context.TODO(), filter)
 	defer cursor.Close(context.TODO())

@@ -67,7 +67,7 @@ func (server *Server) initCustomHandlers() {
 	reservationEmdpoint := fmt.Sprintf("%s:%s", server.config.ReservationHost, server.config.ReservationPort)
 	accommodationEmdpoint := fmt.Sprintf("%s:%s", server.config.AccommodationHost, server.config.AccommodationPort)
 
-	cancelHandler := api.NewCancelHandler(userEmdpoint, reservationEmdpoint)
+	cancelHandler := api.NewCancelHandler(userEmdpoint, reservationEmdpoint, accommodationEmdpoint)
 	cancelHandler.Init(server.mux)
 
 	reserveHandler := api.NewReserveHandler(accommodationEmdpoint, reservationEmdpoint)

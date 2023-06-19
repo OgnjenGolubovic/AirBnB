@@ -55,7 +55,17 @@ service ReservationService{
                         post: "/accommodationReservation"
                 body: "*"
         };
-  }
+        }
+        rpc ActiveReservationByGuest(Request) returns(Error) {
+                option (google.api.http) = {
+                        get: "/accommodationReservation/guest"
+        };
+        }
+        rpc ActiveReservationByHost(GetAllResponse) returns(Error) {
+                option (google.api.http) = {
+                        post: "/accommodationReservation/host"
+        };
+        }
 }
 
 message Reservation {
@@ -72,6 +82,22 @@ message Reservation {
 
 message Request {
         string id = 1;
+}
+
+message GetAllResponse {
+		repeated Accommodation accommodations = 1;
+}
+
+message Accommodation {
+		string id = 1;
+		string name = 2;
+		string location = 3;
+		string benefits = 4;
+		string photos = 5;
+		int64 minGuest = 6;
+		int64 maxGuest = 7;
+                string hostId = 8;
+                bool automaticApproval = 9;
 }
 
 message Response {

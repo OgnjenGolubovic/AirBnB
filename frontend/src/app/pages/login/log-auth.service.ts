@@ -45,6 +45,7 @@ export class AuthService {
     this.m_UserDataService.setToken = null;
     this.m_UserDataService.setUserData = null;
     this.role.next('');
+    this.userId = '';
     this.loginStatus.next(false);
     localStorage.clear();
   }
@@ -87,7 +88,7 @@ export class AuthService {
     if (accessToken != null) {
         decodedJWT = JSON.parse(window.atob(accessToken.split('.')[1]));
     }
-    this.userId = decodedJWT.userId;
+    this.userId = decodedJWT.user_id;
   }
 
   getRole() {

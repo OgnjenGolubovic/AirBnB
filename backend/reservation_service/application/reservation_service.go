@@ -4,6 +4,9 @@ import (
 	"reservation_service/domain"
 	"strconv"
 	"strings"
+	"time"
+
+	pb "github.com/OgnjenGolubovic/AirBnB/backend/common/proto/reservation_service"
 )
 
 type ReservationService struct {
@@ -61,8 +64,46 @@ func (service *ReservationService) GetByUser(id string) ([]*domain.Accommodation
 }
 
 func (service *ReservationService) Cancel(id string) error {
-	err := service.store.Cancel(id)
-	return err
+	reservation, _ := service.store.Get(id)
+	start := strings.Split(reservation.ReservedDate.StartDate, "/")
+	now := GetNow()
+	if CheckIfLower(now, start) {
+		err := service.store.Cancel(id)
+		return err
+	}
+	return nil
+}
+
+func (service *ReservationService) ActiveReservationByGuest(id string) bool {
+	accommodations, err := service.store.ActiveReservationByGuest(id)
+	if err != nil {
+		return false
+	}
+	for _, pom := range accommodations {
+		end := strings.Split(pom.ReservedDate.EndDate, "/")
+		now := GetNow()
+		if CheckIfLower(now, end) {
+			return true
+		}
+	}
+	return false
+}
+
+func (service *ReservationService) ActiveReservationByHost(reservation *pb.GetAllResponse) bool {
+	for _, pom := range reservation.Accommodations {
+		accommodations, err := service.store.ActiveReservationByHost(pom.Id)
+		if err != nil {
+			return false
+		}
+		for _, pom := range accommodations {
+			end := strings.Split(pom.ReservedDate.EndDate, "/")
+			now := GetNow()
+			if CheckIfLower(now, end) {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 func (service *ReservationService) Reject(id string) error {
@@ -100,6 +141,12 @@ func (service *ReservationService) AccommodationReservationRequest(reservation *
 		return err
 	}
 	return nil
+}
+
+func GetNow() []string {
+	currentTime := time.Now()
+	formattedTime := currentTime.Format("02/01/2006")
+	return strings.Split(formattedTime, "/")
 }
 
 func CheckIfLowerOrEqual(first, second []string) bool {

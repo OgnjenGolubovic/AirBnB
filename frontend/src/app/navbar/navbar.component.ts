@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from '../pages/login/log-auth.service';
+import { DeleteDTO } from '../pages/users/deleteDTO';
+import { UserService } from '../pages/users/users.service';
 
 @Component({
   selector: 'app-navbar',
@@ -14,8 +16,9 @@ export class NavbarComponent implements OnInit {
   isLoggedIn? : boolean;
   roleObs?: Observable<string>;
   role?: string;
+  del: DeleteDTO = {} as DeleteDTO;
   
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router, private userService: UserService) {
   }
 
   ngOnInit(): void {
@@ -38,6 +41,14 @@ export class NavbarComponent implements OnInit {
     this.isLoggedIn = false;
     this.role = '';
     this.router.navigate(['']);
+  }
+
+  delete() {
+    let userId = this.authService.getUserId();
+    this.del.id = userId
+    this.userService.delete(this.del).subscribe()
+    this.authService.logout();
+    this.router.navigate(['login']);
   }
 
 }

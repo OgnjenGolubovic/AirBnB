@@ -96,6 +96,24 @@ func (handler *AccommodationHandler) GetAll(ctx context.Context, request *pb.Get
 	return response, nil
 }
 
+func (handler *AccommodationHandler) GetAllByHost(ctx context.Context, request *pb.GetRequest) (*pb.GetAllResponse, error) {
+	Accommodations, err := handler.service.GetAllByHost(request.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	response := &pb.GetAllResponse{
+		Accommodations: []*pb.Accommodation{},
+	}
+
+	for _, Accommodation := range Accommodations {
+		current := mapAccommodation(Accommodation)
+		response.Accommodations = append(response.Accommodations, current)
+	}
+
+	return response, nil
+}
+
 func (handler *AccommodationHandler) Create(ctx context.Context, request *pb.CreateRequest) (*pb.CreateResponse, error) {
 	a := reverseMap(request.Accommodation)
 
@@ -108,6 +126,12 @@ func (handler *AccommodationHandler) Create(ctx context.Context, request *pb.Cre
 		Accommodation: request.Accommodation,
 	}
 
+	return response, nil
+}
+
+func (handler *AccommodationHandler) DeleteAccommodations(ctx context.Context, request *pb.GetRequest) (*pb.GetAllRequest, error) {
+	handler.service.DeleteAccomodations(request.Id)
+	response := &pb.GetAllRequest{}
 	return response, nil
 }
 
@@ -217,7 +241,6 @@ func (handler *AccommodationHandler) UpdatePrice(ctx context.Context, request *p
 	response := &pb.CreateResponse{
 		Accommodation: AccommodationPb,
 	}
-
 	return response, nil
 }
 
