@@ -5,6 +5,7 @@ import { environment } from "src/environments/environment";
 import { UserDTO } from "./userDTO";
 import { DeleteDTO } from "./deleteDTO";
 import { EditDTO } from "../edit/edit.service";
+import { Reservation } from "../reservations/services/reservation.service";
 
 export interface RegistrationDTO{
   username: string;
@@ -34,4 +35,7 @@ export class UserService {
     return this.http.post<Observable<any>>('http://localhost:8000/user', id);
   }
 
+  hasActiveReservations(id: string): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(`http://localhost:8000/reservation/getByUser?id=${id}`);
+  }
 }

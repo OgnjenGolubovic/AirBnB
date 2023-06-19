@@ -25,6 +25,11 @@ export class ReservationService {
     getReservations() : Observable<any> {
         return this.http.get(this.apiHost + 'reservation/getAllPending');
     }
+
+    getReservationsByAccommodation(accommodationId: string) : Observable<Reservation[]> {
+        return this.http.get<Reservation[]>(this.apiHost + `reservation/accommodation?id=${accommodationId}`);
+    }
+
     cancel(id : String) : Observable<any> {
         return this.http.post(this.apiHost + 'user/reservation-cancel/' + id, null);
     }

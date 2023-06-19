@@ -28,7 +28,7 @@ func mapAccommodation(accommodation *domain.Accommodation) *pb.Accommodation {
 }
 
 func reverseMap(accommodationPb *pb.Accommodation) *domain.Accommodation {
-	// id, _ := primitive.ObjectIDFromHex(accommodationPb.Id)
+	hostId, _ := primitive.ObjectIDFromHex(accommodationPb.HostId)
 	accommodation := domain.Accommodation{
 		Id:         primitive.NewObjectID(),
 		Name:       accommodationPb.Name,
@@ -41,6 +41,7 @@ func reverseMap(accommodationPb *pb.Accommodation) *domain.Accommodation {
 		IsPerGuest: accommodationPb.IsPerGuest,
 		HasWeekend: accommodationPb.HasWeekend,
 		HasSummer:  accommodationPb.HasSummer,
+		HostId:     hostId,
 	}
 
 	return &accommodation

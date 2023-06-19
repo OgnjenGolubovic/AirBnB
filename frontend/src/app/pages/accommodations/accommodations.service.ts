@@ -21,6 +21,12 @@ export class AccommodationsService {
     );
   }
 
+  getAccommodationsByHost(id: string) : Observable<AccommodationDTO[]> {
+    return this.http.get<AccommodationDTO[]>(this.apiHost + `accommodation/getByHost?id=${id}`).pipe(
+      map((data: any) => data.accommodations)
+    );
+  }
+
   getAccommodation(id: string) : Observable<AccommodationDTO> {
     return this.http.get<AccommodationDTO>(this.apiHost + `accommodation/${id}`);
   }
