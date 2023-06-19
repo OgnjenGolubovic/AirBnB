@@ -7,6 +7,8 @@ type AccommodationStore interface {
 	GetAll() ([]*Accommodation, error)
 	GetAllByHost(id string) ([]*Accommodation, error)
 	Insert(accommodation *Accommodation) error
+	AddFreeDates(accommodation *Accommodation) error
+	UpdatePrice(accommodation *Accommodation) error
 	DeleteAll()
 	DeleteAccomodations(id string)
 }

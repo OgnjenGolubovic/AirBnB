@@ -56,3 +56,10 @@ func (service *AccommodationService) DeleteAccomodations(id string) error {
 	service.store.DeleteAccomodations(id)
 	return nil
 }
+func (service *AccommodationService) AddFreeDates(acc *domain.Accommodation) error {
+	return service.store.AddFreeDates(acc)
+}
+
+func (service *AccommodationService) UpdatePrice(acc *domain.Accommodation) error {
+	return service.store.UpdatePrice(acc)
+}

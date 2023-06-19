@@ -20,6 +20,14 @@ import { EditComponent } from './edit/edit.component';
 import { AccommodationsComponent } from './accommodations/accommodations.component';
 import { AccommodationCreateComponent } from './accommodations/create/accommodation-create.component';
 import { ReservationComponent } from './reservations/reservation.component';
+import { GuestReservationComponent } from './guest-reservation/guest-reservation.component';
+import { MatSelectModule } from '@angular/material/select';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
+import { DefineDatesComponent } from './accommodations/define-dates/define-dates.component';
+import {MatListModule} from '@angular/material/list';
+import { ChangePriceComponent } from './accommodations/change-price/change-price.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +37,10 @@ import { ReservationComponent } from './reservations/reservation.component';
     EditComponent,
     AccommodationsComponent,
     AccommodationCreateComponent,
-    ReservationComponent
+    ReservationComponent,
+    GuestReservationComponent,
+    DefineDatesComponent,
+    ChangePriceComponent
   ],
   imports: [
     FormsModule,
@@ -46,7 +57,12 @@ import { ReservationComponent } from './reservations/reservation.component';
     MatButtonModule,
     MatIconModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSelectModule,
+    MatMenuModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatListModule
   ]
 })
 export class PagesModule { }

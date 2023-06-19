@@ -1,4 +1,4 @@
-import { HttpHeaders, HttpClient } from "@angular/common/http";
+import { HttpHeaders, HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
@@ -9,6 +9,7 @@ export interface Reservation {
     endDate : string;
     guestNumber : string;
     status : string;
+    userId: string;
 }
 
 @Injectable({
@@ -22,9 +23,21 @@ export class ReservationService {
     constructor(private http: HttpClient) {}
 
     getReservations() : Observable<any> {
-        return this.http.get(this.apiHost + 'reservation/getAll');
+        return this.http.get(this.apiHost + 'reservation/getAllPending');
     }
     cancel(id : String) : Observable<any> {
         return this.http.post(this.apiHost + 'user/reservation-cancel/' + id, null);
+    }
+    accept(id : string) : Observable<any> {
+        const params = new HttpParams()
+                        .set('id', id);
+
+        return this.http.get(this.apiHost + 'reservation/approve', {params});
+    }
+    reject(id : string) : Observable<any> {
+        const params = new HttpParams()
+                        .set('id', id);
+
+        return this.http.get(this.apiHost + 'reservation/reject', {params});
     }
 }

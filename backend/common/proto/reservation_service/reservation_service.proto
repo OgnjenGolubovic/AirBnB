@@ -75,8 +75,8 @@ message Reservation {
   string startDate = 4;
   string endDate = 5;
   string accommodationName = 6;
-        string guestNumber = 7;
-        string status = 8;
+  string guestNumber = 7;
+  string status = 8;
   //  google.protobuf.Timestamp createdAt= 7;
 }
 

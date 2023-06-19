@@ -25,6 +25,9 @@ const (
 	AccommodationService_Create_FullMethodName               = "/accommodation.AccommodationService/Create"
 	AccommodationService_DeleteAccommodations_FullMethodName = "/accommodation.AccommodationService/DeleteAccommodations"
 	AccommodationService_GetAllByHost_FullMethodName         = "/accommodation.AccommodationService/GetAllByHost"
+	AccommodationService_AddFreeDates_FullMethodName         = "/accommodation.AccommodationService/AddFreeDates"
+	AccommodationService_RemoveFreeDates_FullMethodName      = "/accommodation.AccommodationService/RemoveFreeDates"
+	AccommodationService_UpdatePrice_FullMethodName          = "/accommodation.AccommodationService/UpdatePrice"
 )
 
 // AccommodationServiceClient is the client API for AccommodationService service.
@@ -37,6 +40,9 @@ type AccommodationServiceClient interface {
 	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
 	DeleteAccommodations(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetAllRequest, error)
 	GetAllByHost(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetAllResponse, error)
+	AddFreeDates(ctx context.Context, in *DateRequest, opts ...grpc.CallOption) (*DateResponse, error)
+	RemoveFreeDates(ctx context.Context, in *DateRequest, opts ...grpc.CallOption) (*DateResponse, error)
+	UpdatePrice(ctx context.Context, in *UpdatePriceRequest, opts ...grpc.CallOption) (*CreateResponse, error)
 }
 
 type accommodationServiceClient struct {
@@ -101,6 +107,33 @@ func (c *accommodationServiceClient) GetAllByHost(ctx context.Context, in *GetRe
 	return out, nil
 }
 
+func (c *accommodationServiceClient) AddFreeDates(ctx context.Context, in *DateRequest, opts ...grpc.CallOption) (*DateResponse, error) {
+	out := new(DateResponse)
+	err := c.cc.Invoke(ctx, AccommodationService_AddFreeDates_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accommodationServiceClient) RemoveFreeDates(ctx context.Context, in *DateRequest, opts ...grpc.CallOption) (*DateResponse, error) {
+	out := new(DateResponse)
+	err := c.cc.Invoke(ctx, AccommodationService_RemoveFreeDates_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accommodationServiceClient) UpdatePrice(ctx context.Context, in *UpdatePriceRequest, opts ...grpc.CallOption) (*CreateResponse, error) {
+	out := new(CreateResponse)
+	err := c.cc.Invoke(ctx, AccommodationService_UpdatePrice_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AccommodationServiceServer is the server API for AccommodationService service.
 // All implementations must embed UnimplementedAccommodationServiceServer
 // for forward compatibility
@@ -111,6 +144,9 @@ type AccommodationServiceServer interface {
 	Create(context.Context, *CreateRequest) (*CreateResponse, error)
 	DeleteAccommodations(context.Context, *GetRequest) (*GetAllRequest, error)
 	GetAllByHost(context.Context, *GetRequest) (*GetAllResponse, error)
+	AddFreeDates(context.Context, *DateRequest) (*DateResponse, error)
+	RemoveFreeDates(context.Context, *DateRequest) (*DateResponse, error)
+	UpdatePrice(context.Context, *UpdatePriceRequest) (*CreateResponse, error)
 	mustEmbedUnimplementedAccommodationServiceServer()
 }
 
@@ -135,6 +171,15 @@ func (UnimplementedAccommodationServiceServer) DeleteAccommodations(context.Cont
 }
 func (UnimplementedAccommodationServiceServer) GetAllByHost(context.Context, *GetRequest) (*GetAllResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllByHost not implemented")
+}
+func (UnimplementedAccommodationServiceServer) AddFreeDates(context.Context, *DateRequest) (*DateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddFreeDates not implemented")
+}
+func (UnimplementedAccommodationServiceServer) RemoveFreeDates(context.Context, *DateRequest) (*DateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveFreeDates not implemented")
+}
+func (UnimplementedAccommodationServiceServer) UpdatePrice(context.Context, *UpdatePriceRequest) (*CreateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePrice not implemented")
 }
 func (UnimplementedAccommodationServiceServer) mustEmbedUnimplementedAccommodationServiceServer() {}
 
@@ -257,6 +302,60 @@ func _AccommodationService_GetAllByHost_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AccommodationService_AddFreeDates_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccommodationServiceServer).AddFreeDates(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccommodationService_AddFreeDates_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccommodationServiceServer).AddFreeDates(ctx, req.(*DateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccommodationService_RemoveFreeDates_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccommodationServiceServer).RemoveFreeDates(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccommodationService_RemoveFreeDates_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccommodationServiceServer).RemoveFreeDates(ctx, req.(*DateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccommodationService_UpdatePrice_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdatePriceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccommodationServiceServer).UpdatePrice(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccommodationService_UpdatePrice_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccommodationServiceServer).UpdatePrice(ctx, req.(*UpdatePriceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AccommodationService_ServiceDesc is the grpc.ServiceDesc for AccommodationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -287,6 +386,18 @@ var AccommodationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAllByHost",
 			Handler:    _AccommodationService_GetAllByHost_Handler,
+		},
+		{
+			MethodName: "AddFreeDates",
+			Handler:    _AccommodationService_AddFreeDates_Handler,
+		},
+		{
+			MethodName: "RemoveFreeDates",
+			Handler:    _AccommodationService_RemoveFreeDates_Handler,
+		},
+		{
+			MethodName: "UpdatePrice",
+			Handler:    _AccommodationService_UpdatePrice_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

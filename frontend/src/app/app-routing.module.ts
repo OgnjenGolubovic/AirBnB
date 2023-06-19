@@ -7,20 +7,28 @@ import { EditComponent } from './pages/edit/edit.component';
 import { AccommodationsComponent } from './pages/accommodations/accommodations.component';
 import { AccommodationCreateComponent } from './pages/accommodations/create/accommodation-create.component';
 import { ReservationComponent } from './pages/reservations/reservation.component';
+import { GuestReservationComponent } from './pages/guest-reservation/guest-reservation.component';
+import { AuthGuard } from './pages/login/log-auth.guard';
+import { DefineDatesComponent } from './pages/accommodations/define-dates/define-dates.component';
+import { ChangePriceComponent } from './pages/accommodations/change-price/change-price.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, pathMatch: 'full' },
-<<<<<<< HEAD
   { path: 'register', component: RegistrationComponent, pathMatch:'full'},
   {path: 'users', component: UsersComponent, pathMatch:'full'},
   {path: 'edit', component: EditComponent, pathMatch:'full'},
-  { path: 'accommodation', component: AccommodationComponent},
-=======
+  { path: 'accommodation', component: AccommodationsComponent},
   { path: 'reservations', component: ReservationComponent, pathMatch: 'full' },
->>>>>>> b967a30dbdf9054c63c82d19bc9b41c1a7d7f95b
   { path: 'accommodations', component: AccommodationsComponent},
-  { path: 'accommodations/create', component: AccommodationCreateComponent }
-]
+  { path: 'accommodations/create', component: AccommodationCreateComponent },
+  { path: 'guest-reservation', component: GuestReservationComponent, pathMatch: 'full' },
+  { path: 'reservations', component: ReservationComponent, pathMatch: 'full'},
+  { path: 'accommodations', component: AccommodationsComponent},
+  { path: 'accommodations/create', component: AccommodationCreateComponent},
+  { path: 'accommodations/define-dates/:id', component: DefineDatesComponent},
+  { path: 'accommodations/change-price/:id', component: ChangePriceComponent}
+];
+
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]

@@ -27,6 +27,10 @@ func (service *ReservationService) Get(id string) (string, error) {
 	return reservation.AccommodationId.String(), nil
 }
 
+func (service *ReservationService) GetAll() ([]*domain.AccommodationReservation, error) {
+	return service.store.GetAll()
+}
+
 func (service *ReservationService) GetAllPending() ([]*domain.AccommodationReservation, error) {
 	reservation, err := service.store.GetAllPending()
 	if err != nil {
