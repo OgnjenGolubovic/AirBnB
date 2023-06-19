@@ -11,6 +11,7 @@ import { GuestReservationComponent } from './pages/guest-reservation/guest-reser
 import { AuthGuard } from './pages/login/log-auth.guard';
 import { DefineDatesComponent } from './pages/accommodations/define-dates/define-dates.component';
 import { ChangePriceComponent } from './pages/accommodations/change-price/change-price.component';
+import { GuestReservationsComponent } from './pages/guest-reservations/guest-reservations.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, pathMatch: 'full' },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'accommodations', component: AccommodationsComponent},
   { path: 'accommodations/create', component: AccommodationCreateComponent },
   { path: 'guest-reservation', component: GuestReservationComponent, pathMatch: 'full' },
+  { path: 'guest-reservations', component: GuestReservationsComponent, pathMatch: 'full' },
   { path: 'reservations', component: ReservationComponent, pathMatch: 'full'},
   { path: 'accommodations', component: AccommodationsComponent},
   { path: 'accommodations/create', component: AccommodationCreateComponent},
