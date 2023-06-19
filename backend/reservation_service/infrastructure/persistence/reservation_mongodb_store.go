@@ -47,7 +47,9 @@ func (store *ReservationMongoDBStore) GetByAccommodation(id string) ([]*domain.A
 }
 
 func (store *ReservationMongoDBStore) GetByUser(id string) ([]*domain.AccommodationReservation, error) {
-	filter := bson.M{"userId": ObjectIDFromHex(id)}
+	filter := bson.M{"userId": ObjectIDFromHex(id), "status": bson.M{
+		"$in": []domain.Status{domain.Approved, domain.Pending},
+	}}
 	return store.filter(filter)
 }
 

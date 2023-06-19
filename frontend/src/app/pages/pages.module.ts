@@ -28,6 +28,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import { DefineDatesComponent } from './accommodations/define-dates/define-dates.component';
 import {MatListModule} from '@angular/material/list';
 import { ChangePriceComponent } from './accommodations/change-price/change-price.component';
+import { GuestReservationsComponent } from './guest-reservations/guest-reservations.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ChangePriceComponent } from './accommodations/change-price/change-price
     ReservationComponent,
     GuestReservationComponent,
     DefineDatesComponent,
-    ChangePriceComponent
+    ChangePriceComponent,
+    GuestReservationsComponent
   ],
   imports: [
     FormsModule,

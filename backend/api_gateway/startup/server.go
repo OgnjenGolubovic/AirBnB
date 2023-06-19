@@ -14,6 +14,7 @@ import (
 	authentication_Gw "github.com/OgnjenGolubovic/AirBnB/backend/common/proto/authentication_service"
 	reservation_Gw "github.com/OgnjenGolubovic/AirBnB/backend/common/proto/reservation_service"
 	user_Gw "github.com/OgnjenGolubovic/AirBnB/backend/common/proto/user_service"
+	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/rs/cors"
 	"google.golang.org/grpc"
@@ -76,7 +77,7 @@ func (server *Server) initCustomHandlers() {
 
 func (server *Server) Start() {
 	handler := server.getHandlerCORSWrapped()
-	newHandler := authMiddleware(handler)
+	newHandler := authMiddleware(handler, fmt.Sprintf("%s:%s", server.config.AuthentificationHost, server.config.AuthentificationPort))
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", server.config.Port), newHandler))
 }
 
@@ -91,10 +92,10 @@ func (server *Server) getHandlerCORSWrapped() http.Handler {
 	return handler
 }
 
-func authMiddleware(next http.Handler) http.Handler {
+func authMiddleware(next http.Handler, endPoint string) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		//route := r.URL.Path
-		//if strings.Contains(route, "user") {
+		//if strings.Contains(route, "auth") || strings.Contains(route, "user/register") {
 		if true {
 			next.ServeHTTP(w, r)
 			return
@@ -110,8 +111,13 @@ func authMiddleware(next http.Handler) http.Handler {
 			return
 		}
 		token := authParts[1]
-		authenticationEmdpoint := "localhost:8001"
-		authenticationClient := services.NewAuthenticationClient(authenticationEmdpoint)
+
+		if checkIfGuest(r, token) {
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			return
+		}
+
+		authenticationClient := services.NewAuthenticationClient(endPoint)
 		message, _ := authenticationClient.Authenticate(r.Context(), &authentication_Gw.AuthenticateRequest{
 			Token: token,
 		})
@@ -121,4 +127,42 @@ func authMiddleware(next http.Handler) http.Handler {
 			http.Error(w, "Unauthorized: "+message.Message, http.StatusUnauthorized)
 		}
 	})
+}
+
+func checkIfGuest(r *http.Request, token string) bool {
+	claims, _ := parseToken(token)
+	role := roleClaimFromToken(claims)
+	if role == "Guest" {
+		route := r.URL.Path
+		if strings.Contains(route, "getAllPending") {
+			return true
+		}
+	}
+	return false
+}
+
+func parseToken(token string) (jwt.MapClaims, error) {
+	parsedToken, err := jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
+		return []byte("secretKey"), nil
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	claims, ok := parsedToken.Claims.(jwt.MapClaims)
+	if !ok || !parsedToken.Valid {
+		return nil, fmt.Errorf("invalid token")
+	}
+
+	return claims, nil
+}
+
+func roleClaimFromToken(claims jwt.MapClaims) string {
+
+	sub, ok := claims["role"].(string)
+	if !ok {
+		return ""
+	}
+
+	return sub
 }

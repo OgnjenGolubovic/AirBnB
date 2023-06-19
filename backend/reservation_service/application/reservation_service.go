@@ -60,7 +60,15 @@ func (service *ReservationService) GetByUser(id string) ([]*domain.Accommodation
 	if err != nil {
 		return []*domain.AccommodationReservation{}, err
 	}
-	return reservations, nil
+	filterdReservations := []*domain.AccommodationReservation{}
+	for _, reservation := range reservations {
+		start := strings.Split(reservation.ReservedDate.StartDate, "/")
+		now := GetNow()
+		if CheckIfLower(now, start) {
+			filterdReservations = append(filterdReservations, reservation)
+		}
+	}
+	return filterdReservations, nil
 }
 
 func (service *ReservationService) Cancel(id string) error {
@@ -145,7 +153,8 @@ func (service *ReservationService) AccommodationReservationRequest(reservation *
 
 func GetNow() []string {
 	currentTime := time.Now()
-	formattedTime := currentTime.Format("02/01/2006")
+	oneDayAgo := currentTime.Add(-24 * time.Hour)
+	formattedTime := oneDayAgo.Format("02/01/2006")
 	return strings.Split(formattedTime, "/")
 }
 
