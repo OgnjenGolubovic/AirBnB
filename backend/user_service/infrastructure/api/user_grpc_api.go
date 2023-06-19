@@ -22,14 +22,14 @@ func NewUserHandler(service *application.UserService) *UserHandler {
 }
 
 func (handler *UserHandler) Get(ctx context.Context, request *pb.Request) (*pb.User, error) {
-	//username, err := handler.service.Get(request.Id)
-	// if err != nil {
-	// 	return nil, err
-	// }
-	tokenInfo, _ := ctx.Value("tokenInfo").(jwt.MapClaims)
-	fmt.Println(tokenInfo)
-	user, _ := handler.service.Get(userClaimFromToken(tokenInfo))
-	response := mapUser(user)
+	username, err := handler.service.Get(request.Id)
+	if err != nil {
+		return nil, err
+	}
+	// tokenInfo, _ := ctx.Value("tokenInfo").(jwt.MapClaims)
+	// fmt.Println(tokenInfo)
+	// user, _ := handler.service.Get(userClaimFromToken(tokenInfo))
+	response := mapUser(username)
 	return response, nil
 }
 

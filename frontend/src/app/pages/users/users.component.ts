@@ -18,6 +18,7 @@ export class UsersComponent implements OnInit{
 
   del: DeleteDTO = {} as DeleteDTO
   editDTO: EditDTO = {
+    id: '',
     username: '',
     password: '',
     name: '',

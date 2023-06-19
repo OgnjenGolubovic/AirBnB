@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { UserDTO } from "./userDTO";
 import { DeleteDTO } from "./deleteDTO";
+import { EditDTO } from "../edit/edit.service";
 
 export interface RegistrationDTO{
   username: string;
@@ -20,8 +21,12 @@ export interface RegistrationDTO{
 export class UserService {
   constructor( private http: HttpClient){}
 
+  getById(id: string): Observable<EditDTO> {
+    return this.http.get<EditDTO>(`http://localhost:8000/user?id=${id}`);
+  }
+
   getAll(): Observable<UserDTO> {
-    return this.http.get<UserDTO>('http://localhost:8000/user');
+    return this.http.get<UserDTO>('http://localhost:8000/user/getAll');
   }
 
   delete( id: DeleteDTO): Observable<any>{

@@ -84,6 +84,7 @@ func (service *UserService) Update(user *domain.User) error {
 	}
 	fmt.Print("Get user by email: ")
 	fmt.Println(checkUser)
+
 	err = service.store.Delete(user.Id.String()[10 : len(user.Id.String())-2])
 	if err != nil {
 		return err

@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
 export interface EditDTO{
+  id: string;
   username: string;
 	password: string;
 	name: string ;

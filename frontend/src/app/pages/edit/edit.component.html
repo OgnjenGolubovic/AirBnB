@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="./edit.component.css">
   <title>Register</title>
 </head>
-<form #editForm="ngForm" (ngSubmit)="onSubmit(editForm.value)">
+<form #editForm="ngForm" (ngSubmit)="onSubmit()">
   <div class="container">
     <h1>EDIT</h1>
     <p>Edit User</p>
@@ -16,7 +16,7 @@
       placeholder="Enter username"
       name="username"
       id="username"
-      ngModel
+      [(ngModel)]="editDTO.username"
       required
     />
 
@@ -26,7 +26,7 @@
       placeholder="Enter Password"
       name="password"
       id="password"
-      ngModel
+      [(ngModel)]="editDTO.password"
       required
     />
 
@@ -36,7 +36,7 @@
       placeholder="Enter Email"
       name="email"
       id="email"
-      ngModel
+      [(ngModel)]="editDTO.email"
       required
     />
 
@@ -46,7 +46,7 @@
       placeholder="Enter Name"
       name="name"
       id="name"
-      ngModel
+      [(ngModel)]="editDTO.name"
       required
     />
     <label for="surname"><b>Surname</b></label>
@@ -55,7 +55,7 @@
       placeholder="Enter Surname"
       name="surname"
       id="sruname"
-      ngModel
+      [(ngModel)]="editDTO.surname"
       required
     />
 
@@ -65,7 +65,7 @@
       placeholder="Enter Address"
       name="address"
       id="address"
-      ngModel
+      [(ngModel)]="editDTO.address"
       required
     />
 

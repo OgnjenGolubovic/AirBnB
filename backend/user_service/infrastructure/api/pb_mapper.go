@@ -29,7 +29,7 @@ func mapUser(user *domain.User) *pb.User {
 }
 
 func mapUpdatedUser(userPb *pb.User) *domain.User {
-	UserId, _ := primitive.ObjectIDFromHex("623b0cc3a34d25d8567f9f82")
+	UserId, _ := primitive.ObjectIDFromHex(userPb.Id)
 	user := &domain.User{
 		Id:       UserId,
 		Username: userPb.Username,
@@ -38,6 +38,7 @@ func mapUpdatedUser(userPb *pb.User) *domain.User {
 		Name:     userPb.Name,
 		Surname:  userPb.Surname,
 		Address:  userPb.Address,
+		Role:     domain.Role(userPb.UserType),
 	}
 	return user
 }
