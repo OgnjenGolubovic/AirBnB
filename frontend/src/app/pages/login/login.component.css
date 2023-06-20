@@ -1,8 +1,14 @@
+.container {
+  display: flex;
+  justify-content: center;
+}
+
 .form {
     height: 270px;
     padding: 20px;
     width: 320px;
-    background-color: rgb(233, 229, 229);
+    background-color: rgb(230, 230, 230);
     border-radius: 5%;
+    border: solid thin black;
     margin: 1cm;
-  }
+}

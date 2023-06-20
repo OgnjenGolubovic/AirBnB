@@ -4,6 +4,8 @@ option go_package = "github.com/OgnjenGolubovic/AirBnB/backend/common/reservatio
 
 package reservation;
 
+
+//import "google/protobuf/timestamp.proto";
 import "google/api/annotations.proto";
 
 service ReservationService{
@@ -12,12 +14,126 @@ service ReservationService{
 			get: "/reservation"
 		};
         }
+        rpc GetAllReservedDates(Request) returns(DateResponse) {
+                option (google.api.http) = {
+                        get: "/reservation/get"
+                };
+        }
+
+        rpc Cancel(Request) returns(Error) {
+                option (google.api.http) = {
+                        get: "/reservation/cancel"
+                };
+        }
+
+        rpc Reject(Request) returns(Error) {
+                option (google.api.http) = {
+                        get: "/reservation/reject"
+                };
+        }
+
+        rpc Approve(Request) returns(Error) {
+                option (google.api.http) = {
+                        get: "/reservation/approve"
+                };
+        }
+
+        rpc GetAllReservationsByUser(Request) returns(ReservationResponse) {
+                option (google.api.http) = {
+                        get: "/reservation/getByUser"
+                };
+        }
+
+        rpc GetAllPending(Request) returns(ReservationResponse) {
+                option (google.api.http) = {
+                        get: "/reservation/getAllPending"
+                };
+        }
+
+        rpc AccommodationReservation(CreateRequest) returns(CreateResponse) {
+                option (google.api.http) = {
+                        post: "/accommodationReservation"
+                body: "*"
+        };
+        }
+        rpc ActiveReservationByGuest(Request) returns(Error) {
+                option (google.api.http) = {
+                        get: "/accommodationReservation/guest"
+        };
+        }
+        rpc ActiveReservationByHost(GetAllResponse) returns(Error) {
+                option (google.api.http) = {
+                        post: "/accommodationReservation/host"
+        };
+        }
+		rpc ActiveReservationByAccommodation(GetAllResponse) returns(HasActiveResponse) {
+			option (google.api.http) = {
+					post: "/reservation/accommodation"
+					body: "*"
+			};
+        }
+}
+
+message Reservation {
+  string id = 1;
+  string accommodationId = 2;
+  string userId = 3;
+  string startDate = 4;
+  string endDate = 5;
+  string accommodationName = 6;
+  string guestNumber = 7;
+  string status = 8;
+  //  google.protobuf.Timestamp createdAt= 7;
 }
 
 message Request {
         string id = 1;
 }
 
+message GetAllResponse {
+		repeated Accommodation accommodations = 1;
+}
+
+message Accommodation {
+		string id = 1;
+		string name = 2;
+		string location = 3;
+		string benefits = 4;
+		string photos = 5;
+		int64 minGuest = 6;
+		int64 maxGuest = 7;
+                string hostId = 8;
+                bool automaticApproval = 9;
+}
+
 message Response {
         string reservation = 1;
+}
+
+message Error {
+        string message = 1;
+}
+
+message DateRange {
+        string StartDate = 1;
+        string EndDate = 2;
+}
+
+message DateResponse {
+        repeated DateRange dates = 1;
+}
+message CreateRequest {
+  Reservation reservation = 1;
+}
+
+message CreateResponse {
+  Reservation reservation = 1;
+}
+
+message ReservationResponse {
+        repeated Reservation reservation = 1;
+}
+
+message HasActiveResponse {
+	bool hasActive = 1;
 }

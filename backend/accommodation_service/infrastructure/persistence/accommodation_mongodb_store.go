@@ -26,9 +26,47 @@ func NewAccommodationMongoDBStore(client *mongo.Client) domain.AccommodationStor
 	}
 }
 
-func (store *AccommodationMongoDBStore) Get(id string) (*domain.Accommodation, error) {
-	filter := bson.M{"_id": ObjectIDFromHex(id)}
+func (store *AccommodationMongoDBStore) Get(id primitive.ObjectID) (*domain.Accommodation, error) {
+	filter := bson.M{"_id": id}
 	return store.filterOne(filter)
+}
+
+func (store *AccommodationMongoDBStore) GetAll() ([]*domain.Accommodation, error) {
+	filter := bson.D{{}}
+	return store.filter(filter)
+}
+
+func (store *AccommodationMongoDBStore) GetAllByHost(id string) ([]*domain.Accommodation, error) {
+	filter := bson.M{"hostId": ObjectIDFromHex(id)}
+	return store.filter(filter)
+}
+func (store *AccommodationMongoDBStore) UpdatePrice(accommodation *domain.Accommodation) error {
+	filter := bson.M{"_id": accommodation.Id}
+	update := bson.M{"$set": bson.M{
+		"price":      accommodation.Price,
+		"isPerGuest": accommodation.IsPerGuest,
+		"hasWeekend": accommodation.HasWeekend,
+		"hasSummer":  accommodation.HasSummer,
+	}}
+
+	_, err := store.accommodations.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (store *AccommodationMongoDBStore) AddFreeDates(accommodation *domain.Accommodation) error {
+	filter := bson.M{"_id": accommodation.Id}
+	update := bson.M{"$set": bson.M{
+		"dates": accommodation.Dates,
+	}}
+
+	_, err := store.accommodations.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (store *AccommodationMongoDBStore) Insert(accommodation *domain.Accommodation) error {
@@ -42,6 +80,10 @@ func (store *AccommodationMongoDBStore) Insert(accommodation *domain.Accommodati
 
 func (store *AccommodationMongoDBStore) DeleteAll() {
 	store.accommodations.DeleteMany(context.TODO(), bson.D{{}})
+}
+
+func (store *AccommodationMongoDBStore) DeleteAccomodations(id string) {
+	store.accommodations.DeleteMany(context.TODO(), bson.M{"hostId": ObjectIDFromHex(id)})
 }
 
 func (store *AccommodationMongoDBStore) filter(filter interface{}) ([]*domain.Accommodation, error) {
@@ -72,6 +114,7 @@ func decode(cursor *mongo.Cursor) (accommodations []*domain.Accommodation, err e
 	err = cursor.Err()
 	return
 }
+
 func ObjectIDFromHex(s string) primitive.ObjectID {
 	objID, err := primitive.ObjectIDFromHex(s)
 	if err != nil {

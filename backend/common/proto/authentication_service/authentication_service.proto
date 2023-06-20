@@ -13,6 +13,11 @@ service AuthenticationService {
       body: "*"
     };
   }
+  rpc Authenticate(AuthenticateRequest) returns (AuthenticateResponse) {
+    option (google.api.http) = {
+      get: "/auth/authenicate"
+    };
+  }
 }
 
 message Request {
@@ -22,4 +27,12 @@ message Request {
 
 message Response {
   string accessToken = 3;
+}
+
+message AuthenticateRequest{
+  string token = 1;
+}
+
+message AuthenticateResponse{
+  string message = 1;  
 }

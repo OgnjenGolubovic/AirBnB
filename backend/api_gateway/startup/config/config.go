@@ -1,5 +1,7 @@
 package config
 
+import "os"
+
 type Config struct {
 	Port                 string
 	UserHost             string
@@ -15,15 +17,15 @@ type Config struct {
 
 func NewConfig() *Config {
 	return &Config{
-		Port:                 "8000",
-		AuthentificationHost: "localhost",
-		AuthentificationPort: "8001",
-		UserHost:             "localhost",
-		UserPort:             "8002",
-		AccommodationHost:    "localhost",
-		AccommodationPort:    "8003",
-		ReservationHost:      "localhost",
-		ReservationPort:      "8004",
-		AllowedCorsOrigin:    "http://localhost:4200",
+		Port:                 os.Getenv("GATEWAY_PORT"),
+		AuthentificationHost: os.Getenv("AUTHENTICATION_SERVICE_HOST"),
+		AuthentificationPort: os.Getenv("AUTHENTICATION_SERVICE_PORT"),
+		UserHost:             os.Getenv("USER_SERVICE_HOST"),
+		UserPort:             os.Getenv("USER_SERVICE_PORT"),
+		AccommodationHost:    os.Getenv("ACCOMMODATION_SERVICE_HOST"),
+		AccommodationPort:    os.Getenv("ACCOMMODATION_SERVICE_PORT"),
+		ReservationHost:      os.Getenv("RESERVATION_SERVICE_HOST"),
+		ReservationPort:      os.Getenv("RESERVATION_SERVICE_PORT"),
+		AllowedCorsOrigin:    "*",
 	}
 }

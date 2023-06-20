@@ -2,6 +2,8 @@ package application
 
 import (
 	"accommodation_service/domain"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type AccommodationService struct {
@@ -14,10 +16,50 @@ func NewAccommodationService(store domain.AccommodationStore) *AccommodationServ
 	}
 }
 
-func (service *AccommodationService) Get(id string) (string, error) {
-	accommodation, err := service.store.Get(id)
+func (service *AccommodationService) Get(id primitive.ObjectID) (*domain.Accommodation, error) {
+	return service.store.Get(id)
+}
+
+func (service *AccommodationService) GetAll() ([]*domain.Accommodation, error) {
+	return service.store.GetAll()
+}
+
+func (service *AccommodationService) GetAllByHost(id string) ([]*domain.Accommodation, error) {
+	return service.store.GetAllByHost(id)
+}
+
+func (service *AccommodationService) Create(acc *domain.Accommodation) error {
+	return service.store.Insert(acc)
+}
+
+func (service *AccommodationService) GetAllDates(id string) ([]*domain.DateRange, error) {
+	objectId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	return accommodation.Name, nil
+	accommodation, err := service.store.Get(objectId)
+	if err != nil {
+		return []*domain.DateRange{}, err
+	}
+	dates := []*domain.DateRange{}
+	for _, pom := range accommodation.Dates {
+		current := &domain.DateRange{
+			StartDate: pom.StartDate,
+			EndDate:   pom.EndDate,
+		}
+		dates = append(dates, current)
+	}
+	return dates, nil
+}
+
+func (service *AccommodationService) DeleteAccomodations(id string) error {
+	service.store.DeleteAccomodations(id)
+	return nil
+}
+func (service *AccommodationService) AddFreeDates(acc *domain.Accommodation) error {
+	return service.store.AddFreeDates(acc)
+}
+
+func (service *AccommodationService) UpdatePrice(acc *domain.Accommodation) error {
+	return service.store.UpdatePrice(acc)
 }

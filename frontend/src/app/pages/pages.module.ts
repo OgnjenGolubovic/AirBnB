@@ -14,10 +14,35 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
+import { RegistrationComponent } from './registration/registration.component';
+import { UsersComponent } from './users/users.component';
+import { EditComponent } from './edit/edit.component';
+import { AccommodationsComponent } from './accommodations/accommodations.component';
+import { AccommodationCreateComponent } from './accommodations/create/accommodation-create.component';
+import { ReservationComponent } from './reservations/reservation.component';
+import { GuestReservationComponent } from './guest-reservation/guest-reservation.component';
+import { MatSelectModule } from '@angular/material/select';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
+import { DefineDatesComponent } from './accommodations/define-dates/define-dates.component';
+import {MatListModule} from '@angular/material/list';
+import { ChangePriceComponent } from './accommodations/change-price/change-price.component';
+import { GuestReservationsComponent } from './guest-reservations/guest-reservations.component';
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    RegistrationComponent,
+    UsersComponent,
+    EditComponent,
+    AccommodationsComponent,
+    AccommodationCreateComponent,
+    ReservationComponent,
+    GuestReservationComponent,
+    DefineDatesComponent,
+    ChangePriceComponent,
+    GuestReservationsComponent
   ],
   imports: [
     FormsModule,
@@ -34,7 +59,12 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatButtonModule,
     MatIconModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSelectModule,
+    MatMenuModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatListModule
   ]
 })
 export class PagesModule { }

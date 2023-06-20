@@ -2,6 +2,7 @@ package persistence
 
 import (
 	"context"
+	"fmt"
 
 	"user_service/domain"
 
@@ -26,8 +27,61 @@ func NewUserMongoDBStore(client *mongo.Client) domain.UserStore {
 	}
 }
 
+func (store *UserMongoDBStore) GetAll() ([]*domain.User, error) {
+	filter := bson.D{{}}
+	return store.filter(filter)
+}
 func (store *UserMongoDBStore) Get(id string) (*domain.User, error) {
 	filter := bson.M{"_id": ObjectIDFromHex(id)}
+	return store.filterOne(filter)
+}
+func (store *UserMongoDBStore) Delete(id string) error {
+	filter := bson.M{"_id": ObjectIDFromHex(id)}
+	fmt.Println("Filterovo je : ")
+	fmt.Println(filter)
+	result, err := store.users.DeleteOne(context.TODO(), filter)
+	if err != nil {
+		return err
+	}
+	if result.DeletedCount == 0 {
+		return fmt.Errorf("no document found with ID %s", id)
+	}
+	return nil
+}
+
+func (store *UserMongoDBStore) Update(user *domain.User) error {
+	fmt.Print("user in mongodb_store: ")
+	fmt.Println(user)
+	filter := bson.M{"_id": user.Id}
+	update := bson.M{"$set": bson.M{
+		"username":   user.Username,
+		"password":   user.Password,
+		"email":      user.Email,
+		"first_name": user.Name,
+		"last_name":  user.Surname,
+		"address":    user.Address,
+	}}
+	updateResult, err := store.users.UpdateByID(context.TODO(), filter, update)
+	if err != nil {
+		return err
+	}
+	fmt.Print("updateResult: ")
+	fmt.Print(updateResult)
+	return nil
+}
+func (store *UserMongoDBStore) GetByUsername(username string) (*domain.User, error) {
+	fmt.Println("in GetByUsername")
+	filter := bson.M{"username": username}
+	fmt.Print("filter: ")
+	fmt.Println(filter)
+	return store.filterOne(filter)
+}
+
+func (store *UserMongoDBStore) GetByEmail(email string) (*domain.User, error) {
+	fmt.Println("in GetByEmail")
+	filter := bson.M{"email": email}
+	fmt.Print("filter: ")
+	fmt.Println(filter)
 	return store.filterOne(filter)
 }
 
@@ -42,6 +96,23 @@ func (store *UserMongoDBStore) Insert(user *domain.User) error {
 
 func (store *UserMongoDBStore) DeleteAll() {
 	store.users.DeleteMany(context.TODO(), bson.D{{}})
+}
+
+func (store *UserMongoDBStore) Cancel(id string) error {
+	filter := bson.M{"_id": ObjectIDFromHex(id)}
+	user, err := store.filterOne(filter)
+	if err != nil {
+		return err
+	}
+	count := user.Cancels + 1
+	update := bson.M{"$set": bson.M{
+		"cancels": count,
+	}}
+	_, err1 := store.users.UpdateOne(context.TODO(), filter, update)
+	if err1 != nil {
+		return err1
+	}
+	return nil
 }
 
 func (store *UserMongoDBStore) filter(filter interface{}) ([]*domain.User, error) {

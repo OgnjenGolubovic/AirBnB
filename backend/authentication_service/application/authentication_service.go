@@ -36,6 +36,14 @@ func (service *AuthenticationService) Login(username string, password string) (s
 	return jwtToken, nil
 }
 
+func (service *AuthenticationService) Get(id string) (*domain.User, error) {
+	user, err := service.store.Get(id)
+	if err != nil {
+		return &domain.User{}, err
+	}
+	return user, nil
+}
+
 func GenerateJWT(userID string, role string) (string, error) {
 	// Create a new token object
 	token := jwt.New(jwt.SigningMethodHS256)

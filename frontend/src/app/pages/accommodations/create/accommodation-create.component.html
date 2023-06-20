@@ -1,0 +1,76 @@
+<div class="main-container">
+    <div class="form-header">
+        <button mat-button class="back-button" (click)="goBack()">
+            <mat-icon class="back-icon">keyboard_return</mat-icon>
+        </button>
+    </div>
+    <div class="form-body">
+        <!-- <mat-form-field class="date-picker">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="date">
+            <mat-hint>MM.DD.YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field> -->
+        <div class="group1">
+            <mat-form-field class="classic-form">
+                <mat-label>Name</mat-label>
+                <input matInput [(ngModel)]="accommodation.name">
+            </mat-form-field>
+            <mat-form-field class="classic-form">
+                <mat-label>Location</mat-label>
+                <input matInput [(ngModel)]="accommodation.location">
+            </mat-form-field>
+        </div>
+        <div class="group1">
+            <mat-form-field class="classic-form-bottom">
+                <mat-label>Benefits</mat-label>
+                <input matInput [(ngModel)]="accommodation.benefits">
+            </mat-form-field>
+            <mat-form-field class="classic-form-bottom">
+                <mat-label>Photos</mat-label>
+                <input matInput [(ngModel)]="accommodation.photos">
+            </mat-form-field>
+        </div>
+        <div class="group1">
+            <mat-form-field class="classic-form-bottom">
+                <mat-label>MinGuest</mat-label>
+                <input matInput [(ngModel)]="accommodation.minGuest">
+            </mat-form-field>
+            <mat-form-field class="classic-form-bottom">
+                <mat-label>MaxGuest</mat-label>
+                <input matInput [(ngModel)]="accommodation.maxGuest">
+            </mat-form-field>
+        </div>
+        <mat-form-field class="classic-form-bottom">
+            <mat-label>Price</mat-label>
+            <input matInput [(ngModel)]="accommodation.price">
+        </mat-form-field>
+        <!-- <mat-radio-group class="price-per">
+            <h4>Price for</h4>
+            <div class="radio-buttons">
+                <mat-radio-button value="1" name="perGuest" [(ngModel)]="accommodation.isPerGuest">One Guest</mat-radio-button>
+                <mat-radio-button value="2" name="wholeAccommodation" [(ngModel)]="accommodation.isPerGuest">Whole Accommodation</mat-radio-button>
+            </div>
+        </mat-radio-group> -->
+        <section class="price-section">
+            <h4>Calculate price:</h4>
+            <p><mat-checkbox name="automatic" [(ngModel)]="accommodation.isPerGuest">Per Guest</mat-checkbox></p>
+            <h4>Check if you want automatic reservation approval</h4>
+            <p><mat-checkbox name="automatic" [(ngModel)]="accommodation.automaticApproval">Automatic</mat-checkbox></p>
+            <h4>Select your price modifiers:</h4>
+            <p><mat-checkbox name="weekends" [(ngModel)]="accommodation.hasWeekend">Weekends</mat-checkbox></p>
+            <p><mat-checkbox name="summer" [(ngModel)]="accommodation.hasSummer">Summer</mat-checkbox></p>
+        </section>
+        <!-- <div class="card habit-tracker mb-3">
+            <mat-calendar 
+            #calendar 
+            (selectedChange)="daySelected($event,calendar)" 
+            [dateClass]="dateClass"></mat-calendar>
+        </div> -->
+
+        <button mat-button class="create-button" (click)="create()">
+            <mat-icon class="create-icon">done</mat-icon>
+        </button>
+    </div>
+</div>
