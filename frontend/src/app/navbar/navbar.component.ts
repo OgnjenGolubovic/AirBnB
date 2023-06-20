@@ -8,6 +8,14 @@ import { Reservation, ReservationService } from '../pages/reservations/services/
 import { DeleteDTO } from '../pages/users/deleteDTO';
 import { UserService } from '../pages/users/users.service';
 
+export interface AccommodationsRequest {
+  accommodations: AccommodationDTO[];
+}
+
+export interface ReservationsResponse {
+  reservation: Reservation[];
+}
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -52,9 +60,10 @@ export class NavbarComponent implements OnInit {
     let userId = this.authService.getUserId();
 
     if (this.role === 'Guest') {
-      this.userService.hasActiveReservations(userId).subscribe((res: Reservation[]) => {
-        console.log(res);
-        if (res.length != 0) {
+      this.userService.hasActiveReservations(userId).subscribe((res: ReservationsResponse) => {
+        console.log('guest');
+        let reservations = Object.values(res)[0]
+        if (reservations.length != 0) {
           alert('Can\'t delete profile because you have active reservations');
           return;
         }
@@ -65,6 +74,7 @@ export class NavbarComponent implements OnInit {
         this.router.navigate(['login']);
       });
     } else if (this.role === 'Host') {
+      console.log('host');
       this.accomService.getAccommodationsByHost(userId).subscribe((res: AccommodationDTO[]) => {
         let accommodations: AccommodationDTO[] = [];
         for (let i = 0; i < Object.values(res).length; ++i) {
@@ -72,21 +82,28 @@ export class NavbarComponent implements OnInit {
         }
 
         if (accommodations.length != 0) {
-          for (let i = 0; i < accommodations.length; ++i) {
-            this.resService.getReservationsByAccommodation(accommodations[i].id).subscribe((res: Reservation[]) => {
-              
-              if (res.length != 0) {
-                alert('Can\'t delete profile because you have active reservations for accommodation with id ' + accommodations[i].id);
-                return;
-              }
+          let accommodationsRequest: AccommodationsRequest = {} as AccommodationsRequest;
+          accommodationsRequest.accommodations = accommodations;
+          this.resService.hasActiveReservationsForAccommodations(accommodationsRequest).subscribe((res: boolean) => {
+            let hasActive = Object.values(res)[0];
+            if (hasActive) {
+              alert('Can\'t delete profile because you have active reservations for one of the accommodations');
+              return;
+            } else {
+              this.del.id = userId
 
-            });
-          }
-  
-          console.log(accommodations[0]);
+              this.accomService.deleteAccommodationsForHost(userId).subscribe();
+              this.userService.delete(this.del).subscribe()
+              this.authService.logout();
+              this.router.navigate(['login']);
+            }
+          });
+        } else {
+          this.del.id = userId
+          this.userService.delete(this.del).subscribe()
+          this.authService.logout();
+          this.router.navigate(['login']);
         }
-
-
       });
     }
 

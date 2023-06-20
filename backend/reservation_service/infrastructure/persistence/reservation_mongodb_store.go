@@ -31,6 +31,11 @@ func (store *ReservationMongoDBStore) Get(id string) (*domain.AccommodationReser
 	return store.filterOne(filter)
 }
 
+func (store *ReservationMongoDBStore) GetRes(id string) (*domain.AccommodationReservation, error) {
+	filter := bson.M{"_id": ObjectIDFromHex(id)}
+	return store.filterOne(filter)
+}
+
 func (store *ReservationMongoDBStore) GetAll() ([]*domain.AccommodationReservation, error) {
 	filter := bson.D{{}}
 	return store.filter(filter)
@@ -39,6 +44,24 @@ func (store *ReservationMongoDBStore) GetAll() ([]*domain.AccommodationReservati
 func (store *ReservationMongoDBStore) GetAllPending() ([]*domain.AccommodationReservation, error) {
 	filter := bson.M{"status": domain.Pending}
 	return store.filter(filter)
+}
+
+// func (store *ReservationMongoDBStore) GetAllByAccommodation() (bool, error) {
+// 	filter := bson.M{"status": domain.Approved}
+// 	return store.filter(filter)
+// }
+
+func (store *ReservationMongoDBStore) UpdatePrice(reservation *domain.AccommodationReservation) error {
+	filter := bson.M{"_id": reservation.Id}
+	update := bson.M{"$set": bson.M{
+		"price": reservation.Price,
+	}}
+
+	_, err := store.reservations.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (store *ReservationMongoDBStore) GetByAccommodation(id string) ([]*domain.AccommodationReservation, error) {

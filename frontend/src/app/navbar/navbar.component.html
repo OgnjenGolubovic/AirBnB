@@ -5,6 +5,7 @@
             <div class="nav-buttons">
                 <button class="nav-button" mat-button routerLink="accommodations">Accommodations</button>
                 <button class="nav-button" mat-button routerLink="guest-reservation" *ngIf="role == 'Guest'">Guest Reservation</button>
+                <button class="nav-button" mat-button routerLink="guest-reservations" *ngIf="role == 'Guest'">My Reservations</button>
                 <button class="nav-button" mat-button routerLink="reservations" *ngIf="role == 'Host'">Reservations</button>
                 <button class="nav-button" mat-button routerLink="edit" *ngIf="role == 'Host' || role == 'Guest'">Edit Profile</button>
                 <button class="nav-button" mat-button (click)="delete()" *ngIf="role == 'Host' || role == 'Guest'">Delete Profile</button>

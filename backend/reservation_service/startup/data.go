@@ -18,6 +18,7 @@ var reservations = []*domain.AccommodationReservation{
 		},
 		GuestNumber: 8,
 		Status:      domain.Pending,
+		Price:       543,
 	},
 	{
 		Id:                getObjectId("6486f816a2631cefa2769f6d"),
@@ -30,6 +31,7 @@ var reservations = []*domain.AccommodationReservation{
 		},
 		GuestNumber: 8,
 		Status:      domain.Pending,
+		Price:       543,
 	},
 	{
 		Id:                getObjectId("6486f812041486463f136e79"),
@@ -42,6 +44,20 @@ var reservations = []*domain.AccommodationReservation{
 		},
 		GuestNumber: 8,
 		Status:      domain.Pending,
+		Price:       123,
+	},
+	{
+		Id:                getObjectId("64908163537804083335ac29"),
+		AccommodationId:   getObjectId("623b0cc3a34d25d8567f9f81"),
+		UserId:            getObjectId("623b0cc3a34d25d8567f9f82"),
+		AccommodationName: "name",
+		ReservedDate: &domain.DateRange{
+			StartDate: "27/06/2023",
+			EndDate:   "30/06/2023",
+		},
+		GuestNumber: 8,
+		Status:      domain.Approved,
+		Price:       124,
 	},
 }
 
