@@ -83,6 +83,44 @@ func (handler *ReservationHandler) GetAllPending(ctx context.Context, request *p
 	return response, nil
 }
 
+func (handler *ReservationHandler) ActiveReservationByAccommodation(ctx context.Context, request *pb.GetAllResponse) (*pb.HasActiveResponse, error) {
+	accommodations := request.Accommodations
+
+	for _, element := range accommodations {
+		reservations, err := handler.service.GetAllByAccommodation(element.Id)
+		if err != nil {
+			return nil, err
+		}
+
+		if len(reservations) != 0 {
+			response := &pb.HasActiveResponse{
+				HasActive: true,
+			}
+			return response, nil
+		}
+
+	}
+
+	// reservations, err := handler.service.GetAllByAccommodation(request.AccommodationId)
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	// response := &pb.ReservationResponse{
+	// 	Reservation: []*pb.Reservation{},
+	// }
+	// for _, pom := range reservations {
+	// 	current := mapReservation(pom)
+	// 	response.Reservation = append(response.Reservation, current)
+	// }
+
+	response := &pb.HasActiveResponse{
+		HasActive: false,
+	}
+
+	return response, nil
+}
+
 func (handler *ReservationHandler) Cancel(ctx context.Context, request *pb.Request) (*pb.Error, error) {
 	err := handler.service.Cancel(request.Id)
 	response := &pb.Error{}
@@ -119,7 +157,7 @@ func (handler *ReservationHandler) Approve(ctx context.Context, request *pb.Requ
 func (handler *ReservationHandler) AccommodationReservation(ctx context.Context, request *pb.CreateRequest) (*pb.CreateResponse, error) {
 
 	a := reverseMap(request.Reservation)
-	a.GuestNumber, _ = strconv.ParseInt(request.Reservation.GuestNumber, 10, 64)
+	// a.GuestNumber, _ = strconv.ParseInt(request.Reservation.GuestNumber, 10, 64)
 
 	err := handler.service.AccommodationReservationRequest(a)
 	if err != nil {
@@ -127,7 +165,7 @@ func (handler *ReservationHandler) AccommodationReservation(ctx context.Context,
 	}
 
 	response := &pb.CreateResponse{
-		Reservation: nil,
+		Reservation: mapReservation(a),
 	}
 	return response, nil
 }
@@ -143,6 +181,30 @@ func (handler *ReservationHandler) ActiveReservationByGuest(ctx context.Context,
 	response := &pb.Error{
 		Message: message,
 	}
+	return response, nil
+}
+
+func (handler *ReservationHandler) UpdatePrice(ctx context.Context, request *pb.PriceRequest) (*pb.PriceResponse, error) {
+	id := request.Id
+
+	reservation, err := handler.service.GetRes(id)
+	if err != nil {
+		return nil, err
+	}
+
+	price, err := strconv.ParseInt(request.Price, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	reservation.Price = price
+
+	handler.service.UpdatePrice(reservation)
+
+	response := &pb.PriceResponse{
+		Price: strconv.Itoa(int(price)),
+	}
+
 	return response, nil
 }
 

@@ -15,6 +15,17 @@ var dates = []*domain.DateRange{
 		StartDate: "18/06/2023",
 		EndDate:   "25/06/2023",
 	},
+	{
+		StartDate: "27/06/2023",
+		EndDate:   "30/06/2023",
+	},
+}
+
+var datesA = []*domain.DateRange{
+	{
+		StartDate: "21/06/2023",
+		EndDate:   "28/06/2023",
+	},
 }
 
 var accommodations = []*domain.Accommodation{
@@ -33,6 +44,22 @@ var accommodations = []*domain.Accommodation{
 		HasWeekend:        false,
 		HasSummer:         false,
 		HostId:            getObjectId("623b0cc3a34d25d8567f9f80"),
+	},
+	{
+		Id:                getObjectId("6490995e2a597b975f58de99"),
+		Name:              "A",
+		Dates:             datesA,
+		Location:          "Street 20-London-UK",
+		Benefits:          "WIFI,Kitchen,Free Parking",
+		Photos:            "airbnb.png",
+		MinGuest:          2,
+		MaxGuest:          4,
+		AutomaticApproval: false,
+		Price:             16,
+		IsPerGuest:        false,
+		HasWeekend:        false,
+		HasSummer:         false,
+		HostId:            getObjectId("649094a74118490e167cad27"),
 	},
 }
 

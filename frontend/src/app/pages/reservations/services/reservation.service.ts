@@ -1,7 +1,9 @@
 import { HttpHeaders, HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { AccommodationsRequest } from "src/app/navbar/navbar.component";
 import { environment } from "src/environments/environment";
+import { AccommodationDTO } from "../../accommodations/model/accommodationDTO";
 
 export interface Reservation {
     id: string;
@@ -26,8 +28,8 @@ export class ReservationService {
         return this.http.get(this.apiHost + 'reservation/getAllPending');
     }
 
-    getReservationsByAccommodation(accommodationId: string) : Observable<Reservation[]> {
-        return this.http.get<Reservation[]>(this.apiHost + `reservation/accommodation?id=${accommodationId}`);
+    hasActiveReservationsForAccommodations(accommodations: AccommodationsRequest) : Observable<boolean> {
+        return this.http.post<boolean>(this.apiHost + `reservation/accommodation`, accommodations);
     }
 
     cancel(id : String) : Observable<any> {
@@ -44,5 +46,9 @@ export class ReservationService {
                         .set('id', id);
 
         return this.http.get(this.apiHost + 'reservation/reject', {params});
+    }
+
+    updatePrice(id: string, price: string): Observable<string> {
+        return this.http.get<string>(this.apiHost + `reservation/price?price=${price}&id=${id}`);
     }
 }

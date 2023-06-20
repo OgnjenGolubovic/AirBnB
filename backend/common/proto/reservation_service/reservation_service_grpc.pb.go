@@ -30,6 +30,7 @@ const (
 	ReservationService_ActiveReservationByGuest_FullMethodName         = "/reservation.ReservationService/ActiveReservationByGuest"
 	ReservationService_ActiveReservationByHost_FullMethodName          = "/reservation.ReservationService/ActiveReservationByHost"
 	ReservationService_ActiveReservationByAccommodation_FullMethodName = "/reservation.ReservationService/ActiveReservationByAccommodation"
+	ReservationService_UpdatePrice_FullMethodName                      = "/reservation.ReservationService/UpdatePrice"
 )
 
 // ReservationServiceClient is the client API for ReservationService service.
@@ -47,6 +48,7 @@ type ReservationServiceClient interface {
 	ActiveReservationByGuest(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Error, error)
 	ActiveReservationByHost(ctx context.Context, in *GetAllResponse, opts ...grpc.CallOption) (*Error, error)
 	ActiveReservationByAccommodation(ctx context.Context, in *GetAllResponse, opts ...grpc.CallOption) (*HasActiveResponse, error)
+	UpdatePrice(ctx context.Context, in *PriceRequest, opts ...grpc.CallOption) (*PriceResponse, error)
 }
 
 type reservationServiceClient struct {
@@ -156,6 +158,15 @@ func (c *reservationServiceClient) ActiveReservationByAccommodation(ctx context.
 	return out, nil
 }
 
+func (c *reservationServiceClient) UpdatePrice(ctx context.Context, in *PriceRequest, opts ...grpc.CallOption) (*PriceResponse, error) {
+	out := new(PriceResponse)
+	err := c.cc.Invoke(ctx, ReservationService_UpdatePrice_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ReservationServiceServer is the server API for ReservationService service.
 // All implementations must embed UnimplementedReservationServiceServer
 // for forward compatibility
@@ -171,6 +182,7 @@ type ReservationServiceServer interface {
 	ActiveReservationByGuest(context.Context, *Request) (*Error, error)
 	ActiveReservationByHost(context.Context, *GetAllResponse) (*Error, error)
 	ActiveReservationByAccommodation(context.Context, *GetAllResponse) (*HasActiveResponse, error)
+	UpdatePrice(context.Context, *PriceRequest) (*PriceResponse, error)
 	mustEmbedUnimplementedReservationServiceServer()
 }
 
@@ -210,6 +222,9 @@ func (UnimplementedReservationServiceServer) ActiveReservationByHost(context.Con
 }
 func (UnimplementedReservationServiceServer) ActiveReservationByAccommodation(context.Context, *GetAllResponse) (*HasActiveResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ActiveReservationByAccommodation not implemented")
+}
+func (UnimplementedReservationServiceServer) UpdatePrice(context.Context, *PriceRequest) (*PriceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePrice not implemented")
 }
 func (UnimplementedReservationServiceServer) mustEmbedUnimplementedReservationServiceServer() {}
 
@@ -422,6 +437,24 @@ func _ReservationService_ActiveReservationByAccommodation_Handler(srv interface{
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ReservationService_UpdatePrice_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PriceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReservationServiceServer).UpdatePrice(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ReservationService_UpdatePrice_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReservationServiceServer).UpdatePrice(ctx, req.(*PriceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ReservationService_ServiceDesc is the grpc.ServiceDesc for ReservationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -472,6 +505,10 @@ var ReservationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ActiveReservationByAccommodation",
 			Handler:    _ReservationService_ActiveReservationByAccommodation_Handler,
+		},
+		{
+			MethodName: "UpdatePrice",
+			Handler:    _ReservationService_UpdatePrice_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

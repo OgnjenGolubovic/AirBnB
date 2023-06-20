@@ -23,4 +23,5 @@ type AccommodationReservation struct {
 	ReservedDate      *DateRange         `bson:"reservedDate"`
 	GuestNumber       int64              `bson:"guestNumber"`
 	Status            Status             `bson:"status"`
+	Price             int64              `bson:"price"`
 }
