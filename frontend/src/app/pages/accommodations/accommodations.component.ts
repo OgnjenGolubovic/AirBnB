@@ -113,16 +113,16 @@ export class AccommodationsComponent implements OnInit {
   }
 
   defineDates(id: string) {
-
-    this.reservationService.hasActiveReservationsForAccommodations(this.prepareRequest(id)).subscribe((res: boolean) => {
-      this.hasActive = Object.values(res)[0];
-      if (this.hasActive) {
-        alert('Can\'t edit accommodation because it has active reservations')
-        return;
-      } else {
-        this.router.navigate(['/accommodations/define-dates', id])
-      }
-    });
+    this.router.navigate(['/accommodations/define-dates', id])
+    // this.reservationService.hasActiveReservationsForAccommodations(this.prepareRequest(id)).subscribe((res: boolean) => {
+    //   this.hasActive = Object.values(res)[0];
+    //   if (this.hasActive) {
+    //     alert('Can\'t edit accommodation because it has active reservations')
+    //     return;
+    //   } else {
+    //     this.router.navigate(['/accommodations/define-dates', id])
+    //   }
+    // });
   }
 
   changePrice(id: string) {
